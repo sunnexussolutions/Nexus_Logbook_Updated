@@ -41,7 +41,9 @@ app.use("/api/test", testRoutes);
     require("./src/config/db");
     require("./src/models/initDb");
     require("./src/models/createAttendanceTables");
+    const createUserPausesTable = require("./src/models/createUserPausesTable");
     const addShiftCheckoutColumns = require("./src/models/addShiftCheckoutColumns");
+    await createUserPausesTable();
     await addShiftCheckoutColumns();
   } catch (e) {
     console.error("DB init error (non-fatal):", e.message);

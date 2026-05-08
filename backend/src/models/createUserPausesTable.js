@@ -1,7 +1,7 @@
 require('dotenv').config();
 const pool = require('../config/db');
 
-(async () => {
+const createUserPausesTable = async () => {
   try {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS user_pauses (
@@ -12,10 +12,17 @@ const pool = require('../config/db');
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
-    console.log('✅ user_pauses table created / already exists');
-    process.exit(0);
+    console.log('User pauses table created or already exists');
   } catch (err) {
-    console.error('❌ Error creating user_pauses table:', err);
-    process.exit(1);
+    console.error('Error creating user_pauses table:', err);
+    throw err;
   }
-})();
+};
+
+module.exports = createUserPausesTable;
+
+if (require.main === module) {
+  createUserPausesTable()
+    .then(() => process.exit(0))
+    .catch(() => process.exit(1));
+}
