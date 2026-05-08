@@ -30,10 +30,25 @@ async function verifyAdminPassword(client, adminId, adminPassword) {
   return { ok: true };
 }
 
+async function sendWelcomeEmailSafely(userId, password) {
+  if (typeof emailService.sendWelcomeEmail !== "function") {
+    return;
+  }
+
+  try {
+    await emailService.sendWelcomeEmail(userId, password);
+  } catch (err) {
+    console.warn("Welcome email failed (non-fatal):", err.message);
+  }
+}
+
 /* ================== CREATE TEAM LEAD ================== */
 exports.createTeamLead = async (req, res) => {
   try {
-    const { name, email, password, domain } = req.body;
+    const name = req.body?.name?.trim();
+    const email = req.body?.email?.trim();
+    const password = req.body?.password;
+    const domain = req.body?.domain;
 
     if (!name || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
@@ -58,7 +73,7 @@ exports.createTeamLead = async (req, res) => {
       [user_id, name, email, hashedPassword, domain || null]
     );
 
-    await emailService.sendWelcomeEmail(insertResult.rows[0].id, password);
+    await sendWelcomeEmailSafely(insertResult.rows[0].id, password);
 
     res.json({
       message: "Team Lead created successfully",
@@ -79,7 +94,10 @@ exports.createTeamLead = async (req, res) => {
 /* ================== CREATE TEAM MEMBER ================== */
 exports.createTeamMember = async (req, res) => {
   try {
-    const { name, email, password, domain } = req.body;
+    const name = req.body?.name?.trim();
+    const email = req.body?.email?.trim();
+    const password = req.body?.password;
+    const domain = req.body?.domain;
 
     if (!name || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
@@ -104,7 +122,7 @@ exports.createTeamMember = async (req, res) => {
       [user_id, name, email, hashedPassword, domain || null]
     );
 
-    await emailService.sendWelcomeEmail(insertResult.rows[0].id, password);
+    await sendWelcomeEmailSafely(insertResult.rows[0].id, password);
 
     res.json({
       message: "Team Member created successfully",
