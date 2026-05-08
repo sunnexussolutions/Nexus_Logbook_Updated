@@ -1,0 +1,102 @@
+[
+  {
+    "id": 915,
+    "user_id": 176,
+    "check_in": "2026-03-06T21:14:57.273Z",
+    "check_out": "2026-03-07T03:52:26.612Z",
+    "early_checkout_minutes": 0,
+    "overtime_minutes": 0,
+    "role": "MEMBER",
+    "name": "vishnu vardhan raju"
+  },
+  {
+    "id": 914,
+    "user_id": 174,
+    "check_in": "2026-03-06T22:50:30.376Z",
+    "check_out": "2026-03-07T03:59:32.790Z",
+    "early_checkout_minutes": 120,
+    "overtime_minutes": 0,
+    "role": "MEMBER",
+    "name": "Bhusa vaishnavi"
+  },
+  {
+    "id": 903,
+    "user_id": 152,
+    "check_in": "2026-03-06T21:06:08.437Z",
+    "check_out": "2026-03-07T03:51:35.279Z",
+    "early_checkout_minutes": 0,
+    "overtime_minutes": 0,
+    "role": "MEMBER",
+    "name": "K.Abhishekreddy"
+  },
+  {
+    "id": 902,
+    "user_id": 150,
+    "check_in": "2026-03-06T21:14:30.206Z",
+    "check_out": "2026-03-07T03:52:19.630Z",
+    "early_checkout_minutes": 0,
+    "overtime_minutes": 0,
+    "role": "MEMBER",
+    "name": "MANOJ CHANDRA"
+  },
+  {
+    "id": 912,
+    "user_id": 170,
+    "check_in": "2026-03-06T21:14:40.994Z",
+    "check_out": "2026-03-07T03:52:31.931Z",
+    "early_checkout_minutes": 0,
+    "overtime_minutes": 0,
+    "role": "MEMBER",
+    "name": "M.Madhu Sudhan Reddy"
+  },
+  {
+    "id": 918,
+    "user_id": 188,
+    "check_in": "2026-03-06T21:26:39.498Z",
+    "check_out": "2026-03-07T03:57:29.600Z",
+    "early_checkout_minutes": 0,
+    "overtime_minutes": 0,
+    "role": "MEMBER",
+    "name": "Chitrala varun"
+  },
+  {
+    "id": 923,
+    "user_id": 214,
+    "check_in": "2026-03-06T21:17:42.986Z",
+    "check_out": "2026-03-07T03:52:38.526Z",
+    "early_checkout_minutes": 0,
+    "overtime_minutes": 0,
+    "role": "MEMBER",
+    "name": "purna reddy"
+  },
+  {
+    "id": 919,
+    "user_id": 191,
+    "check_in": "2026-03-06T21:05:27.765Z",
+    "check_out": "2026-03-07T03:55:40.702Z",
+    "early_checkout_minutes": 0,
+    "overtime_minutes": 0,
+    "role": "MEMBER",
+    "name": "Bhargav"
+  },
+  {
+    "id": 901,
+    "user_id": 148,
+    "check_in": "2026-03-06T21:28:34.979Z",
+    "check_out": "2026-03-07T03:52:18.202Z",
+    "early_checkout_minutes": 0,
+    "overtime_minutes": 0,
+    "role": "MEMBER",
+    "name": "K.Girivardhan Reddy"
+  },
+  {
+    "id": 916,
+    "user_id": 178,
+    "check_in": "2026-03-06T23:15:02.038Z",
+    "check_out": "2026-03-07T04:01:12.885Z",
+    "early_checkout_minutes": 119,
+    "overtime_minutes": 0,
+    "role": "MEMBER",
+    "name": "swapna reddy"
+  }
+]
