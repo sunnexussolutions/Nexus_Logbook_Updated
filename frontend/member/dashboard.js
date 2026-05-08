@@ -21,6 +21,30 @@ const messageDiv = document.getElementById("message");
 const projectTitle = document.getElementById("projectTitle");
 const checkInBtn = document.getElementById("checkInBtn");
 const checkOutBtn = document.getElementById("checkOutBtn");
+let currentMemberStatus = "UNKNOWN";
+
+const CURRENT_STATUS_META = {
+  PRESENT: { label: "PRESENT", color: "#10b981", glow: "rgba(16, 185, 129, 0.2)" },
+  CHECKED_IN: { label: "CHECKED_IN", color: "#2563eb", glow: "rgba(37, 99, 235, 0.2)" },
+  ABSENT: { label: "ABSENT", color: "#dc2626", glow: "rgba(220, 38, 38, 0.2)" },
+  HOLIDAY: { label: "HOLIDAY", color: "#0ea5e9", glow: "rgba(14, 165, 233, 0.2)" },
+  ON_LEAVE: { label: "ON_LEAVE", color: "#7c3aed", glow: "rgba(124, 58, 237, 0.2)" },
+  LATE: { label: "LATE", color: "#d97706", glow: "rgba(217, 119, 6, 0.2)" },
+  PAUSED: { label: "PAUSED", color: "#f59e0b", glow: "rgba(245, 158, 11, 0.2)" }
+};
+
+function renderCurrentStatus(status) {
+  const meta = CURRENT_STATUS_META[status] || {
+    label: status || "UNKNOWN",
+    color: "#64748b",
+    glow: "rgba(100, 116, 139, 0.2)"
+  };
+
+  statusText.innerHTML = `
+    <div class="ribbon-status-indicator" style="background:${meta.color}; box-shadow: 0 0 0 4px ${meta.glow};"></div>
+    Status: ${meta.label}
+  `;
+}
 
 /**
  * HELPER: Unified Premium Message Display
@@ -54,8 +78,8 @@ async function loadStatus() {
   });
 
   const data = await res.json();
-
-  statusText.innerText = `Status: ${data.status}`;
+  currentMemberStatus = data.status;
+  renderCurrentStatus(data.status);
 
   checkInBtn.disabled = data.status !== "ABSENT";
   checkOutBtn.disabled = data.status !== "CHECKED_IN";
@@ -1086,6 +1110,7 @@ const STATUS_STYLE = {
   LATE: { bg: "#fef9c3", color: "#a16207", label: "Late" },
   ON_LEAVE: { bg: "#ede9fe", color: "#7c3aed", label: "On Leave" },
   HOLIDAY: { bg: "#e0f2fe", color: "#0369a1", label: "Holiday" },
+  PAUSED: { bg: "#ffedd5", color: "#c2410c", label: "Paused" },
   MISSED_CHECKOUT: { bg: "#fecaca", color: "#991b1b", label: "Missed Checkout ⚠️" },
 };
 
@@ -1112,7 +1137,7 @@ async function loadMyAttendanceHistory() {
     }
 
     // Summary counts
-    const counts = { PRESENT: 0, ABSENT: 0, LATE: 0, ON_LEAVE: 0, CHECKED_IN: 0, HOLIDAY: 0 };
+    const counts = { PRESENT: 0, ABSENT: 0, LATE: 0, ON_LEAVE: 0, CHECKED_IN: 0, HOLIDAY: 0, PAUSED: 0 };
     let totalEarly = 0;
     let totalOT = 0;
     records.forEach(r => {
@@ -1191,6 +1216,8 @@ async function loadMyAttendanceHistory() {
       totalOT > 0 ? `<span>💪 OT: <strong style="color:#15803d;">${totalOT} min</strong></span>` : "",
     ].filter(Boolean).join(`<span class='mx-1'>·</span>`);
 
+    summaryBar.innerHTML += `<span class='mx-1'>·</span><span>Paused: <strong>${counts.PAUSED}</strong></span>`;
+
     // Load and show attendance percentage (only when viewing current month)
     const currentMonth = new Date().toISOString().slice(0, 7);
     if (month === currentMonth) {
@@ -1205,7 +1232,8 @@ async function loadMyAttendanceHistory() {
 /* ================= ATTENDANCE PERCENTAGE CARD ================= */
 async function loadMyAttendancePercentage() {
   try {
-    const [monthRes, overallRes] = await Promise.all([
+    const [statusRes, monthRes, overallRes] = await Promise.all([
+      fetch(`${API_BASE}/api/attendance/my-status`, { headers: { Authorization: `Bearer ${token}` } }),
       fetch(`${API_BASE}/api/attendance/my-percentage`, { headers: { Authorization: `Bearer ${token}` } }),
       fetch(`${API_BASE}/api/attendance/my-overall-percentage`, { headers: { Authorization: `Bearer ${token}` } })
     ]);
@@ -1214,6 +1242,26 @@ async function loadMyAttendancePercentage() {
     if (!container) return;
 
     let html = '';
+    let statusData = null;
+
+    if (statusRes.ok) {
+      statusData = await statusRes.json();
+    }
+
+    if (statusData?.status === "PAUSED") {
+      html += `
+        <div class="mb-3 p-4 rounded-4 shadow-sm border border-warning-subtle" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.14), rgba(251, 191, 36, 0.08));">
+          <div class="d-flex align-items-center gap-3">
+            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:48px;height:48px;background:#fff7ed;color:#c2410c;">
+              <i class="bi bi-pause-circle-fill fs-4"></i>
+            </div>
+            <div>
+              <div class="fw-extrabold text-dark mb-1" style="font-size:1.05rem;">Account Status: PAUSED</div>
+              <div class="small fw-medium" style="color:#9a3412;">Attendance analytics exclude paused days, and check-in is disabled while the pause is active.</div>
+            </div>
+          </div>
+        </div>`;
+    }
 
     if (monthRes.ok) {
       const data = await monthRes.json();

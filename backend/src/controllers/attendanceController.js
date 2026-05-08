@@ -48,6 +48,35 @@ async function getNonWorkingMetaByDate(date) {
   };
 }
 
+async function getPauseStateForDate(userId, date) {
+  const result = await pool.query(
+    `
+    SELECT
+      u.status,
+      EXISTS (
+        SELECT 1
+        FROM user_pauses up
+        WHERE up.user_id = u.id
+          AND $2 BETWEEN up.start_date AND up.end_date
+      ) AS is_paused
+    FROM users u
+    WHERE u.id = $1
+    LIMIT 1
+    `,
+    [userId, date]
+  );
+
+  if (result.rows.length === 0) {
+    return { status: null, isPaused: false };
+  }
+
+  const row = result.rows[0];
+  return {
+    status: row.status,
+    isPaused: row.status === "PAUSED" || row.is_paused
+  };
+}
+
 async function seedDayAttendance(date) {
   const { isNonWorking } = await getNonWorkingMetaByDate(date);
   const fallbackStatus = isNonWorking ? "HOLIDAY" : "ABSENT";
@@ -100,6 +129,13 @@ exports.checkIn = async (req, res) => {
     const isAdmin = userRole === "ADMIN";
 
     const today = todayIST();
+    const pauseState = await getPauseStateForDate(userId, today);
+    if (pauseState.isPaused) {
+      return res.status(403).json({
+        message: "Your account is currently paused by admin. Check-in is unavailable."
+      });
+    }
+
     const { holiday, isSunday, isNonWorking } = await getNonWorkingMetaByDate(today);
 
     if (isNonWorking) {
@@ -518,6 +554,7 @@ exports.getMyTodayStatus = async (req, res) => {
     const userId = req.user.id;
     const today = todayIST();
     const { isNonWorking } = await getNonWorkingMetaByDate(today);
+    const pauseState = await getPauseStateForDate(userId, today);
 
     const result = await pool.query(`
       SELECT
@@ -532,6 +569,15 @@ exports.getMyTodayStatus = async (req, res) => {
       FROM attendance
       WHERE user_id = $1 AND date = $2
     `, [userId, today]);
+
+    if (pauseState.isPaused) {
+      const pausedRecord = result.rows[0] || {};
+      return res.json({
+        check_in: pausedRecord.check_in || null,
+        check_out: pausedRecord.check_out || null,
+        status: "PAUSED"
+      });
+    }
 
     if (result.rows.length === 0) {
       return res.json({ status: isNonWorking ? "HOLIDAY" : "ABSENT" });
@@ -892,22 +938,57 @@ exports.getMyAttendanceHistory = async (req, res) => {
   try {
     const userId = req.user.id;
     const month = req.query.month || todayIST().slice(0, 7);
+    const [year, monthNum] = month.split("-").map(Number);
+    const monthStart = `${month}-01`;
+    const monthEnd = `${month}-${String(new Date(Date.UTC(year, monthNum, 0)).getUTCDate()).padStart(2, "0")}`;
 
     const result = await pool.query(
-      `SELECT
-         a.date,
-         a.check_in,
-         a.check_out,
-         a.status,
-         s.name AS shift_name,
-         a.early_checkout_minutes,
-         a.overtime_minutes
-       FROM attendance a
-       LEFT JOIN shifts s ON s.id = a.shift_id
-       WHERE a.user_id = $1
-         AND TO_CHAR(a.date, 'YYYY-MM') = $2
-       ORDER BY a.date DESC`,
-      [userId, month]
+      `
+      WITH pause_days AS (
+        SELECT generate_series(
+          GREATEST(start_date, $2::date),
+          LEAST(end_date, $3::date),
+          interval '1 day'
+        )::date AS date
+        FROM user_pauses
+        WHERE user_id = $1
+          AND start_date <= $3::date
+          AND end_date >= $2::date
+      ),
+      day_rows AS (
+        SELECT a.date
+        FROM attendance a
+        WHERE a.user_id = $1
+          AND a.date BETWEEN $2::date AND $3::date
+        UNION
+        SELECT pd.date
+        FROM pause_days pd
+      )
+      SELECT
+        d.date,
+        a.check_in,
+        a.check_out,
+        CASE
+          WHEN EXISTS (
+            SELECT 1
+            FROM user_pauses up
+            WHERE up.user_id = $1
+              AND d.date BETWEEN up.start_date AND up.end_date
+          ) THEN 'PAUSED'
+          ELSE COALESCE(a.status, 'ABSENT')
+        END AS status,
+        s.name AS shift_name,
+        a.early_checkout_minutes,
+        a.overtime_minutes
+      FROM day_rows d
+      LEFT JOIN attendance a
+        ON a.user_id = $1
+       AND a.date = d.date
+      LEFT JOIN shifts s
+        ON s.id = a.shift_id
+      ORDER BY d.date DESC
+      `,
+      [userId, monthStart, monthEnd]
     );
 
     const formattedRows = result.rows.map(r => {
@@ -1103,8 +1184,14 @@ exports.getMyAttendancePercentage = async (req, res) => {
            AND NOT EXISTS (
              SELECT 1 FROM holidays h WHERE h.holiday_date = d::date
            )
+           AND NOT EXISTS (
+             SELECT 1
+             FROM user_pauses up
+             WHERE up.user_id = $3
+               AND d::date BETWEEN up.start_date AND up.end_date
+           )
        ) wd`,
-      [startStr, todayStr]
+      [startStr, todayStr, userId]
     );
     const workingDays = workingDaysResult.rows[0]?.working_days || 0;
 
@@ -1173,8 +1260,14 @@ exports.getMyOverallAttendancePercentage = async (req, res) => {
            AND NOT EXISTS (
              SELECT 1 FROM holidays h WHERE h.holiday_date = d::date
            )
+           AND NOT EXISTS (
+             SELECT 1
+             FROM user_pauses up
+             WHERE up.user_id = $3
+               AND d::date BETWEEN up.start_date AND up.end_date
+           )
        ) wd`,
-      [startStr, todayStr]
+      [startStr, todayStr, userId]
     );
     const workingDays = workingDaysResult.rows[0]?.working_days || 0;
 
