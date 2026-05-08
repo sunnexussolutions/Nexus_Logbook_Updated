@@ -1,6 +1,6 @@
 console.log("✅ Member dashboard JS loaded");
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = "https://nexus-logbook-updated.vercel.app";
 const token = localStorage.getItem("token");
 
 if (!token) {

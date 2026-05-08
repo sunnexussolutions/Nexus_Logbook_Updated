@@ -2,7 +2,7 @@
 /***********************
  * CONFIG
  ***********************/
-const API_BASE = "https://startup-management-system-backend.vercel.app";
+const API_BASE = "https://nexus-logbook-updated.vercel.app";
 const token = localStorage.getItem("token");
 
 if (!token) {
