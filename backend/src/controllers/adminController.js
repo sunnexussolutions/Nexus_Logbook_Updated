@@ -4,6 +4,32 @@ const { nowIST } = require('../utils/istTime');
 const bcrypt = require("bcrypt");
 const emailService = require("../services/emailService");
 
+async function verifyAdminPassword(client, adminId, adminPassword) {
+  if (!adminPassword || !String(adminPassword).trim()) {
+    return { ok: false, status: 400, message: "Admin password is required" };
+  }
+
+  const adminResult = await client.query(
+    `SELECT password FROM users WHERE id = $1 AND role = 'ADMIN'`,
+    [adminId]
+  );
+
+  if (adminResult.rows.length === 0) {
+    return { ok: false, status: 403, message: "Admin account not found" };
+  }
+
+  const isValid = await bcrypt.compare(
+    String(adminPassword),
+    adminResult.rows[0].password
+  );
+
+  if (!isValid) {
+    return { ok: false, status: 401, message: "Incorrect admin password" };
+  }
+
+  return { ok: true };
+}
+
 /* ================== CREATE TEAM LEAD ================== */
 exports.createTeamLead = async (req, res) => {
   try {
@@ -144,8 +170,15 @@ exports.deleteTeamMember = async (req, res) => {
 
   try {
     const memberId = req.params.id;
+    const { admin_password: adminPassword } = req.body || {};
 
     await client.query("BEGIN");
+
+    const authCheck = await verifyAdminPassword(client, req.user.id, adminPassword);
+    if (!authCheck.ok) {
+      await client.query("ROLLBACK");
+      return res.status(authCheck.status).json({ message: authCheck.message });
+    }
 
     // Ensure user exists and is MEMBER
     const userCheck = await client.query(
@@ -200,8 +233,15 @@ exports.deleteTeamLead = async (req, res) => {
 
   try {
     const leadId = req.params.id;
+    const { admin_password: adminPassword } = req.body || {};
 
     await client.query("BEGIN");
+
+    const authCheck = await verifyAdminPassword(client, req.user.id, adminPassword);
+    if (!authCheck.ok) {
+      await client.query("ROLLBACK");
+      return res.status(authCheck.status).json({ message: authCheck.message });
+    }
 
     // Ensure user exists and is TEAM_LEAD
     const userCheck = await client.query(

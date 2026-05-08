@@ -181,7 +181,14 @@ async function assignShift(userId, shiftId) {
 
 /* ================= DELETE USER ================= */
 async function deleteUser(userId, role) {
-  if (!confirm("Are you sure?")) return;
+  const roleLabel = role === "MEMBER" ? "member" : "team lead";
+  const adminPassword = prompt(`Enter admin password to delete this ${roleLabel}:`);
+  if (adminPassword === null) return;
+
+  if (!adminPassword.trim()) {
+    alert("Admin password is required");
+    return;
+  }
 
   let url =
     role === "MEMBER"
@@ -190,7 +197,11 @@ async function deleteUser(userId, role) {
 
   const res = await fetch(url, {
     method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` }
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({ admin_password: adminPassword })
   });
 
   const data = await res.json();
