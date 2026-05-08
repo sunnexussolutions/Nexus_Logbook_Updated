@@ -107,6 +107,20 @@ exports.getDashboardSummary = async (req, res) => {
         AND check_out IS NULL
     `, [today]);
 
+    // approved leave for today
+    const onLeave = await pool.query(`
+      SELECT COUNT(DISTINCT user_id) FROM leave_requests
+      WHERE status = 'APPROVED'
+        AND $1 BETWEEN from_date AND to_date
+    `, [today]);
+
+    // holiday rows created for today
+    const holiday = await pool.query(`
+      SELECT COUNT(*) FROM attendance
+      WHERE date = $1
+        AND status = 'HOLIDAY'
+    `, [today]);
+
     // on pause
     const onPause = await pool.query(`
       SELECT COUNT(DISTINCT user_id) FROM user_pauses
@@ -114,21 +128,27 @@ exports.getDashboardSummary = async (req, res) => {
     `, [today]);
 
     // absent = total - present - checkedin - onleave - holiday - onpause
+    const totalUsersCount = Number(totalUsers.rows[0].count);
+    const presentCount = Number(present.rows[0].count);
+    const checkedInCount = Number(checkedIn.rows[0].count);
+    const onLeaveCount = Number(onLeave.rows[0].count);
+    const holidayCount = Number(holiday.rows[0].count);
+    const onPauseCount = Number(onPause.rows[0].count);
     const absent =
-      totalUsers.rows[0].count -
-      present.rows[0].count -
-      checkedIn.rows[0].count -
-      onLeave.rows[0].count -
-      holiday.rows[0].count -
-      onPause.rows[0].count;
+      totalUsersCount -
+      presentCount -
+      checkedInCount -
+      onLeaveCount -
+      holidayCount -
+      onPauseCount;
 
     res.json({
-      total_users: Number(totalUsers.rows[0].count),
-      present: Number(present.rows[0].count),
-      checked_in: Number(checkedIn.rows[0].count),
-      on_leave: Number(onLeave.rows[0].count),
-      holiday: Number(holiday.rows[0].count),
-      on_pause: Number(onPause.rows[0].count),
+      total_users: totalUsersCount,
+      present: presentCount,
+      checked_in: checkedInCount,
+      on_leave: onLeaveCount,
+      holiday: holidayCount,
+      on_pause: onPauseCount,
       absent: Math.max(0, Number(absent))
     });
   } catch (err) {
