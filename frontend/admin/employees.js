@@ -2,8 +2,13 @@ const API_BASE = "https://nexus-logbook-updated.vercel.app";
 const token = localStorage.getItem("token");
 
 if (!token) {
-  alert("Unauthorized");
-  window.location.href = "../index.html";
+  AppDialog.alert({
+    title: "Session Expired",
+    message: "Unauthorized"
+  }).finally(() => {
+    window.location.href = "../index.html";
+  });
+  throw new Error("Missing auth token");
 }
 
 const tableBody = document.getElementById("employeesTable");
@@ -182,11 +187,22 @@ async function assignShift(userId, shiftId) {
 /* ================= DELETE USER ================= */
 async function deleteUser(userId, role) {
   const roleLabel = role === "MEMBER" ? "member" : "team lead";
-  const adminPassword = prompt(`Enter admin password to delete this ${roleLabel}:`);
+  const adminPassword = await AppDialog.prompt({
+    title: `Delete ${role === "MEMBER" ? "Member" : "Team Lead"}`,
+    message: `Enter admin password to delete this ${roleLabel}:`,
+    placeholder: "Enter admin password",
+    inputType: "password",
+    confirmText: "Delete",
+    intent: "danger"
+  });
   if (adminPassword === null) return;
 
   if (!adminPassword.trim()) {
-    alert("Admin password is required");
+    await AppDialog.alert({
+      title: "Password Required",
+      message: "Admin password is required",
+      intent: "danger"
+    });
     return;
   }
 
@@ -306,7 +322,12 @@ async function toggleMemberStatus(userId, currentStatus) {
   if (currentStatus === "PAUSED") {
     // Unpause directly
     const confirmMsg = "Are you sure you want to UNPAUSE this member?";
-    if (!confirm(confirmMsg)) return;
+    const confirmed = await AppDialog.confirm({
+      title: "Unpause Member",
+      message: confirmMsg,
+      confirmText: "Unpause"
+    });
+    if (!confirmed) return;
     try {
       const res = await fetch(`${API_BASE}/api/admin/team-member/${userId}/status`, {
         method: "PATCH",

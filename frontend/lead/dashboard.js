@@ -1,8 +1,13 @@
 const API_BASE = "https://nexus-logbook-updated.vercel.app";
 const token = localStorage.getItem("token");
 if (!token) {
-  alert("Please login again");
-  window.location.href = "../login.html";
+  AppDialog.alert({
+    title: "Session Expired",
+    message: "Please login again"
+  }).finally(() => {
+    window.location.href = "../login.html";
+  });
+  throw new Error("Missing auth token");
 }
 
 console.log("🔥 Lead Dashboard Loaded");
@@ -141,7 +146,13 @@ async function updateStep(stepId, isCompleted, projectId) {
 
 // ================= DELETE ROADMAP STEP ================= */
 async function deleteStep(stepId, projectId) {
-  if (!confirm("Are you sure you want to delete this step?")) return;
+  const confirmed = await AppDialog.confirm({
+    title: "Delete Roadmap Step",
+    message: "Are you sure you want to delete this step?",
+    confirmText: "Delete",
+    intent: "danger"
+  });
+  if (!confirmed) return;
 
   try {
     const res = await fetch(`${API_BASE}/api/admin/roadmap-step/${stepId}`, {
@@ -538,7 +549,13 @@ async function loadProjects() {
 
 // ================= COMPLETE PROJECT =================
 async function completeProject(projectId, projectName) {
-  if (!confirm(`Are you sure you want to mark "${projectName}" as COMPLETED?\n\nThis will release all assigned members.`)) return;
+  const confirmed = await AppDialog.confirm({
+    title: "Complete Project",
+    message: `Are you sure you want to mark "${projectName}" as COMPLETED?\n\nThis will release all assigned members.`,
+    confirmText: "Complete Project",
+    intent: "danger"
+  });
+  if (!confirmed) return;
 
   try {
     const res = await fetch(`${API_BASE}/api/admin/projects/${projectId}/complete`, {

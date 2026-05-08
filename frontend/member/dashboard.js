@@ -4,8 +4,13 @@ const API_BASE = "https://nexus-logbook-updated.vercel.app";
 const token = localStorage.getItem("token");
 
 if (!token) {
-  alert("Login again");
-  window.location.href = "../index.html";
+  AppDialog.alert({
+    title: "Session Expired",
+    message: "Login again"
+  }).finally(() => {
+    window.location.href = "../index.html";
+  });
+  throw new Error("Missing auth token");
 }
 
 /* ================= LOGOUT ================= */

@@ -6,8 +6,13 @@ const API_BASE = "https://nexus-logbook-updated.vercel.app";
 const token = localStorage.getItem("token");
 
 if (!token) {
-  alert("Session expired. Please login again.");
-  window.location.href = "../index.html";
+  AppDialog.alert({
+    title: "Session Expired",
+    message: "Please login again."
+  }).finally(() => {
+    window.location.href = "../index.html";
+  });
+  throw new Error("Missing auth token");
 }
 
 /* ================= LOGOUT ================= */
@@ -122,7 +127,13 @@ async function addHoliday() {
 }
 
 async function removeHoliday(id) {
-  if (!confirm("Remove this holiday?")) return;
+  const confirmed = await AppDialog.confirm({
+    title: "Remove Holiday",
+    message: "Remove this holiday?",
+    confirmText: "Remove",
+    intent: "danger"
+  });
+  if (!confirmed) return;
   const message = document.getElementById("holidayMessage");
 
   try {
@@ -250,7 +261,13 @@ async function deleteProject() {
   const projectId = document.getElementById("projectSelect").value;
   if (!projectId) return alert("Select a project first");
 
-  if (!confirm("Delete this project?")) return;
+  const confirmed = await AppDialog.confirm({
+    title: "Delete Project",
+    message: "Delete this project?",
+    confirmText: "Delete",
+    intent: "danger"
+  });
+  if (!confirmed) return;
 
   try {
     await apiRequest(
@@ -550,7 +567,12 @@ async function loadRoadmapProgress(projectId) {
 
 async function allowLateCheckIn(userId) {
   if (!userId) { alert("User ID missing"); return; }
-  if (!confirm("Allow late check-in for this user?")) return;
+  const confirmed = await AppDialog.confirm({
+    title: "Allow Late Check-In",
+    message: "Allow late check-in for this user?",
+    confirmText: "Allow"
+  });
+  if (!confirmed) return;
 
   try {
     const res = await fetch(
@@ -919,7 +941,13 @@ async function updateShift(id) {
 }
 
 async function deleteShift(id) {
-  if (!confirm("Are you sure you want to delete this shift?")) return;
+  const confirmed = await AppDialog.confirm({
+    title: "Delete Shift",
+    message: "Are you sure you want to delete this shift?",
+    confirmText: "Delete",
+    intent: "danger"
+  });
+  if (!confirmed) return;
 
   const res = await fetch(`${API_BASE}/api/admin/shifts/${id}`, {
     method: "DELETE",

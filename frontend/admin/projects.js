@@ -2,8 +2,13 @@ const API_BASE = "https://nexus-logbook-updated.vercel.app";
 const token = localStorage.getItem("token");
 
 if (!token) {
-  alert("Unauthorized");
-  window.location.href = "../index.html";
+  AppDialog.alert({
+    title: "Session Expired",
+    message: "Unauthorized"
+  }).finally(() => {
+    window.location.href = "../index.html";
+  });
+  throw new Error("Missing auth token");
 }
 
 const table = document.getElementById("projectsTable");
@@ -159,9 +164,22 @@ async function viewMembers(projectId) {
 
 /* ================= DELETE PROJECT ================= */
 async function deleteProject(projectId) {
-  const pass = prompt("Enter admin password to delete this project (This will remove all members and roadmap data):");
+  const pass = await AppDialog.prompt({
+    title: "Delete Project",
+    message: "Enter admin password to delete this project.\n\nThis will remove all members and roadmap data.",
+    placeholder: "Enter admin password",
+    inputType: "password",
+    confirmText: "Delete",
+    intent: "danger"
+  });
   if (pass !== "admin123") {
-    if (pass !== null) alert("Incorrect password!");
+    if (pass !== null) {
+      await AppDialog.alert({
+        title: "Incorrect Password",
+        message: "Incorrect password!",
+        intent: "danger"
+      });
+    }
     return;
   }
 
