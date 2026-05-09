@@ -185,13 +185,23 @@ exports.getDailyAttendanceReport = async (req, res) => {
       LEFT JOIN attendance a
         ON u.id = a.user_id
         AND a.date = $1
-      LEFT JOIN leave_requests lr
-        ON lr.user_id = u.id
-        AND lr.status = 'APPROVED'
-        AND $1 BETWEEN lr.from_date AND lr.to_date
-      LEFT JOIN user_pauses up
-        ON up.user_id = u.id
-        AND $1 BETWEEN up.start_date AND up.end_date
+      LEFT JOIN LATERAL (
+        SELECT lr.id
+        FROM leave_requests lr
+        WHERE lr.user_id = u.id
+          AND lr.status = 'APPROVED'
+          AND $1 BETWEEN lr.from_date AND lr.to_date
+        ORDER BY lr.to_date DESC, lr.id DESC
+        LIMIT 1
+      ) lr ON true
+      LEFT JOIN LATERAL (
+        SELECT up.id
+        FROM user_pauses up
+        WHERE up.user_id = u.id
+          AND $1 BETWEEN up.start_date AND up.end_date
+        ORDER BY up.end_date DESC, up.id DESC
+        LIMIT 1
+      ) up ON true
       ORDER BY u.id;
     `;
 
@@ -1078,13 +1088,23 @@ exports.getTodayAttendanceDashboard = async (req, res) => {
       LEFT JOIN attendance a
         ON a.user_id = u.id
         AND a.date = CURRENT_DATE
-      LEFT JOIN leave_requests lr
-        ON lr.user_id = u.id
-        AND lr.status = 'APPROVED'
-        AND CURRENT_DATE BETWEEN lr.from_date AND lr.to_date
-      LEFT JOIN user_pauses up
-        ON up.user_id = u.id
-        AND CURRENT_DATE BETWEEN up.start_date AND up.end_date
+      LEFT JOIN LATERAL (
+        SELECT lr.id
+        FROM leave_requests lr
+        WHERE lr.user_id = u.id
+          AND lr.status = 'APPROVED'
+          AND CURRENT_DATE BETWEEN lr.from_date AND lr.to_date
+        ORDER BY lr.to_date DESC, lr.id DESC
+        LIMIT 1
+      ) lr ON true
+      LEFT JOIN LATERAL (
+        SELECT up.id
+        FROM user_pauses up
+        WHERE up.user_id = u.id
+          AND CURRENT_DATE BETWEEN up.start_date AND up.end_date
+        ORDER BY up.end_date DESC, up.id DESC
+        LIMIT 1
+      ) up ON true
       ORDER BY u.id
     `, [monthStart2nd, todayStr]);
 

@@ -454,7 +454,17 @@ async function loadTodayAttendance() {
       return;
     }
 
-    data.forEach(row => {
+    // Guard against duplicate rows from overlapping pause/leave records.
+    const dedupedData = Array.from(
+      data.reduce((rowsByUserId, row) => {
+        if (!rowsByUserId.has(row.user_id)) {
+          rowsByUserId.set(row.user_id, row);
+        }
+        return rowsByUserId;
+      }, new Map()).values()
+    );
+
+    dedupedData.forEach(row => {
       const tr = document.createElement("tr");
 
       const statusColors = {
