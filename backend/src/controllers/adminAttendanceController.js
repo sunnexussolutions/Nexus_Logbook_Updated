@@ -1,5 +1,24 @@
 const pool = require("../config/db");
 const { todayIST, nowIST } = require('../utils/istTime');
+const { summarizeEffectiveLeaveRequests } = require("../utils/leaveDays");
+
+async function getEffectiveLeaveDaysByUserForRange(startDate, endDate) {
+  const leaveRequestsResult = await pool.query(
+    `SELECT user_id, from_date, to_date
+     FROM leave_requests
+     WHERE status = 'APPROVED'
+       AND to_date >= $1::date
+       AND from_date <= $2::date`,
+    [startDate, endDate]
+  );
+
+  const summary = await summarizeEffectiveLeaveRequests(pool, leaveRequestsResult.rows, {
+    rangeStart: startDate,
+    rangeEnd: endDate
+  });
+
+  return summary.byUser;
+}
 
 
 exports.forceCheckoutAll = async (req, res) => {
@@ -107,12 +126,29 @@ exports.getDashboardSummary = async (req, res) => {
         AND check_out IS NULL
     `, [today]);
 
-    // approved leave for today
-    const onLeave = await pool.query(`
-      SELECT COUNT(DISTINCT user_id) FROM leave_requests
-      WHERE status = 'APPROVED'
-        AND $1 BETWEEN from_date AND to_date
-    `, [today]);
+    const nonWorkingResult = await pool.query(
+      `SELECT (
+         EXTRACT(DOW FROM $1::date) = 0
+         OR EXISTS (
+           SELECT 1
+           FROM holidays
+           WHERE holiday_date = $1::date
+         )
+       ) AS is_non_working`,
+      [today]
+    );
+
+    let onLeaveCount = 0;
+
+    if (!nonWorkingResult.rows[0]?.is_non_working) {
+      const onLeave = await pool.query(`
+        SELECT COUNT(DISTINCT user_id) FROM leave_requests
+        WHERE status = 'APPROVED'
+          AND $1 BETWEEN from_date AND to_date
+      `, [today]);
+
+      onLeaveCount = Number(onLeave.rows[0].count);
+    }
 
     // holiday rows created for today
     const holiday = await pool.query(`
@@ -131,7 +167,6 @@ exports.getDashboardSummary = async (req, res) => {
     const totalUsersCount = Number(totalUsers.rows[0].count);
     const presentCount = Number(present.rows[0].count);
     const checkedInCount = Number(checkedIn.rows[0].count);
-    const onLeaveCount = Number(onLeave.rows[0].count);
     const holidayCount = Number(holiday.rows[0].count);
     const onPauseCount = Number(onPause.rows[0].count);
     const absent =
@@ -717,6 +752,7 @@ exports.getMonthlyAttendanceSummary = async (req, res) => {
 
     const query = `
       SELECT
+        u.id AS user_db_id,
         u.user_id,
         u.name,
         u.role,
@@ -752,6 +788,7 @@ exports.getMonthlyAttendanceSummary = async (req, res) => {
     `;
 
     const { rows } = await pool.query(query, [startDate, endDate]);
+    const leaveDaysByUser = await getEffectiveLeaveDaysByUserForRange(startDate, endDate);
 
     const daysInMonth = new Date(
       Number(month.split("-")[0]),
@@ -777,7 +814,7 @@ exports.getMonthlyAttendanceSummary = async (req, res) => {
     const summary = rows.map(r => {
       const present = Number(r.present_days);
       const checkedIn = Number(r.checked_in_days);
-      const onLeave = Number(r.leave_days);
+      const onLeave = leaveDaysByUser.get(String(r.user_db_id)) || 0;
 
       const absent =
         daysInMonth - holidayDays - present - checkedIn - onLeave;
@@ -817,6 +854,7 @@ exports.exportMonthlyAttendanceCSV = async (req, res) => {
 
     const query = `
       SELECT
+        u.id AS user_db_id,
         u.user_id,
         u.name,
         u.role,
@@ -852,6 +890,7 @@ exports.exportMonthlyAttendanceCSV = async (req, res) => {
     `;
 
     const { rows } = await pool.query(query, [startDate, endDate]);
+    const leaveDaysByUser = await getEffectiveLeaveDaysByUserForRange(startDate, endDate);
 
     const daysInMonth = new Date(
       Number(month.split("-")[0]),
@@ -880,7 +919,7 @@ exports.exportMonthlyAttendanceCSV = async (req, res) => {
     rows.forEach(r => {
       const present = Number(r.present_days);
       const checkedIn = Number(r.checked_in_days);
-      const onLeave = Number(r.leave_days);
+      const onLeave = leaveDaysByUser.get(String(r.user_db_id)) || 0;
       const absent = Math.max(daysInMonth - holidayDays - present - checkedIn - onLeave, 0);
 
       csv += `${r.user_id},${r.name},${r.role},${present},${checkedIn},${onLeave},${absent}\n`;
@@ -913,6 +952,7 @@ exports.exportMonthlyAttendanceExcel = async (req, res) => {
 
     const query = `
       SELECT
+        u.id AS user_db_id,
         u.user_id,
         u.name,
         u.role,
@@ -948,6 +988,7 @@ exports.exportMonthlyAttendanceExcel = async (req, res) => {
     `;
 
     const { rows } = await pool.query(query, [startDate, endDate]);
+    const leaveDaysByUser = await getEffectiveLeaveDaysByUserForRange(startDate, endDate);
 
     const daysInMonth = new Date(
       Number(month.split("-")[0]),
@@ -986,7 +1027,7 @@ exports.exportMonthlyAttendanceExcel = async (req, res) => {
     rows.forEach(r => {
       const present = Number(r.present_days);
       const checkedIn = Number(r.checked_in_days);
-      const onLeave = Number(r.leave_days);
+      const onLeave = leaveDaysByUser.get(String(r.user_db_id)) || 0;
       const absent = Math.max(daysInMonth - holidayDays - present - checkedIn - onLeave, 0);
 
       sheet.addRow({

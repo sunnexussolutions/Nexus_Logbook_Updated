@@ -33,7 +33,12 @@ const runAttendanceAutomation = () => {
         INSERT INTO attendance (user_id, date, status)
         SELECT u.id, $1, $2
         FROM users u
-        WHERE u.status = 'ACTIVE'
+        WHERE NOT EXISTS (
+            SELECT 1
+            FROM user_pauses up
+            WHERE up.user_id = u.id
+              AND $1::date BETWEEN up.start_date AND up.end_date
+          )
           AND NOT EXISTS (
             SELECT 1 FROM attendance a
             WHERE a.user_id = u.id

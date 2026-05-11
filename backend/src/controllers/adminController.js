@@ -1,5 +1,9 @@
 const pool = require("../config/db");
-const { nowIST } = require('../utils/istTime');
+const { nowIST, todayIST } = require('../utils/istTime');
+const {
+  getEffectiveLeaveDates,
+  summarizeEffectiveLeaveRequests
+} = require("../utils/leaveDays");
 
 const bcrypt = require("bcrypt");
 const emailService = require("../services/emailService");
@@ -40,6 +44,13 @@ async function sendWelcomeEmailSafely(userId, password) {
   } catch (err) {
     console.warn("Welcome email failed (non-fatal):", err.message);
   }
+}
+
+function getYearBounds(year) {
+  return {
+    start: `${year}-01-01`,
+    end: `${year}-12-31`
+  };
 }
 
 /* ================== CREATE TEAM LEAD ================== */
@@ -143,6 +154,7 @@ exports.createTeamMember = async (req, res) => {
 /* ================== GET TEAM MEMBERS ================== */
 exports.getTeamMembers = async (req, res) => {
   try {
+    const today = todayIST();
     const result = await pool.query(`
       SELECT
         u.id,
@@ -151,7 +163,15 @@ exports.getTeamMembers = async (req, res) => {
         u.email,
         u.role,
         u.shift_id,
-        u.status,
+        CASE
+          WHEN EXISTS (
+            SELECT 1
+            FROM user_pauses up
+            WHERE up.user_id = u.id
+              AND $1::date BETWEEN up.start_date AND up.end_date
+          ) THEN 'PAUSED'
+          ELSE 'ACTIVE'
+        END AS status,
 
         CASE
           WHEN u.role = 'TEAM_LEAD' AND EXISTS (
@@ -170,7 +190,7 @@ exports.getTeamMembers = async (req, res) => {
       FROM users u
       WHERE u.role IN ('TEAM_LEAD', 'MEMBER')
       ORDER BY u.role, u.id
-    `);
+    `, [today]);
 
     res.json(result.rows);
 
@@ -459,9 +479,11 @@ exports.getAllTeamLeads = async (req, res) => {
 exports.getAllLeaveRequests = async (req, res) => {
   try {
     const year = nowIST().getUTCFullYear();
+    const { start: yearStart, end: yearEnd } = getYearBounds(year);
     const result = await pool.query(`
       SELECT
         lr.id,
+        lr.user_id AS user_db_id,
         u.user_id,
         u.name,
         u.role,
@@ -470,17 +492,32 @@ exports.getAllLeaveRequests = async (req, res) => {
         lr.reason,
         lr.status,
         lr.applied_at,
-        lr.reviewed_at,
-        COALESCE(lb.used, 0) AS leave_used,
-        COALESCE(lb.remaining, lb.total_quota, 18) AS leave_remaining,
-        COALESCE(lb.total_quota, 18) AS leave_quota
+        lr.reviewed_at
       FROM leave_requests lr
       JOIN users u ON u.id = lr.user_id
-      LEFT JOIN leave_balances lb ON lb.user_id = u.id AND lb.year = $1
       ORDER BY lr.applied_at DESC
-    `, [year]);
+    `);
 
-    res.json(result.rows);
+    const approvedLeaveSummary = await summarizeEffectiveLeaveRequests(
+      pool,
+      result.rows.filter(row => row.status === "APPROVED"),
+      { rangeStart: yearStart, rangeEnd: yearEnd }
+    );
+
+    const leaveQuota = 18;
+    const payload = result.rows.map(row => {
+      const used = approvedLeaveSummary.byUser.get(String(row.user_db_id)) || 0;
+      const remaining = Math.max(0, leaveQuota - used);
+
+      return {
+        ...row,
+        leave_used: used,
+        leave_remaining: remaining,
+        leave_quota: leaveQuota
+      };
+    });
+
+    res.json(payload);
 
   } catch (err) {
     console.error("Get leave error:", err);
@@ -531,15 +568,19 @@ exports.reviewLeaveRequest = async (req, res) => {
 
       // If APPROVED mark attendance as ON_LEAVE for those days
       if (status === "APPROVED") {
-        await pool.query(`
-          INSERT INTO attendance (user_id, date, status)
-          SELECT $1, d::date, 'ON_LEAVE'
-          FROM generate_series($2::date, $3::date, interval '1 day') d
-          WHERE NOT EXISTS (
-            SELECT 1 FROM attendance a
-            WHERE a.user_id = $1 AND a.date = d::date
-          )
-        `, [user_id, from_date, to_date]);
+        const effectiveLeaveDates = await getEffectiveLeaveDates(pool, from_date, to_date);
+
+        if (effectiveLeaveDates.length > 0) {
+          await pool.query(`
+            INSERT INTO attendance (user_id, date, status)
+            SELECT $1, leave_day.day::date, 'ON_LEAVE'
+            FROM unnest($2::date[]) AS leave_day(day)
+            WHERE NOT EXISTS (
+              SELECT 1 FROM attendance a
+              WHERE a.user_id = $1 AND a.date = leave_day.day::date
+            )
+          `, [user_id, effectiveLeaveDates]);
+        }
       }
 
       // Try email but NEVER crash the endpoint if it fails (Render email issues)
@@ -626,28 +667,61 @@ exports.toggleUserStatus = async (req, res) => {
   try {
     const { id } = req.params;
     const { status, start_date, end_date } = req.body;
+    const today = todayIST();
 
     if (!["ACTIVE", "PAUSED"].includes(status)) {
       return res.status(400).json({ message: "Invalid status" });
     }
 
-    // Update user status
-    await pool.query(`UPDATE users SET status = $1 WHERE id = $2`, [status, id]);
-
     if (status === "PAUSED") {
       // Insert a pause record. Expect start_date and end_date in ISO format.
-      const sDate = start_date || new Date().toISOString().split('T')[0];
+      const sDate = start_date || today;
       const eDate = end_date || sDate; // default to same day if not provided
+      if (eDate < sDate) {
+        return res.status(400).json({ message: "Pause end date must be on or after the start date" });
+      }
       await pool.query(`INSERT INTO user_pauses (user_id, start_date, end_date) VALUES ($1, $2, $3)`, [id, sDate, eDate]);
     } else if (status === "ACTIVE") {
       // If unpausing early, close any active pause by setting its end_date to yesterday.
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterday = new Date(`${today}T00:00:00.000Z`);
+      yesterday.setUTCDate(yesterday.getUTCDate() - 1);
       const yStr = yesterday.toISOString().split('T')[0];
-      await pool.query(`UPDATE user_pauses SET end_date = $1 WHERE user_id = $2 AND end_date >= CURRENT_DATE`, [yStr, id]);
+      await pool.query(
+        `UPDATE user_pauses
+         SET end_date = $1
+         WHERE user_id = $2
+           AND end_date >= $3::date`,
+        [yStr, id, today]
+      );
     }
 
-    res.json({ message: `User status updated to ${status}` });
+    const statusResult = await pool.query(
+      `
+      UPDATE users
+      SET status = CASE
+        WHEN EXISTS (
+          SELECT 1
+          FROM user_pauses up
+          WHERE up.user_id = $1
+            AND $2::date BETWEEN up.start_date AND up.end_date
+        ) THEN 'PAUSED'
+        ELSE 'ACTIVE'
+      END
+      WHERE id = $1
+      RETURNING status
+      `,
+      [id, today]
+    );
+
+    const effectiveStatus = statusResult.rows[0]?.status || "ACTIVE";
+    const scheduledFuturePause = status === "PAUSED" && effectiveStatus === "ACTIVE";
+
+    res.json({
+      message: scheduledFuturePause
+        ? "Pause scheduled successfully. The member will stay ACTIVE until the pause start date."
+        : `User status updated to ${effectiveStatus}`,
+      status: effectiveStatus
+    });
   } catch (err) {
     console.error("Toggle user status error:", err);
     res.status(500).json({ message: "Server error" });

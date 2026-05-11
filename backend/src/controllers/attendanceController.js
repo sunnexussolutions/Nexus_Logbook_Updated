@@ -1,8 +1,19 @@
 const pool = require("../config/db");
 const emailService = require('../services/emailService');
 const { nowIST, todayIST, getWeekRangeIST, getMonthPeriodIST } = require('../utils/istTime');
+const {
+  countEffectiveLeaveDays,
+  summarizeEffectiveLeaveRequests
+} = require("../utils/leaveDays");
 
 function getIstNowShifted() { return nowIST(); }
+
+function getYearBounds(year) {
+  return {
+    start: `${year}-01-01`,
+    end: `${year}-12-31`
+  };
+}
 
 function getDistanceInMeters(lat1, lon1, lat2, lon2) {
   const R = 6371000; // Earth radius in meters
@@ -52,28 +63,30 @@ async function getPauseStateForDate(userId, date) {
   const result = await pool.query(
     `
     SELECT
-      u.status,
+      EXISTS (
+        SELECT 1
+        FROM users u
+        WHERE u.id = $1
+      ) AS user_exists,
       EXISTS (
         SELECT 1
         FROM user_pauses up
-        WHERE up.user_id = u.id
+        WHERE up.user_id = $1
           AND $2 BETWEEN up.start_date AND up.end_date
       ) AS is_paused
-    FROM users u
-    WHERE u.id = $1
     LIMIT 1
     `,
     [userId, date]
   );
 
-  if (result.rows.length === 0) {
+  if (result.rows.length === 0 || !result.rows[0].user_exists) {
     return { status: null, isPaused: false };
   }
 
   const row = result.rows[0];
   return {
-    status: row.status,
-    isPaused: row.status === "PAUSED" || row.is_paused
+    status: row.is_paused ? "PAUSED" : "ACTIVE",
+    isPaused: row.is_paused
   };
 }
 
@@ -86,7 +99,12 @@ async function seedDayAttendance(date) {
     INSERT INTO attendance (user_id, date, status)
     SELECT u.id, $1, $2
     FROM users u
-    WHERE u.status = 'ACTIVE'
+    WHERE NOT EXISTS (
+      SELECT 1
+      FROM user_pauses up
+      WHERE up.user_id = u.id
+        AND $1::date BETWEEN up.start_date AND up.end_date
+    )
       AND NOT EXISTS (
       SELECT 1
       FROM attendance a
@@ -606,6 +624,7 @@ exports.getMonthlyAttendanceSummary = async (req, res) => {
 
     const query = `
       SELECT
+        u.id AS user_db_id,
         u.user_id,
         u.name,
         u.role,
@@ -639,6 +658,19 @@ exports.getMonthlyAttendanceSummary = async (req, res) => {
     `;
 
     const { rows } = await pool.query(query, [startDate, endDate]);
+    const leaveRequestsResult = await pool.query(
+      `SELECT user_id, from_date, to_date
+       FROM leave_requests
+       WHERE status = 'APPROVED'
+         AND to_date >= $1::date
+         AND from_date <= $2::date`,
+      [startDate, endDate]
+    );
+    const leaveSummary = await summarizeEffectiveLeaveRequests(pool, leaveRequestsResult.rows, {
+      rangeStart: startDate,
+      rangeEnd: endDate
+    });
+    const leaveDaysByUser = leaveSummary.byUser;
 
     const daysInMonth = new Date(
       Number(month.split("-")[0]),
@@ -664,7 +696,7 @@ exports.getMonthlyAttendanceSummary = async (req, res) => {
     const result = rows.map(r => {
       const present = Number(r.present_days);
       const checkedIn = Number(r.checked_in_days);
-      const onLeave = Number(r.leave_days);
+      const onLeave = leaveDaysByUser.get(String(r.user_db_id)) || 0;
 
       const absent =
         daysInMonth - holidayDays - present - checkedIn - onLeave;
@@ -808,22 +840,22 @@ exports.getTodayAttendanceDashboard = async (req, res) => {
 
 exports.getTodayAttendanceList = async (req, res) => {
   try {
+    const today = todayIST();
     const result = await pool.query(`
       WITH day_meta AS (
         SELECT EXISTS (
-          SELECT 1 FROM holidays WHERE holiday_date = CURRENT_DATE
-        ) OR EXTRACT(DOW FROM CURRENT_DATE) = 0 AS is_holiday
+          SELECT 1 FROM holidays WHERE holiday_date = $1::date
+        ) OR EXTRACT(DOW FROM $1::date) = 0 AS is_holiday
       )
       SELECT
         u.id AS user_db_id,
         u.user_id AS user_id,
         u.name,
         u.role,
-        u.status AS user_status,
         a.check_in,
         a.check_out,
         CASE
-          WHEN u.status = 'PAUSED' THEN 'PAUSED'
+          WHEN up.id IS NOT NULL THEN 'PAUSED'
           WHEN a.status IS NOT NULL THEN a.status
           WHEN dm.is_holiday THEN 'HOLIDAY'
           WHEN lr.id IS NOT NULL THEN 'ON_LEAVE'
@@ -833,13 +865,21 @@ exports.getTodayAttendanceList = async (req, res) => {
       CROSS JOIN day_meta dm
       LEFT JOIN attendance a
         ON a.user_id = u.id
-        AND a.date = CURRENT_DATE
+        AND a.date = $1::date
       LEFT JOIN leave_requests lr
         ON lr.user_id = u.id
         AND lr.status = 'APPROVED'
-        AND CURRENT_DATE BETWEEN lr.from_date AND lr.to_date
+        AND $1::date BETWEEN lr.from_date AND lr.to_date
+      LEFT JOIN LATERAL (
+        SELECT up.id
+        FROM user_pauses up
+        WHERE up.user_id = u.id
+          AND $1::date BETWEEN up.start_date AND up.end_date
+        ORDER BY up.end_date DESC, up.id DESC
+        LIMIT 1
+      ) up ON true
       ORDER BY u.id
-    `);
+    `, [today]);
 
 
     res.json(result.rows);
@@ -885,19 +925,35 @@ exports.applyLeave = async (req, res) => {
       });
     }
 
-    // Calculate days requested
-    const requestedDays = Math.ceil(
-      (new Date(to_date) - new Date(from_date)) / (1000 * 60 * 60 * 24)
-    ) + 1;
+    const requestedDays = await countEffectiveLeaveDays(pool, from_date, to_date);
 
-    // Check leave balance
-    const year = nowIST().getUTCFullYear();
-    const balRes = await pool.query(
-      `SELECT remaining FROM leave_balances WHERE user_id = $1 AND year = $2`,
-      [userId, year]
+    if (requestedDays === 0) {
+      return res.status(400).json({
+        message: "Selected range contains only Sundays and admin holidays"
+      });
+    }
+
+    const year = new Date(`${from_date}T00:00:00.000Z`).getUTCFullYear();
+    const { start: yearStart, end: yearEnd } = getYearBounds(year);
+    const approvedLeavesResult = await pool.query(
+      `SELECT id, user_id, from_date, to_date
+       FROM leave_requests
+       WHERE user_id = $1
+         AND status = 'APPROVED'
+         AND to_date >= $2::date
+         AND from_date <= $3::date`,
+      [userId, yearStart, yearEnd]
     );
 
-    const remaining = balRes.rows.length > 0 ? balRes.rows[0].remaining : 18;
+    const approvedLeaveSummary = await summarizeEffectiveLeaveRequests(
+      pool,
+      approvedLeavesResult.rows,
+      { rangeStart: yearStart, rangeEnd: yearEnd }
+    );
+
+    const quota = 18;
+    const used = approvedLeaveSummary.totalDays;
+    const remaining = Math.max(0, quota - used);
     const isExtraLeave = requestedDays > remaining;
 
     await pool.query(
@@ -1042,32 +1098,42 @@ exports.getMyLeaveBalance = async (req, res) => {
     const userId = req.user.id;
     const year = nowIST().getUTCFullYear();
     const QUOTA = 18; // Annual leave quota
+    const { start: yearStart, end: yearEnd } = getYearBounds(year);
 
-    // 1. Count ONLY approved leave request days (single source of truth)
-    //    ON_LEAVE attendance rows are just a display status and must NOT be double-counted
-    const approvedResult = await pool.query(
-      `SELECT COALESCE(SUM((to_date::date - from_date::date) + 1), 0) AS used_days
-       FROM leave_requests
-       WHERE user_id = $1
-         AND status = 'APPROVED'
-         AND EXTRACT(YEAR FROM from_date::date) = $2`,
-      [userId, year]
-    );
+    const [approvedResult, pendingResult] = await Promise.all([
+      pool.query(
+        `SELECT id, user_id, from_date, to_date
+         FROM leave_requests
+         WHERE user_id = $1
+           AND status = 'APPROVED'
+           AND to_date >= $2::date
+           AND from_date <= $3::date`,
+        [userId, yearStart, yearEnd]
+      ),
+      pool.query(
+        `SELECT id, user_id, from_date, to_date
+         FROM leave_requests
+         WHERE user_id = $1
+           AND status = 'PENDING'
+           AND to_date >= $2::date
+           AND from_date <= $3::date`,
+        [userId, yearStart, yearEnd]
+      )
+    ]);
 
-    // 2. Count pending leave requests
-    const pendingResult = await pool.query(
-      `SELECT COALESCE(SUM((to_date::date - from_date::date) + 1), 0) AS pending_days
-       FROM leave_requests
-       WHERE user_id = $1
-         AND status = 'PENDING'
-         AND EXTRACT(YEAR FROM from_date::date) = $2`,
-      [userId, year]
-    );
+    const [approvedSummary, pendingSummary] = await Promise.all([
+      summarizeEffectiveLeaveRequests(pool, approvedResult.rows, {
+        rangeStart: yearStart,
+        rangeEnd: yearEnd
+      }),
+      summarizeEffectiveLeaveRequests(pool, pendingResult.rows, {
+        rangeStart: yearStart,
+        rangeEnd: yearEnd
+      })
+    ]);
 
-    const used = parseInt(approvedResult.rows[0].used_days, 10);
-
-    console.log("LEAVE BALANCE DEBUG for user", userId, ": used (from approved requests only)=", used);
-    const pending = parseInt(pendingResult.rows[0].pending_days, 10);
+    const used = approvedSummary.totalDays;
+    const pending = pendingSummary.totalDays;
     const remaining = Math.max(0, QUOTA - used);
 
     res.json({
@@ -1206,18 +1272,20 @@ exports.getMyAttendancePercentage = async (req, res) => {
     );
     const presentDays = presentResult.rows[0]?.present_days || 0;
 
-    const leaveDaysResult = await pool.query(
-      `SELECT COUNT(DISTINCT day)::int AS leave_days
-       FROM (
-         SELECT generate_series(from_date, to_date, interval '1 day')::date AS day
-         FROM leave_requests
-         WHERE user_id = $1
-           AND status = 'APPROVED'
-       ) lr
-       WHERE day BETWEEN $2 AND $3`,
+    const leaveRequestsResult = await pool.query(
+      `SELECT id, user_id, from_date, to_date
+       FROM leave_requests
+       WHERE user_id = $1
+         AND status = 'APPROVED'
+         AND to_date >= $2::date
+         AND from_date <= $3::date`,
       [userId, startStr, todayStr]
     );
-    const leaveDays = leaveDaysResult.rows[0]?.leave_days || 0;
+    const leaveSummary = await summarizeEffectiveLeaveRequests(pool, leaveRequestsResult.rows, {
+      rangeStart: startStr,
+      rangeEnd: todayStr
+    });
+    const leaveDays = leaveSummary.totalDays;
 
     const percentage = workingDays === 0
       ? 100
@@ -1282,17 +1350,20 @@ exports.getMyOverallAttendancePercentage = async (req, res) => {
     );
     const presentDays = presentResult.rows[0]?.present_days || 0;
 
-    const leaveDaysResult = await pool.query(
-      `SELECT COUNT(DISTINCT day)::int AS leave_days
-       FROM (
-         SELECT generate_series(from_date, to_date, interval '1 day')::date AS day
-         FROM leave_requests
-         WHERE user_id = $1 AND status = 'APPROVED'
-       ) lr
-       WHERE day BETWEEN $2 AND $3`,
+    const leaveRequestsResult = await pool.query(
+      `SELECT id, user_id, from_date, to_date
+       FROM leave_requests
+       WHERE user_id = $1
+         AND status = 'APPROVED'
+         AND to_date >= $2::date
+         AND from_date <= $3::date`,
       [userId, startStr, todayStr]
     );
-    const leaveDays = leaveDaysResult.rows[0]?.leave_days || 0;
+    const leaveSummary = await summarizeEffectiveLeaveRequests(pool, leaveRequestsResult.rows, {
+      rangeStart: startStr,
+      rangeEnd: todayStr
+    });
+    const leaveDays = leaveSummary.totalDays;
 
     const percentage = workingDays === 0
       ? 100
