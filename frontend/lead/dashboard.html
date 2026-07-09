@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Console | Team Lead Workspace</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-app: #f1f5f9;
+      --bg-panel: #ffffff;
+      --nav-bg: rgba(255, 255, 255, 0.85);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+
+      /* Premium Gradients and Colors */
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #e0e7ff;
+      --danger: #e11d48;
+      --danger-hover: #be123c;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --info: #0ea5e9;
+
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      background-color: var(--bg-app);
+      font-family: var(--font-family);
+      color: var(--text-main);
+      font-size: 14.5px;
+      margin: 0;
+      padding-top: 72px;
+      /* Space for fixed topnav */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* --- TOP NAVIGATION (Glassmorphism Context) --- */
+    .topnav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background-color: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      z-index: 1030;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 1px 0 var(--border-color), 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .topnav-brand {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topnav-brand i {
+      background: linear-gradient(135deg, var(--primary), var(--info));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 22px;
+    }
+
+    .topnav-tools {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: var(--text-main);
+    }
+
+    /* --- SUB NAVIGATION (Module Routing) --- */
+    .subnav {
+      background: transparent;
+      padding: 16px 32px;
+      display: flex;
+      gap: 28px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .subnav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      transition: var(--transition);
+    }
+
+    .subnav a:hover {
+      color: var(--primary);
+      background-color: var(--primary-light);
+    }
+
+    .subnav a.active {
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--info));
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+    }
+
+    /* --- LAYOUT GRID --- */
+    .container-app {
+      padding: 0 32px 32px 32px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .grid-2-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .grid-3-col {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    /* --- ENTERPRISE PANELS --- */
+    .panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+      overflow: hidden;
+    }
+
+    .panel:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .panel-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: transparent;
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: -0.3px;
+    }
+
+    .panel-title i {
+      color: var(--primary);
+    }
+
+    .panel-body {
+      padding: 24px;
+      flex-grow: 1;
+    }
+
+    .panel-body-flush {
+      padding: 0;
+    }
+
+    /* --- STATS CARDS --- */
+    .stat-card {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+      transition: var(--transition);
+      flex: 1;
+    }
+
+    .stat-card:hover {
+      background: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .capacity-metric-card {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      min-height: 96px;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .capacity-metric-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #64748b;
+    }
+
+    .capacity-metric-value {
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .capacity-metric-card.capacity-metric-ready {
+      background: linear-gradient(135deg, #ecfdf3 0%, #d1fae5 100%);
+      border-color: rgba(16, 185, 129, 0.24);
+    }
+
+    .capacity-metric-card.capacity-metric-ready .capacity-metric-label {
+      color: #065f46;
+    }
+
+    .capacity-metric-card.capacity-metric-ready .capacity-metric-value {
+      color: #047857;
+    }
+
+    .capacity-metric-card.capacity-metric-pending {
+      background: linear-gradient(135deg, #fff8db 0%, #fef3c7 100%);
+      border-color: rgba(245, 158, 11, 0.28);
+    }
+
+    .capacity-metric-card.capacity-metric-pending .capacity-metric-label {
+      color: #92400e;
+    }
+
+    .capacity-metric-card.capacity-metric-pending .capacity-metric-value {
+      color: #b45309;
+    }
+
+    /* --- TABLES (Data Dense) --- */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    .table-enterprise {
+      width: 100%;
+      margin: 0;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .table-enterprise th {
+      background: #f8fafc;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--border-color);
+      text-align: left;
+    }
+
+    .table-enterprise td {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+      color: var(--text-main);
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+
+    .table-enterprise tbody tr:hover td {
+      background-color: #f1f5f9;
+    }
+
+    .table-enterprise tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* --- FORMS & BUTTONS --- */
+    .form-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .form-control,
+    .form-select {
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      padding: 10px 14px;
+      font-size: 14px;
+      color: var(--text-main);
+      transition: var(--transition);
+      background-color: #fff;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-light);
+      outline: none;
+    }
+
+    .form-control::placeholder {
+      color: #94a3b8;
+    }
+
+    .btn-sys {
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 10px 20px;
+      border: none;
+      transition: var(--transition);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-sys-primary {
+      background: linear-gradient(135deg, var(--primary), var(--info));
+      color: white;
+    }
+
+    .btn-sys-primary:hover {
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .btn-sys-default {
+      background: #fff;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-sys-default:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      transform: translateY(-1px);
+    }
+
+    .btn-sys-danger {
+      background: #fff;
+      color: var(--danger);
+      border: 1px solid var(--danger);
+    }
+
+    .btn-sys-danger:hover {
+      background: var(--danger);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .status-tag {
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* --- NOTIFICATIONS --- */
+    .notif-bell {
+      position: relative;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f1f5f9;
+      transition: var(--transition);
+    }
+
+    .notif-bell:hover {
+      background: #e2e8f0;
+    }
+
+    .notif-bell i {
+      font-size: 18px;
+      color: var(--text-main);
+    }
+
+    .notif-badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background: var(--danger);
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5px;
+      border: 2px solid var(--bg-panel);
+      display: none;
+    }
+
+    .notif-dropdown {
+      position: absolute;
+      right: 0;
+      top: 52px;
+      width: 360px;
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+      display: none;
+      max-height: 420px;
+      overflow-y: auto;
+      color: var(--text-main);
+    }
+
+    .notif-dropdown.open {
+      display: block;
+      animation: slideDown 0.2s ease-out forwards;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .notif-header {
+      padding: 16px 20px;
+      font-weight: 700;
+      font-size: 15px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .notif-item {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .notif-item:hover {
+      background: #f8fafc;
+    }
+
+    .notif-item.unread {
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+    }
+
+    .notif-item .notif-time {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    .notif-empty {
+      padding: 32px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* Roadmap List Styling */
+    .roadmap-list {
+      list-style-type: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .roadmap-list li {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: var(--transition);
+    }
+
+    .roadmap-list li:hover {
+      background-color: #f8fafc;
+    }
+
+    .roadmap-list li:last-child {
+      border-bottom: none;
+    }
+
+    .list-group-pro .list-group-item {
+      border: none;
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 24px;
+      font-size: 15px;
+      transition: var(--transition);
+    }
+
+    .list-group-pro .list-group-item:hover {
+      background-color: #f8fafc;
+    }
+
+    .list-group-pro .list-group-item:last-child {
+      border-bottom: none;
+    }
+
+    /* --- CHECKOUT REMINDER BANNER --- */
+    #checkoutReminderBanner {
+      position: sticky;
+      top: 64px;
+      z-index: 1020;
+      background: linear-gradient(90deg, #ea580c 0%, #f97316 50%, #ea580c 100%);
+      background-size: 200% auto;
+      animation: bannerSlide 3s linear infinite;
+      color: #ffffff;
+      padding: 12px 32px;
+      font-size: 14px;
+      font-weight: 600;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: var(--shadow-md);
+    }
+
+    #checkoutReminderBanner.visible {
+      display: flex;
+    }
+
+    @keyframes bannerSlide {
+      0% {
+        background-position: 0% center;
+      }
+
+      100% {
+        background-position: 200% center;
+      }
+    }
+
+    .banner-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .banner-icon {
+      font-size: 20px;
+      animation: pulse-icon 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse-icon {
+      from {
+        transform: scale(1);
+      }
+
+      to {
+        transform: scale(1.2);
+      }
+    }
+
+    .banner-scroll-btn {
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+      backdrop-filter: blur(4px);
+    }
+
+    .banner-scroll-btn:hover {
+      background: white;
+      color: #ea580c;
+    }
+
+    /* --- PREMIUM STATUS MESSAGES --- */
+    .status-pill {
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      animation: statusSlideIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      border: 1px solid transparent;
+    }
+
+    @keyframes statusSlideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .status-pill.info { background: #f0f9ff; color: #0369a1; border-color: #e0f2fe; }
+    .status-pill.success { background: #f0fdf4; color: #15803d; border-color: #dcfce7; box-shadow: 0 4px 12px rgba(21, 128, 61, 0.08); }
+    .status-pill.error { background: #fef2f2; color: #b91c1c; border-color: #fee2e2; }
+    .status-pill.warning { background: #fffbeb; color: #a16207; border-color: #fef3c7; }
+
+    /* --- RIBBON TRANSITION SYSTEM --- */
+    .status-ribbon {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 12px 32px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      z-index: 10;
+    }
+
+    .status-ribbon:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.1);
+      border-color: var(--primary-light);
+    }
+
+    /* --- ADVANCED ROADMAP TIMELINE --- */
+    .roadmap-timeline {
+      position: relative;
+      padding-left: 32px;
+      margin: 10px 0;
+    }
+
+    .roadmap-timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--primary) 0%, #e2e8f0 100%);
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 24px;
+    }
+
+    .timeline-marker {
+      position: absolute;
+      left: -32px;
+      top: 6px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid #e2e8f0;
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+
+    .timeline-item.completed .timeline-marker {
+      border-color: var(--success);
+      background: var(--success);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+    }
+
+    .timeline-content {
+      background: #f8fafc;
+      border: 1px solid #f1f5f9;
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+
+    .timeline-item.completed .timeline-content {
+      background: #f0fdf4;
+      border-color: #dcfce7;
+      opacity: 0.85;
+    }
+
+    .timeline-item:hover .timeline-content {
+      transform: translateX(8px);
+      background: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    /* --- CIRCULAR PROGRESS --- */
+    .roadmap-progress-container {
+      width: 120px;
+      height: 120px;
+      position: relative;
+    }
+
+    .progress-ring-bg {
+      stroke: #f1f5f9;
+      stroke-width: 8;
+      fill: none;
+    }
+
+    .progress-ring-bar {
+      stroke: var(--primary);
+      stroke-width: 8;
+      stroke-linecap: round;
+      fill: none;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+      transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* --- ADVANCED PROJECT PORTFOLIO --- */
+    .project-card {
+      background: #ffffff;
+      border: 1px solid #f1f5f9;
+      border-radius: 20px;
+      padding: 24px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.1);
+      border-color: var(--primary-light);
+    }
+
+    .project-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .project-icon-box {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      transition: var(--transition);
+    }
+
+    .project-card:hover .project-icon-box {
+      transform: rotate(-5deg) scale(1.1);
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .project-stat-pill {
+      background: #f8fafc;
+      border: 1px solid #f1f5f9;
+      padding: 10px 14px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-pill-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+      font-weight: 700;
+    }
+
+    .stat-pill-value {
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .progress-track {
+      height: 12px;
+      background: #f1f5f9;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, #818cf8 100%);
+      border-radius: 10px;
+      transition: width 1s ease-in-out;
+      position: relative;
+    }
+
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* Custom Scrollbar for better aesthetics */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Responsive Utilities */
+    @media (max-width: 992px) {
+
+      .grid-2-col,
+      .grid-3-col {
+        grid-template-columns: 1fr;
+      }
+
+      .container-app {
+        padding: 0 16px 16px 16px;
+      }
+
+      .topnav {
+        padding: 0 16px;
+      }
+
+      .subnav {
+        padding: 12px 16px;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 60px;
+      }
+
+      .topnav {
+        height: 56px;
+        padding: 0 12px;
+      }
+
+      .topnav-brand {
+        font-size: 16px;
+      }
+
+      .topnav-tools {
+        gap: 12px;
+      }
+
+      .stat-card {
+        min-width: 100%;
+      }
+
+      .form-control,
+      .form-select,
+      .btn-sys {
+        font-size: 13px;
+      }
+
+      .panel {
+        border-radius: 12px;
+      }
+
+      .panel-header {
+        padding: 14px 16px;
+      }
+
+      .panel-body {
+        padding: 16px;
+      }
+
+      .notif-dropdown {
+        width: 100vw;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 56px;
+        border-radius: 0 0 16px 16px;
+        border-left: none;
+        border-right: none;
+      }
+
+      #checkoutReminderBanner {
+        top: 56px;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 16px;
+        gap: 10px;
+      }
+
+      .table-enterprise th,
+      .table-enterprise td {
+        padding: 12px 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topnav">
+    <div class="topnav-brand">
+      <i class="bi bi-hexagon-fill"></i> <span class="d-none d-sm-inline">SUN Nexus</span><span
+        class="d-sm-none">Nexus</span> <span style="font-weight: 400; color: var(--text-muted);">|</span> Lead Console
+    </div>
+    <div class="topnav-tools">
+
+      <!-- 🔔 Notification Bell -->
+      <div class="notif-bell" id="notifBell" onclick="toggleNotifDropdown()">
+        <i class="bi bi-bell"></i>
+        <span class="notif-badge" id="notifBadge">0</span>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-header">
+            <span>Notifications</span>
+            <span class="text-primary small fw-semibold" style="cursor:pointer" onclick="markAllRead(event)">Mark all
+              read</span>
+          </div>
+          <div id="notifList">
+            <div class="notif-empty">No notifications</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center gap-2 border-start ps-4 ms-1"
+        style="border-color: var(--border-color) !important;">
+        <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center"
+          style="width:36px; height:36px; font-weight:bold;">
+          TL
+        </div>
+        <span class="d-none d-sm-inline ms-2" style="font-size: 14px; font-weight: 600;">Team Lead</span>
+        <button class="btn btn-sm btn-link text-muted ms-2 p-0" onclick="logout()" title="Logout"
+          style="font-size: 20px;">
+          <i class="bi bi-box-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="subnav">
+    <a href="dashboard.html" class="active"><i class="bi bi-grid me-2"></i> Operations Dashboard</a>
+  </nav>
+
+  <!-- 🔔 Checkout Reminder Banner -->
+  <div id="checkoutReminderBanner" role="alert">
+    <div class="banner-left">
+      <span class="banner-icon">⚠️</span>
+      <span>You are checked in but have <strong>not submitted today's work report</strong>. You cannot checkout until
+        it's submitted.</span>
+    </div>
+    <button class="banner-scroll-btn"
+      onclick="document.getElementById('leadWorkDone').focus(); window.scrollTo({top:0, behavior:'smooth'});">
+      <i class="bi bi-journal-check me-1"></i> Submit Report Now
+    </button>
+  </div>
+
+  <main class="container-app">
+
+    <!-- 🚀 COMMAND RIBBONS -->
+    <div class="row g-4 mb-5">
+      <!-- Attendance Ribbon -->
+      <div class="col-12 col-xl-5">
+        <div class="status-ribbon h-100 flex-column flex-sm-row gap-3">
+           <div class="d-flex align-items-center gap-3 w-100" style="max-width: 100%;">
+              <div id="attendanceIcon" class="bg-success bg-opacity-10 text-success p-3 rounded-circle shadow-sm">
+                 <i class="bi bi-shield-check fs-4"></i>
+              </div>
+              <div class="flex-grow-1 text-truncate">
+                 <div class="fw-bold text-dark fs-5 text-truncate" id="statusText">STATUS: -</div>
+                 <div class="small text-muted fw-bold text-uppercase" style="font-size: 10px; letter-spacing: 1px;">System Integrity</div>
+              </div>
+           </div>
+           
+           <div class="d-flex gap-2 ms-sm-auto w-100 justify-content-sm-end">
+              <button id="checkInBtn" class="btn-sys btn-sys-primary rounded-pill px-4 py-2 border-0 shadow-sm flex-grow-1 flex-sm-grow-0">
+                <i class="bi bi-box-arrow-in-right"></i> Check In
+              </button>
+              <button id="checkOutBtn" class="btn-sys btn-sys-danger rounded-pill px-4 py-2 border-0 shadow-sm flex-grow-1 flex-sm-grow-0">
+                <i class="bi bi-box-arrow-left"></i> Check Out
+              </button>
+           </div>
+        </div>
+        <div id="message" class="mt-2"></div>
+      </div>
+
+      <!-- Work Report Ribbon -->
+      <div class="col-12 col-xl-7">
+        <div class="status-ribbon h-100 p-3 p-md-2 ps-md-4 flex-column flex-md-row gap-3">
+           <div class="d-flex align-items-center flex-grow-1 gap-3 gap-md-4 w-100">
+              <div class="p-2 d-none d-sm-block">
+                 <i class="bi bi-journal-text fs-4 text-primary opacity-50"></i>
+              </div>
+              <div class="flex-grow-1 position-relative">
+                 <textarea id="leadWorkDone" class="form-control border-0 bg-transparent p-0 fs-6" rows="1" 
+                   style="box-shadow: none; resize: none; overflow: hidden; height: 32px;" 
+                   oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"
+                   placeholder="Briefly log today's core achievements..."></textarea>
+                 <div class="small text-muted fw-bold text-uppercase mt-1" style="font-size: 9px; letter-spacing: 1px;">
+                    Daily Work Report
+                 </div>
+              </div>
+
+
+           </div>
+           <button class="btn-sys btn-sys-primary rounded-pill px-4 py-3 align-self-md-center w-100 w-md-auto align-self-stretch" onclick="submitLeadDailyReport()">
+              <i class="bi bi-cloud-arrow-up-fill me-2"></i> Commit
+           </button>
+        </div>
+        <div id="leadWorkMessage" class="mt-2"></div>
+      </div>
+    </div>
+
+    <!-- End Ribbons -->
+
+    <!-- ===== MY PROJECT PORTFOLIO STATS ===== -->
+    <div class="panel overflow-hidden" style="border:none; box-shadow: 0 10px 30px -15px rgba(0,0,0,0.1); background: #f8fafc;">
+      <div class="panel-header" style="background: transparent;">
+        <div class="d-flex align-items-center gap-3">
+           <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-4">
+              <i class="bi bi-rocket-takeoff fs-4"></i>
+           </div>
+           <div>
+              <h2 class="panel-title mb-1" style="font-size: 1.4rem;">Performance Portfolio</h2>
+              <div class="small text-muted fw-semibold">Global Project Analytics</div>
+           </div>
+        </div>
+        <div class="d-flex align-items-center gap-4">
+           <div id="myProjectStatusBadge" class="badge bg-white border text-primary rounded-pill px-3 py-2 shadow-sm">Loading...</div>
+           <div class="stat-bubble bg-white border px-3 py-2 rounded-4 text-center d-none d-md-block">
+              <div class="small text-muted fw-bold" style="font-size: 10px;">TOTAL</div>
+              <div id="totalProjectCount" class="fw-extrabold text-dark fs-5">0</div>
+           </div>
+        </div>
+      </div>
+
+      <div class="panel-body p-4">
+        <div class="row g-4">
+           <div class="col-md-6">
+              <div class="p-4 rounded-5 bg-white border border-primary border-opacity-10 position-relative" style="box-shadow: 0 10px 20px rgba(67, 56, 202, 0.03);">
+                 <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="h6 fw-bold m-0"><i class="bi bi-lightning-charge text-warning me-2"></i> Active Deployments</div>
+                    <span id="activeProjectCount" class="badge bg-primary rounded-pill px-3">0</span>
+                 </div>
+                 <div id="activeProjectsList" class="row row-cols-1 row-cols-xl-2 g-3"></div>
+              </div>
+           </div>
+           <div class="col-md-6">
+              <div class="p-4 rounded-5 bg-white border border-success border-opacity-10 position-relative" style="box-shadow: 0 10px 20px rgba(16, 185, 129, 0.03);">
+                 <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="h6 fw-bold m-0"><i class="bi bi-check-all text-success me-2"></i> Legacy Archive</div>
+                    <span id="completedProjectCount" class="badge bg-success rounded-pill px-3">0</span>
+                 </div>
+                 <div id="completedProjectsList" class="row row-cols-1 row-cols-xl-2 g-3"></div>
+              </div>
+           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Context -->
+    <div class="panel border-0 shadow-lg mt-4" style="border-radius: 30px; background: white;">
+      <div class="row g-0">
+        <!-- Left Sidebar: Project List -->
+        <div class="col-md-4 border-end" style="background: #fcfdfe;">
+          <div class="p-4 border-bottom bg-white d-flex align-items-center justify-content-between">
+            <h6 class="fw-bold m-0 text-uppercase tracking-wider" style="font-size: 11px; color: #64748b;">Project Ecosystem</h6>
+            <i class="bi bi-layers text-primary opacity-50"></i>
+          </div>
+          <div id="projectsList" class="list-group list-group-flush roadmap-scroll-area" style="max-height: 500px; overflow-y: auto;">
+            <div class="p-5 text-center text-muted small">
+              <div class="spinner-border spinner-border-sm text-primary mb-3"></div>
+              <br>Indexing assets...
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Dynamic Roadmap -->
+        <div class="col-md-8 p-0" id="roadmapSection" style="display:none;">
+          <div class="p-4 bg-white border-bottom d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center gap-4">
+                <div class="roadmap-progress-container" style="width: 80px; height: 80px;">
+                   <svg width="80" height="80">
+                      <circle class="progress-ring-bg" cx="40" cy="40" r="34" stroke-width="6"/>
+                      <circle id="roadmapProgressCircle" class="progress-ring-bar" cx="40" cy="40" r="34" 
+                        stroke-width="6" style="stroke-dasharray: 214; stroke-dashoffset: 214;"/>
+                   </svg>
+                   <div class="position-absolute top-50 start-50 translate-middle text-center">
+                      <div id="roadmapProgressText" class="fw-bold text-dark fs-6">0%</div>
+                   </div>
+                </div>
+                <div>
+                  <div class="small text-muted text-uppercase fw-bold mb-1" style="letter-spacing: 0.5px;">Strategic Velocity</div>
+                  <div class="fw-extrabold text-dark fs-5 text-truncate" id="activeProjectTitle" style="max-width: 200px;">Project Name</div>
+                  <div id="roadmapStatusBadge" class="badge bg-primary-subtle text-primary border-0 rounded-pill px-3 py-1 mt-1">Operational</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="d-flex flex-column align-items-end gap-2">
+              <div class="d-flex gap-2">
+                <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3 py-2" id="completedNodesCount">0 Done</span>
+                <span class="badge rounded-pill bg-light text-muted border px-3 py-2" id="totalNodesCount">0 Total</span>
+              </div>
+              <button class="btn-sys py-1 px-3 mt-1 rounded-pill" style="font-size: 11px; font-weight: 600; background: white; color: var(--success); border: 1px solid var(--success);" onclick="markProjectCompleted()" id="markCompletedBtn">
+                <i class="bi bi-check2-all me-1"></i> Mark Project Complete
+              </button>
+            </div>
+          </div>
+
+          <div class="p-4 roadmap-scroll-area" style="max-height: 400px; overflow-y: auto;">
+             <div id="roadmapSteps" class="roadmap-timeline"></div>
+             
+             <!-- Add Step Interaction -->
+             <div class="mt-4 p-3 bg-light rounded-4 d-flex align-items-center gap-3">
+               <i class="bi bi-plus-circle-dotted fs-4 text-primary opacity-50"></i>
+               <input type="text" id="newStepInput" class="form-control border-0 bg-transparent" 
+                 placeholder="Inject new strategic node..." style="box-shadow: none;">
+               <button class="btn-sys btn-sys-primary rounded-4 px-4 py-2" onclick="addSingleStep()">
+                 Deploy Node
+               </button>
+             </div>
+          </div>
+        </div>
+        
+        <!-- Empty State -->
+        <div class="col-md-8 d-flex flex-column align-items-center justify-content-center p-5 text-center bg-white" id="roadmapEmptyState">
+           <i class="bi bi-cursor-fill text-muted opacity-10" style="font-size: 80px;"></i>
+           <h4 class="fw-bold text-dark mt-3">Ready for Deployment</h4>
+           <p class="text-muted small">Select a project from the left panel to initialize strategic data visualization.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mt-4">
+      <!-- Roadmap Override (formerly regeneration) -->
+      <div class="col-md-6">
+        <div class="panel h-100 overflow-hidden border-0" style="box-shadow: 0 10px 30px -15px rgba(239, 68, 68, 0.1); border-radius: 24px;">
+          <div class="panel-header" style="background: rgba(239, 68, 68, 0.03); border-bottom: 1px solid rgba(239, 68, 68, 0.1);">
+            <div class="d-flex align-items-center gap-3">
+              <div class="bg-danger bg-opacity-10 text-danger p-2 rounded-3">
+                <i class="bi bi-radioactive fs-5"></i>
+              </div>
+              <h2 class="panel-title text-danger" style="font-size: 1.1rem;">Node Override System</h2>
+            </div>
+          </div>
+          <div class="panel-body p-4">
+            <div class="alert alert-danger border-0 small mb-3 py-2 px-3" style="border-radius: 12px; background: rgba(239, 68, 68, 0.05); color: #dc2626;">
+               <i class="bi bi-info-circle me-2"></i><strong>Impact Notice:</strong> This protocol will overwrite all existing nodes.
+            </div>
+            <div class="mb-3">
+              <textarea id="roadmapStepsInput" class="form-control border-0 bg-light rounded-4 p-3 small" rows="5"
+                placeholder="1. Structural Analysis&#10;2. Core Development&#10;3. Final Sync" style="resize: none;"></textarea>
+            </div>
+            <button class="btn-sys btn-sys-danger w-100 py-3 rounded-pill" onclick="createRoadmap()">
+              <i class="bi bi-shield-slash me-2"></i> Initialize Override
+            </button>
+            <div id="roadmapMessage" class="mt-2 text-center"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team Resource Allocation -->
+      <div class="col-md-6">
+        <div class="panel h-100 overflow-hidden border-0" style="box-shadow: 0 10px 30px -15px rgba(0,0,0,0.1); border-radius: 24px;">
+          <div class="panel-header border-bottom">
+            <div class="d-flex align-items-center gap-3">
+              <div class="bg-primary bg-opacity-10 text-primary p-2 rounded-3">
+                <i class="bi bi-diagram-3 fs-5"></i>
+              </div>
+              <h2 class="panel-title" style="font-size: 1.1rem;">Expert Allocation</h2>
+            </div>
+          </div>
+          <div class="panel-body p-4 d-flex flex-column h-100">
+            <div class="mb-3">
+              <select id="assignProjectSelect" class="form-select border-0 bg-light rounded-pill px-4 fs-6">
+                <option value="">Select Target Operation</option>
+              </select>
+            </div>
+            <div class="flex-grow-1 bg-light rounded-4 p-3 mb-3 roadmap-scroll-area" style="max-height: 200px; overflow-y: auto;">
+               <div id="membersList" class="d-flex flex-column gap-2 text-center text-muted small py-4">
+                  <i class="bi bi-people fs-1 opacity-25"></i>
+                  Syncing resource nodes...
+               </div>
+            </div>
+            <button class="btn-sys btn-sys-primary w-100 py-3 rounded-pill" onclick="assignMembers()">
+              <i class="bi bi-check2-circle me-2"></i> Seal Allocation
+            </button>
+            <div id="assignMessage" class="mt-2 text-center"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mt-4">
+      <!-- ===== APPLY LEAVE ===== -->
+      <div class="col-md-6">
+        <div class="panel h-100 border-0 shadow-lg p-0 overflow-hidden" style="border-radius: 24px;">
+          <div class="panel-header border-bottom bg-white">
+            <div class="d-flex align-items-center gap-3">
+              <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-4">
+                <i class="bi bi-calendar-check fs-4"></i>
+              </div>
+              <h2 class="panel-title" style="font-size: 1.2rem;">Leave Protocol</h2>
+            </div>
+          </div>
+          <div class="panel-body p-4">
+            <div class="row g-3 mb-4">
+              <div class="col-6">
+                <label class="small fw-bold text-muted mb-2">STATION DEPARTURE</label>
+                <input type="date" id="leaveFromDate" class="form-control border-0 bg-light rounded-pill px-4">
+              </div>
+              <div class="col-6">
+                <label class="small fw-bold text-muted mb-2">STATION RETURN</label>
+                <input type="date" id="leaveToDate" class="form-control border-0 bg-light rounded-pill px-4">
+              </div>
+            </div>
+            <div class="mb-4">
+               <label class="small fw-bold text-muted mb-2">JUSTIFICATION</label>
+               <textarea id="leaveReason" class="form-control border-0 bg-light rounded-4 p-3" rows="3" style="resize:none;"
+                placeholder="Declare the strategic necessity for leave..."></textarea>
+            </div>
+            <button class="btn-sys btn-sys-primary w-100 py-3 rounded-pill" onclick="applyLeave()">
+              <i class="bi bi-cursor-fill me-2"></i> Launch Request
+            </button>
+            <div id="leaveMessage" class="mt-3 text-center"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== LEAVE BALANCE ===== -->
+      <div class="col-md-6">
+        <div class="panel h-100 border-0 shadow-lg p-0 overflow-hidden" style="border-radius: 24px;">
+           <div class="panel-header border-bottom bg-white d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center gap-3">
+                 <div class="bg-success bg-opacity-10 text-success p-3 rounded-4">
+                    <i class="bi bi-shield-shaded fs-4"></i>
+                 </div>
+                 <h2 class="panel-title" style="font-size: 1.2rem;">Capacity Assets</h2>
+              </div>
+              <span id="leaveBalanceYear" class="badge bg-light text-muted border px-3 py-2 rounded-pill">Year</span>
+           </div>
+           <div class="panel-body p-4">
+              <div class="row g-3 mb-4">
+                 <div class="col-6 col-md-3">
+                    <div class="capacity-metric-card">
+                       <div class="capacity-metric-label">QUOTA</div>
+                       <div id="lbQuota" class="capacity-metric-value text-dark">—</div>
+                    </div>
+                 </div>
+                 <div class="col-6 col-md-3">
+                    <div class="capacity-metric-card">
+                       <div class="capacity-metric-label">EXHAUSTED</div>
+                       <div id="lbUsed" class="capacity-metric-value text-danger">—</div>
+                    </div>
+                 </div>
+                 <div class="col-6 col-md-3">
+                    <div class="capacity-metric-card capacity-metric-ready">
+                       <div class="capacity-metric-label">READY</div>
+                       <div id="lbRemaining" class="capacity-metric-value">—</div>
+                    </div>
+                 </div>
+                 <div class="col-6 col-md-3">
+                    <div class="capacity-metric-card capacity-metric-pending">
+                       <div class="capacity-metric-label">PENDING</div>
+                       <div id="lbPending" class="capacity-metric-value">—</div>
+                    </div>
+                 </div>
+              </div>
+
+              <div class="px-2 mt-auto">
+                 <div class="d-flex justify-content-between mb-2">
+                    <span class="small fw-bold text-muted">ASSET UTILIZATION</span>
+                    <span class="small fw-bold text-success" id="utilPct">0% Available</span>
+                 </div>
+                 <div class="progress rounded-pill bg-light" style="height:14px; border: 1px solid #f1f5f9;">
+                    <div id="lbProgressBar" class="progress-bar bg-success rounded-pill" style="width:0%"></div>
+                    <div id="lbPendingBar" class="progress-bar bg-warning" style="width:0%"></div>
+                    <div id="lbUsedBar" class="progress-bar bg-danger" style="width:0%"></div>
+                 </div>
+                 <div class="d-flex gap-4 mt-3 justify-content-center">
+                    <div class="small text-muted d-flex align-items-center gap-1"><span class="bg-success rounded-circle" style="width:8px; height:8px;"></span> Free</div>
+                    <div class="small text-muted d-flex align-items-center gap-1"><span class="bg-warning rounded-circle" style="width:8px; height:8px;"></span> Queued</div>
+                    <div class="small text-muted d-flex align-items-center gap-1"><span class="bg-danger rounded-circle" style="width:8px; height:8px;"></span> Spent</div>
+                 </div>
+              </div>
+           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MY LEAVE REQUESTS ===== -->
+    <div class="panel mt-5 overflow-hidden border-0 shadow-lg" style="border-radius: 24px;">
+      <div class="panel-header border-bottom bg-white p-4">
+        <div class="d-flex align-items-center gap-3">
+           <div class="bg-primary bg-opacity-10 text-primary p-2 rounded-3">
+              <i class="bi bi-clock-history fs-5"></i>
+           </div>
+           <h2 class="panel-title" style="font-size: 1.1rem;">Legacy Absence Registry</h2>
+        </div>
+      </div>
+      <div class="table-responsive" style="max-height: 350px;">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-light sticky-top">
+            <tr style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #64748b;">
+              <th class="ps-4 py-3">Submission Date</th>
+              <th>Period</th>
+              <th>Justification</th>
+              <th class="pe-4">Deployment Status</th>
+            </tr>
+          </thead>
+          <tbody id="myLeaveRequestsBody">
+            <tr>
+              <td colspan="4" class="text-center py-5 text-muted small">
+                <div class="spinner-border spinner-border-sm text-primary mb-2"></div><br>Syncing internal records...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== ATTENDANCE PERCENTAGE CARDS ===== -->
+    <div id="attendancePercentageCard" class="mt-4"></div>
+
+    <!-- ===== MY ATTENDANCE HISTORY (ANALYTICS) ===== -->
+    <div class="panel mt-5 overflow-hidden border-0 shadow-lg" style="border-radius: 24px;">
+      <div class="panel-header border-bottom bg-white p-4 d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-3">
+           <div class="bg-info bg-opacity-10 text-info p-2 rounded-3">
+              <i class="bi bi-activity fs-5"></i>
+           </div>
+           <h2 class="panel-title" style="font-size: 1.1rem;">Presence Analytics</h2>
+        </div>
+        <input type="month" id="attendanceMonthPicker" class="form-control w-auto border-0 bg-light rounded-pill px-4 shadow-sm"
+          onchange="loadMyAttendanceHistory()">
+      </div>
+      <div class="table-responsive" style="max-height: 450px;">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-light sticky-top">
+            <tr style="font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #64748b;">
+              <th class="ps-4 py-3">Temporal Node</th>
+              <th>Check-In</th>
+              <th>Check-Out</th>
+              <th>Status</th>
+              <th>Protocol</th>
+              <th>Early Departure</th>
+              <th class="pe-4">Surplus Operations</th>
+            </tr>
+          </thead>
+          <tbody id="attendanceHistoryBody">
+            <tr>
+              <td colspan="7" class="text-center py-5 text-muted small">Waiting for temporal selection...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="attendanceSummaryBar" class="bg-light border-top p-3 d-flex justify-content-center gap-4 flex-wrap small fw-bold text-muted"></div>
+    </div>
+
+    <!-- ===== MY WORK REPORTS ===== -->
+    <div class="panel mt-5 overflow-hidden border-0 shadow-lg" style="border-radius: 24px;">
+      <div class="panel-header border-bottom bg-white p-4 d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-3">
+           <div class="bg-warning bg-opacity-10 text-warning p-2 rounded-3">
+              <i class="bi bi-archive-fill fs-5"></i>
+           </div>
+           <h2 class="panel-title" style="font-size: 1.1rem;">Daily Work Reports</h2>
+        </div>
+        <span id="workReportCount" class="badge bg-light text-muted border px-3 py-2 rounded-pill">0 Entries</span>
+      </div>
+      <div class="table-responsive" style="max-height: 400px;">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-light sticky-top">
+            <tr style="font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #64748b;">
+              <th class="ps-4 py-3">Date</th>
+              <th>Title</th>
+              <th class="pe-4">Work Done</th>
+            </tr>
+          </thead>
+          <tbody id="myWorkReportsBody">
+            <tr>
+              <td colspan="3" class="text-center py-5 text-muted small">
+                <div class="spinner-border spinner-border-sm text-primary mb-2"></div><br>Loading work reports...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== WEEKLY SKILLS & PROJECT UPDATE ===== -->
+    <!-- ===== WEEKLY PROGRESS UPDATE ===== -->
+    <div class="panel mt-5 overflow-hidden border-0 shadow-lg" style="border-radius: 30px; background: white;">
+      <div class="panel-header p-4 border-bottom d-flex justify-content-between align-items-center" 
+        style="background: linear-gradient(to right, #ffffff, #fdfdff);">
+        <div class="d-flex align-items-center gap-3">
+           <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-4">
+              <i class="bi bi-gem fs-4"></i>
+           </div>
+           <div>
+              <h2 class="panel-title mb-1" style="font-size: 1.3rem;">Strategic Weekly Sync</h2>
+              <div class="small text-muted fw-bold text-uppercase" style="font-size: 9px; letter-spacing: 1px;" id="weekRangeLabel">Current Cycle</div>
+           </div>
+        </div>
+        <div id="weeklyAlreadySubmitted" class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-4 py-2 rounded-pill d-none">
+           <i class="bi bi-check2-all me-2"></i> Cycle Complete
+        </div>
+      </div>
+      
+      <div class="panel-body p-4 p-lg-5" id="weeklyReportForm">
+        <div class="row g-4 mb-4">
+           <div class="col-md-4">
+              <div class="h-100 p-4 rounded-5 border bg-light bg-opacity-50">
+                 <label class="small fw-bold text-primary mb-3 text-uppercase tracking-wider">Skill Synthesis</label>
+                 <textarea id="weeklySkillsLearned" class="form-control border-0 bg-transparent p-0 fs-6" rows="4" 
+                   placeholder="• Technologies mastered&#10;• New methodologies&#10;• Core competency growth..." style="box-shadow: none; resize: none;"></textarea>
+              </div>
+           </div>
+           <div class="col-md-4">
+              <div class="h-100 p-4 rounded-5 border bg-light bg-opacity-50">
+                 <label class="small fw-bold text-primary mb-3 text-uppercase tracking-wider">Project Trajectory</label>
+                 <textarea id="weeklyProjectUpdate" class="form-control border-0 bg-transparent p-0 fs-6" rows="4" 
+                   placeholder="• Milestone status&#10;• Strategic pivots&#10;• Execution velocity..." style="box-shadow: none; resize: none;"></textarea>
+              </div>
+           </div>
+           <div class="col-md-4">
+              <div class="h-100 p-4 rounded-5 border bg-light bg-opacity-50">
+                 <label class="small fw-bold text-primary mb-3 text-uppercase tracking-wider">Execution Log</label>
+                 <textarea id="weeklyWorkDone" class="form-control border-0 bg-transparent p-0 fs-6" rows="4" 
+                   placeholder="• Primary achievements&#10;• Bottleneck resolution&#10;• Quality assurance..." style="box-shadow: none; resize: none;"></textarea>
+              </div>
+           </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center border-top pt-4">
+           <div id="weeklyReportMessage"></div>
+           <button class="btn-sys btn-sys-primary px-5 py-3 rounded-pill shadow-sm" onclick="submitWeeklyReport()">
+              <i class="bi bi-cloud-upload-fill me-2"></i> Commit Strategic Sync
+           </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MY WEEKLY REPORTS ARCHIVE ===== -->
+    <!-- ===== WEEKLY ARCHIVE ===== -->
+    <div class="panel mt-5 overflow-hidden border-0 shadow-lg" style="border-radius: 24px;">
+      <div class="panel-header border-bottom bg-white p-4 d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-3">
+           <div class="bg-info bg-opacity-10 text-info p-2 rounded-3">
+              <i class="bi bi-collection-fill fs-5"></i>
+           </div>
+           <h2 class="panel-title" style="font-size: 1.1rem;">Strategic Archive</h2>
+        </div>
+        <span id="weeklyReportCount" class="badge bg-light text-muted border px-3 py-2 rounded-pill">0 Entries</span>
+      </div>
+      <div class="table-responsive" style="max-height: 400px;">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-light sticky-top">
+            <tr style="font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #64748b;">
+              <th class="ps-4 py-3">Week Cycle</th>
+              <th>Synthesized Skills</th>
+              <th>Status Delta</th>
+              <th class="pe-4">Execution Summary</th>
+            </tr>
+          </thead>
+          <tbody id="myWeeklyReportsBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== CHANGE PASSWORD ===== -->
+    <!-- ===== SECURITY CREDENTIALS ===== -->
+    <div class="panel mt-5 mb-5 border-0 shadow-lg overflow-hidden" style="border-radius: 24px;">
+      <div class="panel-header p-4 border-bottom bg-white">
+        <div class="d-flex align-items-center gap-3">
+           <div class="bg-danger bg-opacity-10 text-danger p-2 rounded-3">
+              <i class="bi bi-shield-lock fs-5"></i>
+           </div>
+           <h2 class="panel-title" style="font-size: 1.1rem;">Security Protocol</h2>
+        </div>
+      </div>
+      <div class="panel-body p-4 p-lg-5">
+        <div class="row justify-content-center">
+           <div class="col-md-6 col-lg-4">
+              <div class="mb-4">
+                 <label class="small fw-bold text-muted mb-2">CURRENT AUTH KEY</label>
+                 <input type="password" id="cpCurrent" class="form-control border-0 bg-light rounded-pill px-4 py-3" placeholder="Verify current secret">
+              </div>
+              <div class="mb-4">
+                 <label class="small fw-bold text-muted mb-2">NEW AUTH KEY</label>
+                 <input type="password" id="cpNew" class="form-control border-0 bg-light rounded-pill px-4 py-3" placeholder="Complexity: Min 6 chars">
+              </div>
+              <div class="mb-4">
+                 <label class="small fw-bold text-muted mb-2">CONFIRM AUTH KEY</label>
+                 <input type="password" id="cpConfirm" class="form-control border-0 bg-light rounded-pill px-4 py-3" placeholder="Verify new policy">
+              </div>
+              <button class="btn-sys btn-sys-danger w-100 py-3 rounded-pill shadow-sm" onclick="changePassword()">
+                 <i class="bi bi-key-fill me-2"></i> Update Security Node
+              </button>
+              <div id="cpMessage" class="mt-3 text-center"></div>
+           </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ===== MISSED CHECKOUT MODAL ===== -->
+  <div class="modal fade" id="missedCheckoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content shadow-lg border-0" style="border-radius: var(--radius-lg); overflow: hidden;">
+        <div class="modal-header bg-danger text-white border-0 py-3">
+          <h5 class="modal-title fw-bold"><i class="bi bi-exclamation-triangle-fill me-2"></i> Pending Action: Missed
+            Checkout</h5>
+        </div>
+        <div class="modal-body p-4 bg-light">
+          <div class="alert alert-warning small mb-4 border-0 shadow-sm rounded">
+            You were auto-checked out on <strong id="mcDateText" class="text-danger fs-6">...</strong>. You must submit
+            your work report for that day to unlock your dashboard.
+          </div>
+          <input type="hidden" id="mcId">
+          <div class="mb-4">
+            <label class="form-label fw-bold">Detailed Work Done</label>
+            <textarea id="mcWorkDone" class="form-control shadow-sm border-0" rows="4" style="resize:none;"
+              placeholder="Please describe what you worked on that day"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold">Reason for Missing Checkout</label>
+            <textarea id="mcLateReason" class="form-control shadow-sm border-0" rows="2" style="resize:none;"
+              placeholder="Forgot, power outage, left in a hurry, etc"></textarea>
+          </div>
+          <div id="mcMessage" class="fw-bold text-center mt-3 text-danger"></div>
+        </div>
+        <div class="modal-footer border-0 bg-white p-3">
+          <button type="button" class="btn btn-danger w-100 fw-bold py-3 shadow" onclick="submitMissedCheckout()">Submit
+            Compliance Report</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/ui-dialogs.js"></script>
+  <script src="dashboard.js?v=4"></script>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+[dotenv@17.2.3] injecting env (13) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+👉 db.js file loaded
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+Server running on port 5000
+✅ PostgreSQL connected successfully
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ shifts.check_out_time column ensured
+✅ search_path=public, timezone=Asia/Kolkata
+✅ Weekly report columns ensured on work_reports
+✅ Attendance tables created successfully
+✅ attendance.early_checkout_minutes & overtime_minutes columns ensured
+✅ users table created successfully
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ Today attendance auto-created with fallback status: ABSENT
