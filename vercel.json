@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/cron/*.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/cron/(.*)",
+      "dest": "api/cron/$1.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "server.js"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/auto-checkout",
+      "schedule": "30 13 * * *"
+    },
+    {
+      "path": "/api/cron/daily-reminder",
+      "schedule": "0 11 * * 1-6"
+    },
+    {
+      "path": "/api/cron/daily-reminder",
+      "schedule": "0 12 * * 1-6"
+    },
+    {
+      "path": "/api/cron/seed-attendance",
+      "schedule": "0 18 * * *"
+    }
+  ]
+}
