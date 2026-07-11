@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Console | Member Workspace</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-app: #f4f6f8;
+      --bg-panel: #ffffff;
+      --nav-bg: rgba(255, 255, 255, 0.85);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+
+      /* Premium Gradients and Colors */
+      --primary: #4338ca;
+      --primary-hover: #3730a3;
+      --primary-light: #e0e7ff;
+      --danger: #e11d48;
+      --danger-hover: #be123c;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --info: #0ea5e9;
+
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.02);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+      --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.08), 0 8px 16px -4px rgba(0, 0, 0, 0.03);
+      --radius-md: 16px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      --transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(16px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    body {
+      background-color: var(--bg-app);
+      font-family: var(--font-family);
+      color: var(--text-main);
+      font-size: 14.5px;
+      margin: 0;
+      padding-top: 100px; /* Space for floating nav */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+
+    /* --- FLOATING GLASS NAVIGATION --- */
+    .topnav {
+      position: fixed;
+      top: 16px;
+      left: 32px;
+      right: 32px;
+      height: 64px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(24px) saturate(1.5);
+      -webkit-backdrop-filter: blur(24px) saturate(1.5);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 1030;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: var(--radius-full);
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .topnav-brand {
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topnav-brand img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .topnav-tools {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: var(--text-main);
+    }
+
+    /* --- ENHANCED HERO MODULE HEADING --- */
+    .subnav {
+      max-width: 1200px;
+      margin: -20px auto 32px auto;
+      padding: 0 32px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .subnav-content {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .subnav-title {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin: 0;
+      color: var(--text-main);
+      background: linear-gradient(135deg, var(--text-main), #475569);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .subnav-title i {
+      color: var(--primary);
+      -webkit-text-fill-color: var(--primary);
+    }
+
+    /* --- LAYOUT GRID --- */
+    .hero-section {
+      background: linear-gradient(180deg, #e0e7ff 0%, #f4f6f8 100%);
+      padding: 48px 0 16px;
+      margin-bottom: 0px;
+      position: relative;
+      border-bottom: none;
+    }
+    
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at top right, rgba(255,255,255,0.8), transparent 50%),
+                  radial-gradient(circle at top left, rgba(255,255,255,0.4), transparent 50%);
+      pointer-events: none;
+    }
+
+    .container-app {
+      padding: 0 32px 32px 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-section .container-app {
+      padding-bottom: 0;
+    }
+
+    .grid-2-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .grid-3-col {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    /* --- HORIZONTAL STATUS RIBBON --- */
+    .status-ribbon {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      margin-bottom: 24px;
+    }
+
+    .status-ribbon-info {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .ribbon-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ribbon-status {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ribbon-status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+      70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .ribbon-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-ribbon {
+      padding: 12px 28px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-ribbon.check-in {
+      background: var(--text-main);
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    
+    .btn-ribbon.check-in:hover {
+      background: #000000;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .btn-ribbon.check-out {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      color: var(--text-main);
+    }
+
+    .btn-ribbon.check-out:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    /* --- PREMIUM SAAS PANELS --- */
+    .panel {
+      background: #ffffff;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      border-radius: 20px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.03), 0 2px 6px rgba(0,0,0,0.02);
+      margin-bottom: 32px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .panel:hover {
+      box-shadow: 0 16px 40px rgba(0,0,0,0.04), 0 4px 8px rgba(0,0,0,0.02);
+      transform: translateY(-2px);
+    }
+
+    .panel-header {
+      padding: 28px 32px 20px;
+      border-bottom: 1px solid #f8fafc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: transparent;
+    }
+
+    .panel-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 0;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: -0.3px;
+    }
+
+    .panel-title i {
+      color: var(--primary);
+    }
+
+    .panel-body {
+      padding: 20px 32px 32px;
+      flex-grow: 1;
+    }
+
+    .panel-body-flush {
+      padding: 0;
+    }
+
+    /* --- PREMIUM SAAS STAT CARDS --- */
+    .stat-card {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      border: 1px solid rgba(226, 232, 240, 0.6);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      transition: var(--transition);
+      flex: 1;
+      box-shadow: inset 0 2px 4px rgba(255,255,255,1), 0 2px 4px rgba(0,0,0,0.02);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: var(--border-color);
+      transition: var(--transition);
+    }
+
+    .stat-card:hover {
+      background: #ffffff;
+      border-color: #cbd5e1;
+      transform: translateY(-4px);
+      box-shadow: inset 0 2px 4px rgba(255,255,255,1), 0 12px 24px rgba(0,0,0,0.04);
+    }
+
+    .stat-card:hover::before {
+      background: var(--primary);
+    }
+
+    .stat-value {
+      font-size: 36px;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* --- ENTERPRISE TABLES --- */
+    .table-responsive {
+      overflow-x: auto;
+      border-radius: 12px;
+      margin: 0 16px 16px 16px;
+      border: 1px solid var(--border-color);
+    }
+
+    .table-enterprise {
+      width: 100%;
+      margin: 0;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .table-enterprise th {
+      background: #f8fafc;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-color);
+      text-align: left;
+    }
+
+    .table-enterprise td {
+      padding: 18px 24px;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: middle;
+      color: var(--text-main);
+      font-size: 14px;
+      transition: var(--transition);
+      background: #ffffff;
+    }
+
+    .table-enterprise tbody tr:hover td {
+      background-color: #f8fafc;
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    .table-enterprise tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* --- FORMS & BUTTONS --- */
+    .form-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .form-control,
+    .form-select {
+      border-radius: 12px;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      padding: 14px 18px;
+      font-size: 14.5px;
+      color: var(--text-main);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      background-color: #f8fafc;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: var(--primary);
+      background-color: #ffffff;
+      box-shadow: 0 0 0 4px rgba(67, 56, 202, 0.15), inset 0 2px 4px rgba(0,0,0,0.01);
+      outline: none;
+    }
+
+    .form-control::placeholder {
+      color: #94a3b8;
+    }
+
+    .btn-sys {
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 14.5px;
+      padding: 14px 28px;
+      border: none;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-sys-primary {
+      background: linear-gradient(135deg, var(--primary), #4f46e5);
+      color: white;
+      box-shadow: 0 8px 16px -4px rgba(67, 56, 202, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-sys-primary:hover {
+      background: linear-gradient(135deg, var(--primary-hover), #4338ca);
+      box-shadow: 0 12px 20px -4px rgba(67, 56, 202, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .btn-sys-primary:active {
+      transform: translateY(1px);
+    }
+
+    .btn-sys-default {
+      background: #ffffff;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-sys-default:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+
+    .btn-sys-danger {
+      background: #ffffff;
+      color: var(--danger);
+      border: 1px solid var(--danger);
+    }
+
+    .btn-sys-danger:hover {
+      background: linear-gradient(135deg, var(--danger), #f43f5e);
+      color: #ffffff;
+      border-color: transparent;
+    }
+
+    .status-tag {
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: var(--bg-app);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* --- NOTIFICATIONS --- */
+    .notif-bell {
+      position: relative;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f1f5f9;
+      transition: var(--transition);
+    }
+
+    .notif-bell:hover {
+      background: #e2e8f0;
+    }
+
+    .notif-bell i {
+      font-size: 18px;
+      color: var(--text-main);
+    }
+
+    .notif-badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background: var(--danger);
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5px;
+      border: 2px solid var(--bg-panel);
+      display: none;
+    }
+
+    .notif-dropdown {
+      position: absolute;
+      right: 0;
+      top: 52px;
+      width: 360px;
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+      display: none;
+      max-height: 420px;
+      overflow-y: auto;
+      color: var(--text-main);
+    }
+
+    .notif-dropdown.open {
+      display: block;
+      animation: slideDown 0.2s ease-out forwards;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .notif-header {
+      padding: 16px 20px;
+      font-weight: 700;
+      font-size: 15px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .notif-item {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .notif-item:hover {
+      background: #f8fafc;
+    }
+
+    .notif-item.unread {
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+    }
+
+    .notif-item .notif-time {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    .notif-empty {
+      padding: 32px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* Roadmap List Styling */
+    .roadmap-list {
+      list-style-type: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .roadmap-list li {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: var(--transition);
+    }
+
+    .roadmap-list li:hover {
+      background-color: #f8fafc;
+    }
+
+    .roadmap-list li:last-child {
+      border-bottom: none;
+    }
+
+    .list-group-pro .list-group-item {
+      border: none;
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 24px;
+      font-size: 15px;
+      transition: var(--transition);
+    }
+
+    .list-group-pro .list-group-item:hover {
+      background-color: #f8fafc;
+    }
+
+    .list-group-pro .list-group-item:last-child {
+      border-bottom: none;
+    }
+
+    /* --- CHECKOUT REMINDER BANNER --- */
+    #checkoutReminderBanner {
+      position: sticky;
+      top: 64px;
+      z-index: 1020;
+      background: linear-gradient(90deg, #ea580c 0%, #f97316 50%, #ea580c 100%);
+      background-size: 200% auto;
+      animation: bannerSlide 3s linear infinite;
+      color: #ffffff;
+      padding: 12px 32px;
+      font-size: 14px;
+      font-weight: 600;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: var(--shadow-md);
+    }
+
+    #checkoutReminderBanner.visible {
+      display: flex;
+    }
+
+    @keyframes bannerSlide {
+      0% {
+        background-position: 0% center;
+      }
+
+      100% {
+        background-position: 200% center;
+      }
+    }
+
+    .banner-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .banner-icon {
+      font-size: 20px;
+      animation: pulse-icon 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse-icon {
+      from {
+        transform: scale(1);
+      }
+
+      to {
+        transform: scale(1.2);
+      }
+    }
+
+    .banner-scroll-btn {
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+      backdrop-filter: blur(4px);
+    }
+
+    .banner-scroll-btn:hover {
+      background: white;
+      color: #ea580c;
+    }
+
+    /* Custom Scrollbar for better aesthetics */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* --- PREMIUM STATUS MESSAGES --- */
+    .status-pill {
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      animation: statusSlideIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      border: 1px solid transparent;
+    }
+
+    @keyframes statusSlideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .status-pill.info { 
+      background: #f0f9ff; 
+      color: #0369a1; 
+      border-color: #e0f2fe; 
+    }
+    .status-pill.success { 
+      background: #f0fdf4; 
+      color: #15803d; 
+      border-color: #dcfce7; 
+      box-shadow: 0 4px 12px rgba(21, 128, 61, 0.08);
+    }
+    .status-pill.error { 
+      background: #fef2f2; 
+      color: #b91c1c; 
+      border-color: #fee2e2; 
+    }
+    .status-pill.warning { 
+      background: #fffbeb; 
+      color: #a16207; 
+      border-color: #fef3c7; 
+    }
+
+    #message {
+      transition: all 0.3s ease;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* --- ADVANCED ROADMAP TIMELINE --- */
+    .roadmap-timeline {
+      position: relative;
+      padding-left: 32px;
+      margin: 10px 0;
+    }
+
+    .roadmap-timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--primary) 0%, #e2e8f0 100%);
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 24px;
+    }
+
+    .timeline-marker {
+      position: absolute;
+      left: -32px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid #e2e8f0;
+      z-index: 2;
+      transition: var(--transition);
+    }
+
+    .timeline-item.completed .timeline-marker {
+      background: var(--success);
+      border-color: var(--success);
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+    }
+
+    .timeline-content {
+      background: #ffffff;
+      border: 1px solid #f1f5f9;
+      border-radius: 12px;
+      padding: 16px;
+      transition: var(--transition);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .timeline-item:hover .timeline-content {
+      border-color: var(--primary-light);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      transform: translateX(4px);
+    }
+
+    .timeline-item.completed .timeline-content {
+      background: #f8fafc;
+      opacity: 0.8;
+    }
+
+    /* Circular Progress Container */
+    .roadmap-progress-container {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .roadmap-progress-svg {
+      transform: rotate(-90deg);
+      width: 100%;
+      height: 100%;
+    }
+
+    .roadmap-progress-bg {
+      fill: none;
+      stroke: #f1f5f9;
+      stroke-width: 8;
+    }
+
+    .roadmap-progress-bar {
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 8;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* --- ADVANCED PROJECT PORTFOLIO --- */
+    .project-card {
+      background: #ffffff;
+      border: 1px solid #f1f5f9;
+      border-radius: 20px;
+      padding: 24px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.1);
+      border-color: var(--primary-light);
+    }
+
+    .project-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle at 100% 0%, rgba(67, 56, 202, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .project-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .project-icon-box {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      transition: var(--transition);
+    }
+
+    .project-card:hover .project-icon-box {
+      transform: rotate(-5deg) scale(1.1);
+    }
+
+    .project-title-area {
+      flex-grow: 1;
+      padding-left: 16px;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .project-stat-pill {
+      background: #f8fafc;
+      border: 1px solid #f1f5f9;
+      padding: 10px 14px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-pill-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+      font-weight: 700;
+    }
+
+    .stat-pill-value {
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .progress-track {
+      height: 12px;
+      background: #f1f5f9;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, #818cf8 100%);
+      border-radius: 10px;
+      transition: width 1s ease-in-out;
+      position: relative;
+    }
+
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    @media (max-width: 992px) {
+
+      .grid-2-col,
+      .grid-3-col {
+        grid-template-columns: 1fr;
+      }
+
+      .container-app {
+        padding: 0 16px 16px 16px;
+      }
+
+      .topnav {
+        left: 16px;
+        right: 16px;
+        padding: 0 16px;
+      }
+
+      .subnav {
+        padding: 12px 16px;
+        margin-bottom: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 86px;
+      }
+
+      .topnav {
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 64px;
+        border-radius: 0;
+        padding: 0 16px;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+      }
+
+      .topnav-brand {
+        font-size: 16px;
+      }
+
+      .topnav-tools {
+        gap: 12px;
+      }
+      
+      .subnav-content {
+        justify-content: center;
+      }
+
+      .subnav-title {
+        font-size: 24px;
+        text-align: center;
+      }
+
+      .hero-section {
+        padding: 24px 0 16px;
+      }
+
+      .status-ribbon {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+        gap: 20px;
+      }
+
+      .status-ribbon-info {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+      }
+      
+      #message {
+        margin-left: 0 !important;
+      }
+
+      .ribbon-controls {
+        display: flex;
+        gap: 12px;
+      }
+
+      .btn-ribbon {
+        flex: 1;
+        justify-content: center;
+        padding: 12px;
+      }
+
+      .stat-card {
+        min-width: 100%;
+      }
+
+      .form-control,
+      .form-select,
+      .btn-sys {
+        font-size: 13.5px;
+      }
+
+      .panel {
+        border-radius: 16px;
+      }
+
+      .panel-header {
+        padding: 20px 20px 16px;
+      }
+
+      .panel-body {
+        padding: 16px 20px 24px;
+      }
+
+      .notif-dropdown {
+        width: 100vw;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 64px;
+        border-radius: 0 0 16px 16px;
+        border-left: none;
+        border-right: none;
+      }
+
+      #checkoutReminderBanner {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+        gap: 12px;
+        margin: 0 16px 24px 16px !important;
+        text-align: center;
+      }
+      
+      .banner-left {
+        flex-direction: column;
+      }
+
+      .table-enterprise th,
+      .table-enterprise td {
+        padding: 12px 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topnav">
+    <div class="topnav-brand">
+      <img src="../WhatsApp Image 2026-02-25 at 3.37.21 PM.jpeg" alt="Logo" /> <span class="d-none d-sm-inline">SUN Nexus</span><span
+        class="d-sm-none">Nexus</span> <span style="font-weight: 400; color: var(--text-muted);">|</span> Member Console
+    </div>
+    <div class="topnav-tools">
+
+      <!-- 🔔 Notification Bell -->
+      <div class="notif-bell" id="notifBell" onclick="toggleNotifDropdown()">
+        <i class="bi bi-bell"></i>
+        <span class="notif-badge" id="notifBadge">0</span>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-header">
+            <span>Notifications</span>
+            <span class="text-primary small fw-semibold" style="cursor:pointer" onclick="markAllRead(event)">Mark all
+              read</span>
+          </div>
+          <div id="notifList">
+            <div class="notif-empty">No notifications</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center gap-2 border-start border-secondary ps-3 ms-2">
+        <i class="bi bi-person-circle fs-5" style="color: var(--primary);"></i>
+        <span class="d-none d-sm-inline" style="font-size: 13.5px; font-weight: 600; color: var(--text-main);">Team
+          Member</span>
+        <button class="btn btn-sm btn-link ms-2" style="color: var(--text-muted);" onclick="logout()" title="Logout"><i
+            class="bi bi-box-arrow-right fs-5"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="hero-section">
+    <div class="subnav">
+      <div class="subnav-content">
+        <h1 class="subnav-title"><i class="bi bi-person-workspace"></i> Operations Dashboard</h1>
+      </div>
+    </div>
+
+    <!-- 🔔 Checkout Reminder Banner (shown when CHECKED_IN + no daily report) -->
+    <div id="checkoutReminderBanner" role="alert" style="max-width: 1200px; margin: 0 auto 32px auto; border-radius:12px;">
+      <div class="banner-left">
+        <span class="banner-icon">⚠️</span>
+        <span>You are checked in but have <strong>not submitted today's work report</strong>. You cannot checkout until
+          it's submitted.</span>
+      </div>
+      <button class="banner-scroll-btn"
+        onclick="document.getElementById('memberWorkDone').focus(); window.scrollTo({top:0, behavior:'smooth'});">
+        📝 Submit Report Now
+      </button>
+    </div>
+
+    <div class="container-app">
+      <div class="status-ribbon">
+        <div class="status-ribbon-info">
+          <h2 class="ribbon-title"><i class="bi bi-clock-history"></i> Daily Attendance</h2>
+          <h3 id="statusText" class="ribbon-status"><div class="ribbon-status-indicator"></div> STATUS: -</h3>
+          <div id="message" class="small fw-bold text-primary mb-0 ms-2"></div>
+        </div>
+        
+        <div class="ribbon-controls">
+          <button id="checkInBtn" class="btn-ribbon check-in"><i class="bi bi-box-arrow-in-right"></i> Check In</button>
+          <button id="checkOutBtn" class="btn-ribbon check-out"><i class="bi bi-box-arrow-right"></i> Check Out</button>
+        </div>
+      </div>
+
+      <!-- WORK REPORT RIBBON (Horizontal style matching Check-in) -->
+      <div class="status-ribbon" style="min-height: 80px; align-items: center; padding: 16px 24px;">
+        <div class="status-ribbon-info" style="min-width: 220px; border-right: 1px solid #f1f5f9; padding-right: 20px;">
+          <h2 class="ribbon-title"><i class="bi bi-journal-check fs-5"></i> Work Protocol</h2>
+          <div id="projectTitle" class="small fw-bold text-primary" style="margin-top: 4px; font-size: 13px;"></div>
+          <div class="badge bg-primary-subtle text-primary border border-primary-subtle mt-1" style="font-size: 10px; font-weight: 700; text-transform: uppercase;">Required</div>
+        </div>
+        
+        <div class="flex-grow-1 px-4">
+          <textarea id="memberWorkDone" class="form-control" 
+            style="height: 52px; min-height: 52px; border-radius: 14px; font-size: 14px; padding: 12px 16px; background: #f8fafc; border: 1px solid rgba(67, 56, 202, 0.1); resize: none; transition: all 0.2s;"
+            placeholder="Briefly document today's achievements..."
+            onfocus="this.style.background='#ffffff'; this.style.borderColor='var(--primary)'; this.style.boxShadow='0 0 0 4px rgba(67, 56, 202, 0.1)';"
+            onblur="this.style.background='#f8fafc'; this.style.borderColor='rgba(67, 56, 202, 0.1)'; this.style.boxShadow='none';"></textarea>
+        </div>
+
+        <div class="ribbon-controls" style="min-width: 150px; justify-content: flex-end;">
+          <div id="memberWorkMessage" class="me-3"></div>
+          <button class="btn-ribbon check-in" onclick="submitMemberDailyReport()" style="padding: 10px 24px;">
+            <i class="bi bi-cloud-arrow-up"></i> Commit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="container-app" style="margin-top: 40px;">
+
+    <!-- Project Context -->
+    <div class="panel mt-4 overflow-hidden" style="border:none; box-shadow: 0 10px 30px -15px rgba(0,0,0,0.1);">
+      <div class="panel-header" style="background: linear-gradient(90deg, #f8fafc 0%, #ffffff 100%);">
+        <h2 class="panel-title mx-2"><i class="bi bi-rocket-takeoff text-primary"></i> Project Strategic Roadmap</h2>
+        <span class="status-tag border text-primary bg-primary-subtle px-3 py-1">Active Sync</span>
+      </div>
+      <div class="panel-body p-0">
+        <div class="row g-0">
+          <!-- Left: Selection & Strategy -->
+          <div class="col-md-5 p-4 bg-light bg-opacity-50 border-end">
+            <div class="mb-4">
+              <label class="form-label fw-bold text-uppercase text-muted mb-3" style="font-size: 11px; letter-spacing: 1px;">Strategic Focus</label>
+              <select id="memberProjectSelect" class="form-select form-select-lg" 
+                style="border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 600; font-size: 15px; padding: 12px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                <option value="">Choose your objective...</option>
+              </select>
+            </div>
+
+            <div class="d-flex align-items-center bg-white p-4 rounded-4 border shadow-sm mb-4">
+              <div class="roadmap-progress-container me-4">
+                 <svg class="roadmap-progress-svg" viewBox="0 0 100 100">
+                    <circle class="roadmap-progress-bg" cx="50" cy="50" r="42"></circle>
+                    <circle id="memberProgressCircle" class="roadmap-progress-bar" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+                 </svg>
+                 <div id="memberProgressText" class="position-absolute fw-bold text-primary" style="font-size: 1.2rem;">0%</div>
+              </div>
+              <div>
+                <div class="small text-muted text-uppercase fw-bold" style="letter-spacing: 0.5px;">Velocity</div>
+                <div class="fw-bold text-dark fs-5">Project Velocity</div>
+                <div id="roadmapProjectTitle" class="badge bg-primary-subtle text-primary mt-1">N/A</div>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-4" style="background: #eff6ff; border: 1px solid #dbeafe;">
+              <div class="d-flex align-items-start gap-3">
+                <div class="bg-primary text-white rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                  <i class="bi bi-lightbulb-fill" style="font-size: 14px;"></i>
+                </div>
+                <div>
+                  <div class="fw-bold text-primary small">Strategic Guide</div>
+                  <p class="mb-0 text-muted" style="font-size: 13px; line-height: 1.5;">Track milestones and contribute to collective targets. Green markers indicate cleared objectives.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Interactive Timeline -->
+          <div class="col-md-7 p-4 bg-white">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <label class="form-label fw-bold text-uppercase text-muted m-0" style="font-size: 11px; letter-spacing: 1px;">Execution Nodes</label>
+              <div class="d-flex gap-2">
+                <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle" id="completedNodesCount">0 Done</span>
+                <span class="badge rounded-pill bg-light text-muted border" id="totalNodesCount">0 Total</span>
+              </div>
+            </div>
+
+            <div class="roadmap-scroll-area pe-2" style="max-height: 400px; overflow-y: auto;">
+              <div id="memberRoadmapSteps" class="roadmap-timeline">
+                <div class="text-center py-5">
+                   <div class="spinner-border spinner-border-sm text-primary opacity-25" role="status"></div>
+                   <p class="text-muted small mt-3">Select a project to load strategic nodes...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MY PROJECT PORTFOLIO STATS ===== -->
+    <div class="panel mt-4 overflow-hidden" style="border:none; box-shadow: 0 10px 30px -15px rgba(0,0,0,0.1); background: #f8fafc;">
+      <div class="panel-header" style="background: transparent;">
+        <div class="d-flex align-items-center gap-3">
+           <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-4">
+              <i class="bi bi-grid-1x2-fill fs-4"></i>
+           </div>
+           <div>
+              <h2 class="panel-title mb-1" style="font-size: 1.4rem;">Performance Portfolio</h2>
+              <div class="small text-muted fw-semibold">Global Execution Analytics</div>
+           </div>
+        </div>
+        <div class="d-flex align-items-center gap-4">
+           <div class="text-end border-end pe-4 d-none d-md-block">
+              <div class="small text-muted text-uppercase fw-bold" style="font-size: 10px; letter-spacing: 1px;">Engagement</div>
+              <div id="myProjectStatusBadge" class="fw-bold text-dark">—</div>
+           </div>
+           <div class="d-flex gap-2">
+              <div class="stat-bubble bg-white border px-3 py-2 rounded-4 text-center">
+                 <div class="small text-muted fw-bold" style="font-size: 10px;">TOTAL</div>
+                 <div id="totalProjectCount" class="fw-extrabold text-dark fs-5">0</div>
+              </div>
+           </div>
+        </div>
+      </div>
+
+      <div class="panel-body p-4">
+        <div class="row g-4 mb-4">
+           <div class="col-md-6">
+              <div class="p-4 rounded-5 bg-white border border-2 border-primary border-opacity-10 position-relative overflow-hidden" style="box-shadow: 0 10px 20px rgba(67, 56, 202, 0.03);">
+                 <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="h6 fw-bold m-0"><i class="bi bi-lightning-charge text-warning me-2"></i> Active Deployments</div>
+                    <span id="activeProjectCount" class="badge bg-primary rounded-pill px-3">0</span>
+                 </div>
+                 <div id="activeProjectsList" class="row row-cols-1 row-cols-xl-2 g-3">
+                    <!-- Cards injected by JS -->
+                 </div>
+              </div>
+           </div>
+           <div class="col-md-6">
+              <div class="p-4 rounded-5 bg-white border border-success border-opacity-10 position-relative overflow-hidden" style="box-shadow: 0 10px 20px rgba(16, 185, 129, 0.03);">
+                 <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="h6 fw-bold m-0"><i class="bi bi-check-all text-success me-2"></i> Legacy Archive</div>
+                    <span id="completedProjectCount" class="badge bg-success rounded-pill px-3">0</span>
+                 </div>
+                 <div id="completedProjectsList" class="row row-cols-1 row-cols-xl-2 g-3">
+                    <!-- Cards injected by JS -->
+                 </div>
+              </div>
+           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2-col mt-4">
+      <!-- ===== APPLY LEAVE ===== -->
+      <div class="panel mb-0">
+        <div class="panel-header">
+          <h2 class="panel-title"><i class="bi bi-calendar-event"></i> Apply Leave</h2>
+        </div>
+        <div class="panel-body">
+          <div class="row g-3 mb-4">
+            <div class="col-6">
+              <label class="form-label text-muted text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">From
+                Date</label>
+              <input type="date" id="leaveFromDate" class="form-control text-muted">
+            </div>
+            <div class="col-6">
+              <label class="form-label text-muted text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">To
+                Date</label>
+              <input type="date" id="leaveToDate" class="form-control text-muted">
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="form-label text-muted text-uppercase"
+              style="font-size: 11px; letter-spacing: 0.5px;">Reason</label>
+            <textarea id="leaveReason" class="form-control" rows="3" style="resize:none;"
+              placeholder="Detail your reason for leave..."></textarea>
+          </div>
+          <button class="btn-sys btn-sys-primary w-100 py-3" onclick="applyLeave()">
+            <i class="bi bi-send me-2"></i> Submit Request
+          </button>
+          <div id="leaveMessage" class="mt-3 text-center small fw-bold"></div>
+        </div>
+      </div>
+
+      <!-- ===== LEAVE BALANCE ===== -->
+      <div class="panel mb-0" id="leaveBalanceCard">
+        <div class="panel-header">
+          <h2 class="panel-title"><i class="bi bi-calendar-check text-success"></i> My Leave Balance <span
+              id="leaveBalanceYear" class="ms-1 fw-normal text-muted" style="font-size:13px;"></span></h2>
+        </div>
+        <div class="panel-body" id="leaveBalanceStats">
+          <div class="d-flex gap-3 flex-wrap mb-4">
+            <div class="stat-card">
+              <div class="stat-value text-secondary" id="lbQuota">—</div>
+              <div class="stat-label">Total Quota</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value text-danger" id="lbUsed">—</div>
+              <div class="stat-label">Used Leave</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value text-success" id="lbRemaining">—</div>
+              <div class="stat-label">Remaining</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value text-warning" id="lbPending">—</div>
+              <div class="stat-label">Pending Approval</div>
+            </div>
+          </div>
+          <div class="progress rounded-pill bg-light mt-4" style="height:10px; overflow: hidden;">
+            <div id="lbProgressBar" class="progress-bar bg-success" role="progressbar" style="width:0%"></div>
+            <div id="lbPendingBar" class="progress-bar bg-warning progress-bar-striped progress-bar-animated"
+              role="progressbar" style="width:0%"></div>
+            <div id="lbUsedBar" class="progress-bar bg-danger" role="progressbar" style="width:0%"></div>
+          </div>
+          <div class="d-flex justify-content-between small fw-bold text-muted mt-3">
+            <span>🟢 Rem &nbsp;🟡 Pen &nbsp;🔴 Usd</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MY LEAVE REQUESTS ===== -->
+    <div class="panel mt-4">
+      <div class="panel-header">
+        <h2 class="panel-title"><i class="bi bi-clock-history"></i> My Leave Requests</h2>
+      </div>
+      <div class="panel-body-flush table-responsive" style="max-height: 250px;">
+        <table class="table-enterprise">
+          <thead class="sticky-top bg-light shadow-sm">
+            <tr>
+              <th>Applied On</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Reason</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="myLeaveRequestsBody">
+            <tr>
+              <td colspan="5" class="text-center text-muted py-3">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== MY ATTENDANCE HISTORY ===== -->
+    <style>
+      .attendance-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(99, 102, 241, 0.08) !important;
+        border-color: rgba(99, 102, 241, 0.2) !important;
+      }
+      .fw-black { font-weight: 900; }
+      .fw-extrabold { font-weight: 800; }
+      .glass-header { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); }
+      .glass-footer { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); }
+      .gradient-circle-bg {
+         position: absolute; top: -100px; right: -50px; width: 300px; height: 300px;
+         background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+         border-radius: 50%; pointer-events: none; z-index: 0;
+      }
+    </style>
+
+    <div class="panel mt-5 border-0 shadow-lg" style="border-radius: 28px; background: linear-gradient(145deg, #ffffff, #f8fafc); position:relative; overflow:hidden;">
+      <div class="gradient-circle-bg"></div>
+      
+      <div class="p-4 d-flex justify-content-between align-items-center flex-wrap gap-3 glass-header" style="position:relative; z-index:1;">
+        <div class="d-flex align-items-center gap-4">
+           <div class="text-white p-3 rounded-4 shadow-sm d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);">
+              <i class="bi bi-activity fs-3"></i>
+           </div>
+           <div>
+             <h2 class="panel-title mb-0 fw-black" style="font-size: 1.4rem; letter-spacing: -0.5px; color: #0f172a;">Attendance Analytics</h2>
+             <div class="small fw-medium mt-1" style="color: #64748b;">Live telemetry of your operational footprint</div>
+           </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <input type="month" id="attendanceMonthPicker" class="form-control form-control-lg border-0 rounded-pill px-4 text-center fw-bold text-primary" style="background: white; min-width: 180px; box-shadow: 0 4px 20px rgba(0,0,0,0.04) !important;" onchange="loadMyAttendanceHistory()">
+        </div>
+      </div>
+
+      <!-- Attendance Percentage Card (shown for current month) -->
+      <div id="attendancePercentageCard" class="px-4 pt-4" style="display:none; position:relative; z-index:1;"></div>
+
+      <div class="p-4" style="max-height: 550px; overflow-y: auto; position:relative; z-index:1;">
+        <!-- Container for flex cards instead of traditional table -->
+        <div id="attendanceHistoryBody" class="d-flex flex-column gap-3">
+           <div class="text-center py-5 fw-bold" style="color:#94a3b8;">Select a temporal range to view telemetry records</div>
+        </div>
+      </div>
+      
+      <div id="attendanceSummaryBar" class="p-4 border-top d-flex justify-content-center gap-4 flex-wrap small fw-extrabold text-muted glass-footer"></div>
+    </div>
+
+    <!-- ===== MY WORK REPORTS ===== -->
+    <div class="panel mt-4">
+      <div class="panel-header">
+        <h2 class="panel-title"><i class="bi bi-journal-text"></i> Archive: My Work Reports <span id="workReportCount"
+            class="badge bg-secondary-subtle text-secondary rounded-pill px-3 ms-2 fw-normal"></span></h2>
+      </div>
+      <div class="panel-body-flush table-responsive" style="max-height:350px;">
+        <table class="table-enterprise">
+          <thead class="sticky-top bg-light shadow-sm">
+            <tr>
+              <th>Date</th>
+              <th style="width:25%;">Context/Title</th>
+              <th>Execution Log</th>
+            </tr>
+          </thead>
+          <tbody id="myWorkReportsBody">
+            <tr>
+              <td colspan="3" class="text-center text-muted py-4">Loading report data...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== WEEKLY SKILLS & PROJECT UPDATE ===== -->
+    <div class="panel mt-4">
+      <div class="panel-header">
+        <h2 class="panel-title"><i class="bi bi-journal-richtext text-primary"></i> Weekly Skills & Project Update</h2>
+        <span class="status-tag border bg-primary-subtle text-primary" id="weekRangeLabel">This Week</span>
+      </div>
+      <div class="panel-body">
+        <div id="weeklyAlreadySubmitted" class="status-pill success w-100 mb-4 py-3 justify-content-center"
+          style="display:none; border-radius: 12px;">
+          <i class="bi bi-check-circle-fill me-2 fs-5"></i> You've already submitted this week's report.
+        </div>
+        <div id="weeklyReportForm">
+          <div class="mb-4">
+            <label class="form-label text-muted text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">SKILLS
+              LEARNED THIS WEEK</label>
+            <textarea id="weeklySkillsLearned" class="form-control" rows="3" style="resize:none;"
+              placeholder="• New technology or tool learned&#10;• Concepts studied&#10;• Training completed"></textarea>
+          </div>
+          <div class="mb-4">
+            <label class="form-label text-muted text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">PROJECT
+              UPDATE</label>
+            <textarea id="weeklyProjectUpdate" class="form-control" rows="3" style="resize:none;"
+              placeholder="• Tasks completed on the project&#10;• Blockers or challenges faced&#10;• Planned for next week"></textarea>
+          </div>
+          <div class="mb-4">
+            <label class="form-label text-muted text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">WORK
+              DONE (SUMMARY)</label>
+            <textarea id="weeklyWorkDone" class="form-control" rows="2" style="resize:none;"
+              placeholder="Brief summary of overall work done this week"></textarea>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <div id="weeklyReportMessage" class="small fw-bold"></div>
+            <button class="btn-sys btn-sys-primary px-4 py-2" onclick="submitWeeklyReport()">Submit Weekly
+              Report</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MY WEEKLY REPORTS ARCHIVE ===== -->
+    <div class="panel mt-4">
+      <div class="panel-header">
+        <h2 class="panel-title"><i class="bi bi-journal-bookmark"></i> Archive: My Weekly Reports <span
+            id="weeklyReportCount"
+            class="badge bg-secondary-subtle text-secondary rounded-pill px-3 ms-2 fw-normal"></span></h2>
+      </div>
+      <div class="panel-body-flush table-responsive" style="max-height:400px;">
+        <table class="table-enterprise">
+          <thead class="sticky-top bg-light shadow-sm">
+            <tr>
+              <th>Week</th>
+              <th>Skills Learned</th>
+              <th>Project Update</th>
+              <th>Work Done</th>
+            </tr>
+          </thead>
+          <tbody id="myWeeklyReportsBody">
+            <tr>
+              <td colspan="4" class="text-center text-muted py-4">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== CHANGE PASSWORD ===== -->
+    <div class="panel mt-4">
+      <div class="panel-header">
+        <h2 class="panel-title"><i class="bi bi-shield-lock text-danger"></i> Credentials Update</h2>
+      </div>
+      <div class="panel-body" style="max-width:420px;">
+        <div class="mb-3">
+          <label class="form-label text-muted text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">Current
+            Password</label>
+          <input type="password" id="cpCurrent" class="form-control" placeholder="Enter current password">
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-muted text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">New
+            Password</label>
+          <input type="password" id="cpNew" class="form-control" placeholder="Min 6 characters">
+        </div>
+        <div class="mb-4">
+          <label class="form-label text-muted text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">Confirm
+            New Password</label>
+          <input type="password" id="cpConfirm" class="form-control" placeholder="Re-enter new password">
+        </div>
+        <button class="btn-sys btn-sys-danger text-white w-100 py-3" onclick="changePassword()">Enforce New
+          Policy</button>
+        <div id="cpMessage" class="mt-3 small fw-bold text-center"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ===== MISSED CHECKOUT MODAL ===== -->
+  <div class="modal fade" id="missedCheckoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: var(--radius-lg); border: none; box-shadow: var(--shadow-lg);">
+        <div class="modal-header bg-danger text-white border-0"
+          style="border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
+          <h5 class="modal-title"><i class="bi bi-exclamation-triangle-fill"></i> Pending Action: Missed Checkout</h5>
+        </div>
+        <div class="modal-body p-4">
+          <div class="alert alert-warning small mb-4 border-0" style="background-color: #fef08a; color: #854d0e;">
+            You were auto-checked out on <strong id="mcDateText">...</strong>. You must submit your work report for that
+            day to unlock your dashboard.
+          </div>
+          <input type="hidden" id="mcId">
+          <div class="mb-4">
+            <label class="form-label text-muted text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">Detailed
+              Work Done</label>
+            <textarea id="mcWorkDone" class="form-control" rows="3" style="resize:none;"
+              placeholder="Please describe what you worked on that day"></textarea>
+          </div>
+          <div class="mb-4">
+            <label class="form-label text-muted text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">Reason
+              for Missing Checkout</label>
+            <textarea id="mcLateReason" class="form-control" rows="2" style="resize:none;"
+              placeholder="Forgot, power outage, left in a hurry, etc"></textarea>
+          </div>
+          <div id="mcMessage" class="fw-bold text-center mt-2"></div>
+        </div>
+        <div class="modal-footer border-0 p-4 pt-0">
+          <button type="button" class="btn btn-danger w-100 fw-bold py-3 rounded-pill shadow-sm"
+            style="transition: transform 0.2s;" onmousedown="this.style.transform='scale(0.98)'"
+            onmouseup="this.style.transform='scale(1)'" onclick="submitMissedCheckout()">Submit Compliance
+            Report</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/ui-dialogs.js"></script>
+  <script src="dashboard.js?v=3"></script>
+</body>
+
+</html>

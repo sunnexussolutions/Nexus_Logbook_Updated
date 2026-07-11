@@ -1,17 +1,661 @@
-[dotenv@17.2.3] injecting env (13) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[dotenv@17.2.3] injecting env (13) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
 👉 db.js file loaded
-[dotenv@17.2.3] injecting env (0) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
-[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
 Server running on port 5000
+✅ users table created successfully
 ✅ PostgreSQL connected successfully
 ✅ search_path=public, timezone=Asia/Kolkata
 ✅ search_path=public, timezone=Asia/Kolkata
-✅ shifts.check_out_time column ensured
 ✅ search_path=public, timezone=Asia/Kolkata
-✅ Weekly report columns ensured on work_reports
-✅ Attendance tables created successfully
-✅ attendance.early_checkout_minutes & overtime_minutes columns ensured
-✅ users table created successfully
+User pauses table created or already exists
 ✅ search_path=public, timezone=Asia/Kolkata
 ✅ search_path=public, timezone=Asia/Kolkata
 ✅ Today attendance auto-created with fallback status: ABSENT
+✅ shifts.check_out_time column ensured
+✅ Weekly report columns ensured on work_reports
+✅ Attendance tables created successfully
+✅ attendance.early_checkout_minutes & overtime_minutes columns ensured
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 224, role: 'MEMBER', iat: 1778480643, exp: 1778567043 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778479918, exp: 1778566318 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481315, exp: 1778567715 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 223, role: 'MEMBER', iat: 1778481437, exp: 1778567837 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+✅ search_path=public, timezone=Asia/Kolkata
+AUTH USER FROM TOKEN 👉 { id: 1, role: 'ADMIN', iat: 1778481655, exp: 1778568055 }
+✅ search_path=public, timezone=Asia/Kolkata

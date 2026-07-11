@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Console | SUN Nexus Solution</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    /* ================================================================
+       ADMIN DASHBOARD — ULTRA PROFESSIONAL LIGHT THEME
+       Glassmorphism | Animated Gradients | 3D Hover | Micro-Interactions
+       ================================================================ */
+
+    :root {
+      /* Core Palette matching Lead/Member UI */
+      --bg-app: #f1f5f9;
+      --bg-panel: #ffffff;
+      --bg-subtle: #f8fafc;
+      --bg-glass: rgba(255, 255, 255, 0.72);
+      --bg-glass-strong: rgba(255, 255, 255, 0.88);
+
+      /* Navigation Glassmorphism */
+      --nav-bg: rgba(255, 255, 255, 0.85);
+
+      /* Text */
+      --text-main: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --text-light: #94a3b8;
+
+      /* Borders */
+      --border-color: #e2e8f0;
+      --border-light: #f1f5f9;
+
+      /* Accents */
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-soft: #e0e7ff;
+      --primary-glow: rgba(79, 70, 229, 0.25);
+
+      --danger: #e11d48;
+      --danger-soft: rgba(225, 29, 72, 0.08);
+      --success: #10b981;
+      --success-soft: rgba(16, 185, 129, 0.08);
+      --warning: #f59e0b;
+      --warning-soft: rgba(245, 158, 11, 0.08);
+      --info: #0ea5e9;
+      --info-soft: rgba(14, 165, 233, 0.08);
+
+      /* Shadows */
+      --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+      --shadow-glow: 0 0 20px rgba(79, 70, 229, 0.15);
+      --shadow-card-hover: 0 20px 40px -12px rgba(79, 70, 229, 0.15), 0 8px 16px -8px rgba(0, 0, 0, 0.06);
+
+      /* Geometry */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --radius-pill: 999px;
+
+      /* Typography */
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --duration-fast: 0.2s;
+      --duration-normal: 0.35s;
+      --duration-slow: 0.5s;
+    }
+
+    /* ===================== ANIMATIONS ===================== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+
+      100% {
+        background-position: 200% 0;
+      }
+    }
+
+    @keyframes pulse-soft {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    @keyframes gradient-shift {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes countUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===================== GLOBAL ===================== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg-app);
+      background-image:
+        radial-gradient(ellipse at 20% 0%, rgba(99, 102, 241, 0.04) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 100%, rgba(16, 185, 129, 0.03) 0%, transparent 60%);
+      background-attachment: fixed;
+      font-family: var(--font-family);
+      color: var(--text-main);
+      font-size: 14px;
+      margin: 0;
+      padding-top: 64px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+    }
+
+    ::selection {
+      background: rgba(99, 102, 241, 0.15);
+      color: var(--primary);
+    }
+
+    /* ===================== TOPNAV ===================== */
+    .topnav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: var(--nav-bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      z-index: 1030;
+      box-shadow: 0 1px 0 var(--border-color), 0 4px 20px rgba(0, 0, 0, 0.03);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .topnav-brand {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topnav-brand i {
+      font-size: 22px;
+      background: linear-gradient(135deg, var(--primary), var(--info));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .topnav-tools {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: var(--text-main);
+    }
+
+    .geo-switch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      background: rgba(0, 0, 0, 0.03);
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-color);
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+
+    .geo-switch:hover {
+      background: rgba(0, 0, 0, 0.06);
+      border-color: #cbd5e1;
+    }
+
+    .geo-switch .form-check-input {
+      cursor: pointer;
+      width: 2.4em;
+      height: 1.2em;
+    }
+
+    .geo-switch .form-check-input:checked {
+      background-color: var(--success);
+      border-color: var(--success);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+    }
+
+    /* ===================== SUBNAV ===================== */
+    .subnav {
+      background: var(--bg-glass-strong);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0 32px;
+      display: flex;
+      gap: 2px;
+      box-shadow: var(--shadow-xs);
+      position: sticky;
+      top: 64px;
+      z-index: 1020;
+    }
+
+    .subnav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 13.5px;
+      padding: 14px 20px;
+      border-bottom: 2.5px solid transparent;
+      transition: all var(--duration-fast) var(--ease-out);
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      position: relative;
+    }
+
+    .subnav a:hover {
+      color: var(--text-main);
+      background: var(--primary-soft);
+    }
+
+    .subnav a.active {
+      color: var(--primary);
+      font-weight: 600;
+      background: var(--primary-soft);
+      border-bottom-color: var(--primary);
+    }
+
+    .subnav a.active::before {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 20%;
+      right: 20%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      border-radius: 3px 3px 0 0;
+    }
+
+    /* ===================== LAYOUT ===================== */
+    .container-app {
+      padding: 32px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    /* ===================== METRIC CARDS ===================== */
+    .metric-group {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .metric-card {
+      flex: 1;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 22px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--duration-normal) var(--ease-spring);
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      animation: fadeInScale var(--duration-slow) var(--ease-out) both;
+    }
+
+    .metric-card:nth-child(1) {
+      animation-delay: 0.05s;
+    }
+
+    .metric-card:nth-child(2) {
+      animation-delay: 0.12s;
+    }
+
+    .metric-card:nth-child(3) {
+      animation-delay: 0.19s;
+    }
+
+    .metric-card:nth-child(4) {
+      animation-delay: 0.26s;
+    }
+
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), #8b5cf6, #ec4899);
+      background-size: 200% 100%;
+      animation: gradient-shift 4s ease infinite;
+      opacity: 0;
+      transition: opacity var(--duration-fast);
+    }
+
+    .metric-card::after {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-soft), transparent);
+      opacity: 0;
+      transition: all var(--duration-normal) var(--ease-out);
+    }
+
+    .metric-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: var(--shadow-card-hover);
+      border-color: rgba(99, 102, 241, 0.2);
+    }
+
+    .metric-card:hover::before {
+      opacity: 1;
+    }
+
+    .metric-card:hover::after {
+      opacity: 1;
+      top: -15px;
+      right: -15px;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 0.8px;
+    }
+
+    .metric-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1;
+      letter-spacing: -1px;
+      animation: countUp var(--duration-slow) var(--ease-out) both;
+    }
+
+    /* ===================== PANELS ===================== */
+    .panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all var(--duration-normal) var(--ease-out);
+      animation: fadeInUp var(--duration-slow) var(--ease-out) both;
+    }
+
+    .panel:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(99, 102, 241, 0.12);
+    }
+
+    .panel-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(180deg, var(--bg-subtle) 0%, var(--bg-panel) 100%);
+    }
+
+    .panel-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      margin: 0;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: -0.2px;
+    }
+
+    .panel-title i {
+      font-size: 17px;
+      background: linear-gradient(135deg, var(--primary), #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .panel-body {
+      padding: 24px;
+      flex-grow: 1;
+    }
+
+    .panel-body-flush {
+      padding: 0;
+    }
+
+    /* ===================== TABLES ===================== */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    .table-enterprise {
+      width: 100%;
+      margin: 0;
+      border-collapse: collapse;
+    }
+
+    .table-enterprise th {
+      background: linear-gradient(180deg, var(--bg-subtle), #f1f5f9);
+      color: var(--text-muted);
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 14px 18px;
+      border-bottom: 2px solid var(--border-color);
+      text-align: left;
+      letter-spacing: 0.8px;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .table-enterprise td {
+      padding: 13px 18px;
+      border-bottom: 1px solid var(--border-light);
+      vertical-align: middle;
+      color: var(--text-main);
+      font-size: 13px;
+      transition: all 0.15s ease;
+    }
+
+    .table-enterprise tbody tr {
+      transition: all var(--duration-fast) ease;
+    }
+
+    .table-enterprise tbody tr:hover {
+      background: var(--primary-soft);
+    }
+
+    .table-enterprise tbody tr:hover td:first-child {
+      padding-left: 22px;
+    }
+
+    .table-enterprise tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* ===================== FORMS ===================== */
+    .form-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-control,
+    .form-select {
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border-color);
+      padding: 9px 14px;
+      font-size: 14px;
+      transition: all var(--duration-fast) var(--ease-out);
+      background-color: var(--bg-subtle);
+      color: var(--text-main);
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: var(--primary);
+      background: #fff;
+      box-shadow: 0 0 0 4px var(--primary-glow);
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    .form-control::placeholder {
+      color: var(--text-light);
+      font-weight: 400;
+    }
+
+    textarea.form-control {
+      resize: vertical;
+    }
+
+    /* ===================== BUTTONS ===================== */
+    .btn-sys {
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 9px 20px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      letter-spacing: 0.1px;
+      transition: all var(--duration-fast) var(--ease-out);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-sys::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+      opacity: 0;
+      transition: opacity var(--duration-fast);
+    }
+
+    .btn-sys:hover::after {
+      opacity: 1;
+    }
+
+    .btn-sys:active {
+      transform: scale(0.96);
+    }
+
+    .btn-sys-primary {
+      background: linear-gradient(135deg, var(--primary), #8b5cf6);
+      color: white;
+      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-sys-primary:hover {
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .btn-sys-default {
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-sys-default:hover {
+      background: #fff;
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .status-tag {
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    /* ===================== BADGES ===================== */
+    .badge {
+      font-weight: 600;
+      font-size: 11px;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.3px;
+      box-shadow: var(--shadow-xs);
+      transition: all var(--duration-fast);
+    }
+
+    .badge:hover {
+      transform: scale(1.05);
+    }
+
+    .badge.bg-success {
+      background: var(--success) !important;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
+    }
+
+    .badge.bg-danger {
+      background: var(--danger) !important;
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.25);
+    }
+
+    .badge.bg-warning {
+      background: var(--warning) !important;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25);
+    }
+
+    .badge.bg-info {
+      background: var(--info) !important;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
+    }
+
+    .badge.bg-secondary {
+      background: var(--text-muted) !important;
+    }
+
+    /* ===================== TABS ===================== */
+    .nav-tabs {
+      border-bottom: none !important;
+      gap: 4px;
+    }
+
+    .nav-tabs .nav-link {
+      border: none !important;
+      color: var(--text-secondary) !important;
+      font-weight: 500 !important;
+      font-size: 13px !important;
+      padding: 12px 20px !important;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0 !important;
+      transition: all var(--duration-fast) var(--ease-out);
+      position: relative;
+      background: transparent !important;
+    }
+
+    .nav-tabs .nav-link:hover {
+      background: var(--primary-soft) !important;
+      color: var(--text-main) !important;
+      transform: translateY(-1px);
+    }
+
+    .nav-tabs .nav-link.active {
+      color: var(--primary) !important;
+      font-weight: 700 !important;
+      background: var(--primary-soft) !important;
+    }
+
+    .nav-tabs .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 15%;
+      right: 15%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), #8b5cf6);
+      border-radius: 3px 3px 0 0;
+      box-shadow: 0 -2px 8px rgba(99, 102, 241, 0.3);
+    }
+
+    .tab-content {
+      animation: slideDown 0.3s var(--ease-out);
+    }
+
+    /* ===================== PROGRESS ===================== */
+    .progress {
+      background: var(--border-light);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      height: 8px;
+    }
+
+    .progress-bar {
+      border-radius: var(--radius-pill);
+      background: linear-gradient(90deg, var(--primary), #8b5cf6, var(--success));
+      background-size: 200% 100%;
+      animation: gradient-shift 3s ease infinite;
+      transition: width 0.8s var(--ease-out);
+      box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
+    }
+
+    /* ===================== ALERTS ===================== */
+    .alert {
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      border: none;
+      animation: slideDown 0.3s var(--ease-out);
+    }
+
+    .alert-success {
+      background: var(--success-soft);
+      color: #065f46;
+      border-left: 4px solid var(--success);
+      box-shadow: 0 2px 12px rgba(16, 185, 129, 0.1);
+    }
+
+    .alert-danger {
+      background: var(--danger-soft);
+      color: #991b1b;
+      border-left: 4px solid var(--danger);
+      box-shadow: 0 2px 12px rgba(239, 68, 68, 0.1);
+    }
+
+    .alert-warning {
+      background: var(--warning-soft);
+      color: #92400e;
+      border-left: 4px solid var(--warning);
+      box-shadow: 0 2px 12px rgba(245, 158, 11, 0.1);
+    }
+
+    /* ===================== LIST GROUPS ===================== */
+    .list-group-item,
+    .list-group-flush .list-group-item {
+      border-color: var(--border-light);
+      padding: 11px 16px;
+      font-size: 13px;
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+
+    .list-group-item:hover {
+      background: var(--primary-soft);
+      padding-left: 20px;
+    }
+
+    /* ===================== MODALS ===================== */
+    .modal-content {
+      border: none;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-xl);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      background: linear-gradient(180deg, var(--bg-subtle), var(--bg-panel));
+      border-bottom: 1px solid var(--border-color);
+      padding: 18px 28px;
+    }
+
+    .modal-title {
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--text-main);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    .modal-footer {
+      border-top: 1px solid var(--border-color);
+      padding: 16px 28px;
+      background: var(--bg-subtle);
+    }
+
+    /* ===================== SCROLLBAR ===================== */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #c7d2fe, #a5b4fc);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+
+    /* ===================== GRIDS ===================== */
+    .grid-2-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .grid-3-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    .grid-sidebar-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 28px;
+    }
+
+    /* Provisioning cards */
+    .grid-3-col>.bg-white {
+      border-radius: var(--radius-lg) !important;
+      border: 1px solid var(--border-color) !important;
+      box-shadow: var(--shadow-sm) !important;
+      transition: all var(--duration-normal) var(--ease-spring);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .grid-3-col>.bg-white::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), #8b5cf6);
+      opacity: 0;
+      transition: opacity var(--duration-fast);
+    }
+
+    .grid-3-col>.bg-white:hover {
+      box-shadow: var(--shadow-card-hover) !important;
+      transform: translateY(-4px);
+      border-color: rgba(99, 102, 241, 0.2) !important;
+    }
+
+    .grid-3-col>.bg-white:hover::before {
+      opacity: 1;
+    }
+
+    /* ===================== BOOTSTRAP OVERRIDES ===================== */
+    .btn-success {
+      background: linear-gradient(135deg, var(--success), #059669) !important;
+      border: none !important;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, var(--danger), #dc2626) !important;
+      border: none !important;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.25);
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-success:hover {
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .btn-danger:hover {
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .form-check-input:focus {
+      box-shadow: 0 0 0 4px var(--primary-glow);
+    }
+
+    .bg-light {
+      background: var(--bg-subtle) !important;
+    }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 992px) {
+      .grid-sidebar-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-3-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 56px;
+      }
+
+      .topnav {
+        height: 56px;
+        padding: 0 16px;
+      }
+
+      .metric-group {
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .metric-card {
+        padding: 18px 20px;
+      }
+
+      .metric-value {
+        font-size: 24px;
+      }
+
+      .grid-2-col {
+        grid-template-columns: 1fr;
+      }
+
+      .topnav-brand {
+        font-size: 14px;
+      }
+
+      .topnav-tools {
+        gap: 10px;
+      }
+
+      .geo-switch {
+        padding: 4px 10px;
+      }
+
+      .geo-switch label {
+        display: none;
+      }
+
+      .subnav {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 0 16px;
+        gap: 2px;
+        top: 56px;
+      }
+
+      .subnav a {
+        font-size: 12.5px;
+        padding: 12px 14px;
+      }
+
+      .container-app {
+        padding: 16px;
+      }
+
+      .panel {
+        border-radius: var(--radius);
+      }
+
+      .panel-header {
+        padding: 14px 18px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .panel-body {
+        padding: 16px;
+      }
+
+      .nav-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 2px;
+      }
+
+      .nav-link {
+        white-space: nowrap;
+        padding: 10px 14px;
+        font-size: 12px;
+      }
+
+      .glass-table-wrapper {
+        padding: 0;
+        border-radius: 8px;
+      }
+
+      /* Stack header tools better */
+      .topnav-tools {
+        gap: 5px;
+      }
+      .geo-switch {
+        padding: 2px 5px;
+      }
+      .date-export-controls {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px !important;
+      }
+      .date-export-controls input, .date-export-controls button {
+        width: 100% !important;
+      }
+    }
+
+    /* ===================== UTILITIES ===================== */
+    .loading-pulse {
+      animation: pulse-soft 1.5s ease-in-out infinite;
+    }
+
+    /* Advanced UI Effects */
+    .hover-lift {
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    }
+    .hover-lift:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: var(--shadow-xl), 0 0 20px rgba(79, 70, 229, 0.2);
+      border-color: rgba(79, 70, 229, 0.4) !important;
+    }
+
+    .glass-table-wrapper {
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(8px);
+      border-radius: 12px;
+      padding: 4px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+    }
+
+    .glass-table {
+      background: transparent !important;
+    }
+    .glass-table thead, .glass-table thead tr, .glass-table thead th {
+      background: rgba(255, 255, 255, 0.6) !important;
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid rgba(79,70,229,0.2) !important;
+    }
+    .glass-table tbody tr {
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .glass-table tbody tr:hover {
+      background: rgba(255, 255, 255, 0.8) !important;
+      transform: scale(1.005);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      z-index: 2;
+      position: relative;
+    }
+
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animate-gradient {
+      background-size: 200% 200% !important;
+      animation: gradient-shift 4s ease infinite;
+    }
+
+    .glowing-border {
+      position: relative;
+    }
+    .glowing-border::before {
+      content: '';
+      position: absolute;
+      top: -2px; left: -2px; right: -2px; bottom: -2px;
+      background: linear-gradient(45deg, var(--primary), var(--info), var(--success), var(--primary));
+      z-index: -1;
+      border-radius: inherit;
+      background-size: 400%;
+      animation: gradient-shift 6s linear infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .glowing-border:hover::before {
+      opacity: 0.6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topnav">
+    <div class="topnav-brand">
+      <i class="bi bi-hexagon-fill"></i> <span class="d-none d-sm-inline">SUN Nexus</span><span
+        class="d-sm-none">Nexus</span> <span style="font-weight: 400; color: var(--text-muted);">|</span> Admin Console
+    </div>
+    <div class="topnav-tools">
+      <div class="geo-switch form-check form-switch mb-0">
+        <input class="form-check-input mt-0" type="checkbox" id="geoToggle">
+        <label class="form-check-label text-dark fw-bold" for="geoToggle">Geo-Fence</label>
+      </div>
+      <div class="d-flex align-items-center gap-2 border-start ps-4 ms-1" style="border-color: var(--border-color) !important;">
+        <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center"
+          style="width:36px; height:36px; font-weight:bold;">
+          AD
+        </div>
+        <span class="d-none d-sm-inline ms-2" style="font-size: 14px; font-weight: 600;">System Admin</span>
+        <button class="btn btn-sm btn-link text-muted ms-2 p-0" onclick="logout()" title="Logout" style="font-size: 20px;">
+          <i class="bi bi-box-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="subnav">
+    <a href="dashboard.html" class="active">Operations Dashboard</a>
+    <a href="employees.html">Workforce Roster</a>
+    <a href="projects.html">Project Sandbox</a>
+  </nav>
+
+  <main class="container-app">
+
+    <div class="metric-group gap-3 mb-4">
+      <div class="metric-card hover-lift bg-glass position-relative overflow-hidden" style="border: 1px solid rgba(255,255,255,0.6); background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); box-shadow: var(--shadow-md); border-radius: 16px;">
+        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(79,70,229,0.1), transparent); z-index: 0;"></div>
+        <span class="metric-label position-relative z-1 fw-bold text-muted"><i class="bi bi-diagram-3-fill me-1"></i> Total Organization</span>
+        <span class="metric-value position-relative z-1 fs-2 text-dark shadow-sm-text" id="totalUsers">0</span>
+      </div>
+      <div class="metric-card hover-lift bg-glass position-relative overflow-hidden" style="border: 1px solid rgba(255,255,255,0.6); border-bottom: 4px solid var(--success); background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); box-shadow: var(--shadow-md); border-radius: 16px;">
+        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(16,185,129,0.1), transparent); z-index: 0;"></div>
+        <span class="metric-label text-success position-relative z-1 fw-bold"><i class="bi bi-check-circle-fill me-1"></i> Active / Present</span>
+        <span class="metric-value position-relative z-1 fs-2 text-success shadow-sm-text" id="presentCount">0</span>
+      </div>
+      <div class="metric-card hover-lift bg-glass position-relative overflow-hidden" style="border: 1px solid rgba(255,255,255,0.6); border-bottom: 4px solid var(--primary); background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); box-shadow: var(--shadow-md); border-radius: 16px;">
+        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(59,130,246,0.1), transparent); z-index: 0;"></div>
+        <span class="metric-label text-primary position-relative z-1 fw-bold"><i class="bi bi-signpost-fill me-1"></i> In Transit</span>
+        <span class="metric-value position-relative z-1 fs-2 text-primary shadow-sm-text" id="checkedInCount">0</span>
+      </div>
+      <div class="metric-card hover-lift bg-glass position-relative overflow-hidden" style="border: 1px solid rgba(255,255,255,0.6); border-bottom: 4px solid var(--warning); background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); box-shadow: var(--shadow-md); border-radius: 16px;">
+        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(245,158,11,0.1), transparent); z-index: 0;"></div>
+        <span class="metric-label text-warning position-relative z-1 fw-bold"><i class="bi bi-pause-circle-fill me-1"></i> Paused</span>
+        <span class="metric-value position-relative z-1 fs-2 text-warning shadow-sm-text" id="pausedCount">0</span>
+      </div>
+      <div class="metric-card hover-lift bg-glass position-relative overflow-hidden" style="border: 1px solid rgba(255,255,255,0.6); border-bottom: 4px solid var(--danger); background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); box-shadow: var(--shadow-md); border-radius: 16px;">
+        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(239,68,68,0.1), transparent); z-index: 0;"></div>
+        <span class="metric-label text-danger position-relative z-1 fw-bold"><i class="bi bi-x-circle-fill me-1"></i> Absent</span>
+        <span class="metric-value position-relative z-1 fs-2 text-danger shadow-sm-text" id="absentCount">0</span>
+      </div>
+    </div>
+
+    <div class="grid-sidebar-layout">
+
+      <div>
+        <div class="panel hover-lift" style="background: rgba(255,255,255,0.8); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.6); box-shadow: var(--shadow-md); border-radius: 16px;">
+          <div class="panel-header border-bottom-0 pb-0 pt-3 px-4">
+            <h2 class="panel-title text-dark"><i class="bi bi-terminal text-primary"></i> My Status Console</h2>
+          </div>
+          <div class="panel-body text-center pt-2 px-4 pb-4">
+            <h3 id="statusText" class="mb-1 fw-bold text-success" style="font-size: 1.8rem;">PRESENT</h3>
+            <p id="adminStatusText" class="text-muted small mb-4 fw-medium">Status: -</p>
+            <div class="d-flex gap-3">
+              <button id="adminCheckInBtn" class="btn-sys flex-fill rounded-pill fw-bold text-white shadow-sm animate-gradient hover-lift" style="background: linear-gradient(135deg, var(--primary), var(--info), var(--primary)); border: none; padding: 10px;">Check In</button>
+              <button id="adminCheckOutBtn" class="btn-sys btn-sys-default flex-fill border rounded-pill fw-bold text-danger shadow-sm hover-lift" style="padding: 10px; background: white;">Check Out</button>
+            </div>
+            <div id="adminAttendanceMessage" class="mt-3 small fw-bold"></div>
+          </div>
+        </div>
+
+        <div class="panel hover-lift" style="background: rgba(255,255,255,0.8); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.6); box-shadow: var(--shadow-md); border-radius: 16px;">
+          <div class="panel-header border-bottom-0 pb-0 pt-3 px-4">
+            <h2 class="panel-title text-dark"><i class="bi bi-clock-history text-info"></i> Shift Matrix</h2>
+          </div>
+          <div class="panel-body pt-2 px-4 pb-4">
+            <div class="mb-3">
+              <label class="form-label fw-bold small text-muted">Shift Identifier</label>
+              <input type="text" id="shiftName" class="form-control form-control-sm border-0 shadow-sm rounded-3 py-2" placeholder="e.g. MORNING_A" style="background: var(--bg-subtle);">
+            </div>
+            <div class="row g-2 mb-4">
+              <div class="col-4">
+                <label class="form-label fw-bold small text-muted">Start</label>
+                <input type="time" id="checkInTime" class="form-control form-control-sm border-0 shadow-sm rounded-3 py-2" style="background: var(--bg-subtle);">
+              </div>
+              <div class="col-4">
+                <label class="form-label fw-bold small text-muted">Cut-off</label>
+                <input type="time" id="lastCheckInTime" class="form-control form-control-sm border-0 shadow-sm rounded-3 py-2" style="background: var(--bg-subtle);">
+              </div>
+              <div class="col-4">
+                <label class="form-label fw-bold small text-muted">End Time</label>
+                <input type="time" id="checkOutTime" class="form-control form-control-sm border-0 shadow-sm rounded-3 py-2" style="background: var(--bg-subtle);">
+              </div>
+            </div>
+            <button class="btn-sys w-100 rounded-pill fw-bold text-white shadow-sm mb-4 animate-gradient hover-lift" style="background: linear-gradient(135deg, var(--info), var(--primary)); border: none; padding: 10px;" onclick="createShift()">Deploy Shift Rule</button>
+
+            <div class="glass-table-wrapper">
+              <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
+                <table class="table-enterprise glass-table mb-0">
+                  <thead class="sticky-top">
+                    <tr>
+                      <th>Name</th>
+                      <th>Start</th>
+                      <th>Cut-off</th>
+                      <th>End</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="shiftTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel hover-lift" style="background: rgba(255,255,255,0.8); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.6); box-shadow: var(--shadow-md); border-radius: 16px;">
+          <div class="panel-header border-bottom-0 pb-0 pt-3 px-4">
+            <h2 class="panel-title text-dark"><i class="bi bi-calendar-event text-success"></i> Holiday Calendar</h2>
+          </div>
+          <div class="panel-body pt-2 px-4 pb-4">
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label fw-bold small text-muted">Holiday Date</label>
+                <input type="date" id="holidayDate" class="form-control form-control-sm border-0 shadow-sm rounded-3 py-2" style="background: var(--bg-subtle);">
+              </div>
+              <div class="col-6">
+                <label class="form-label fw-bold small text-muted">Holiday Name</label>
+                <input type="text" id="holidayName" class="form-control form-control-sm border-0 shadow-sm rounded-3 py-2" placeholder="Optional" style="background: var(--bg-subtle);">
+              </div>
+            </div>
+            <button class="btn-sys w-100 rounded-pill fw-bold text-white shadow-sm mb-4 animate-gradient hover-lift" style="background: linear-gradient(135deg, var(--success), #059669); border: none; padding: 10px;" onclick="addHoliday()">Save Holiday</button>
+            <div id="holidayMessage" class="mt-2 small fw-bold text-center"></div>
+
+            <div class="glass-table-wrapper">
+              <div class="table-responsive" style="max-height: 220px; overflow-y: auto;">
+                <table class="table-enterprise glass-table mb-0">
+                  <thead class="sticky-top">
+                    <tr>
+                      <th>Date</th>
+                      <th>Name</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="holidayTableBody">
+                    <tr>
+                      <td colspan="3" class="text-center text-muted py-3">No holidays added</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel hover-lift glowing-border" style="background: rgba(255,255,255,0.9); backdrop-filter: blur(16px); border: 1px solid rgba(245,158,11,0.5); box-shadow: 0 10px 15px -3px rgba(245,158,11,0.1); border-radius: 16px;">
+          <div class="panel-header border-bottom-0 pb-0 pt-3 px-4">
+            <h2 class="panel-title text-warning text-darken-2 fw-bold"><i class="bi bi-exclamation-triangle-fill me-2"></i> Pending Late Approvals</h2>
+          </div>
+          <div class="panel-body p-3">
+            <div id="lateUsersContainer" class="d-flex flex-column gap-2">
+              <div class="text-center text-muted small py-3 fw-medium bg-light rounded-3 shadow-sm border border-warning border-opacity-25" style="background: rgba(255,255,255,0.5) !important;">No pending exception requests.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel hover-lift" style="background: rgba(255,255,255,0.8); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.6); box-shadow: var(--shadow-md); border-radius: 16px;">
+          <div class="panel-header border-bottom-0 pb-0 pt-3 px-4">
+            <h2 class="panel-title text-dark"><i class="bi bi-geo-alt-fill text-danger me-2"></i> Geo-Fence Config</h2>
+          </div>
+          <div class="panel-body pt-2 px-4 pb-4">
+            <div class="mb-3">
+              <label class="form-label fw-bold small text-muted">Latitude</label>
+              <input type="text" id="officeLat" class="form-control form-control-sm border-0 shadow-sm rounded-3 py-2" placeholder="e.g. 19.9653935" style="background: var(--bg-subtle);">
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold small text-muted">Longitude</label>
+              <input type="text" id="officeLon" class="form-control form-control-sm border-0 shadow-sm rounded-3 py-2" placeholder="e.g. 73.668244" style="background: var(--bg-subtle);">
+            </div>
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-muted">Allowed Radius (meters)</label>
+              <input type="number" id="officeRadius" class="form-control form-control-sm border-0 shadow-sm rounded-3 py-2" placeholder="e.g. 200" min="50" max="5000" style="background: var(--bg-subtle);">
+            </div>
+            
+            <div class="d-flex flex-column gap-2">
+              <button class="btn-sys bg-white text-dark shadow-sm rounded-pill fw-bold hover-lift" style="border: 1px solid #e2e8f0; padding: 10px;" onclick="captureMyLocation()">
+                <i class="bi bi-crosshair text-primary"></i> Detect My Location
+              </button>
+              <button class="btn-sys w-100 rounded-pill fw-bold text-white shadow-md animate-gradient hover-lift" style="background: linear-gradient(135deg, var(--danger), #be123c, var(--danger)); border: none; padding: 10px;" onclick="saveOfficeLocation()">
+                <i class="bi bi-save"></i> Lock Coordinates
+              </button>
+            </div>
+            <div id="officeSettingsMessage" class="mt-3 small fw-bold text-center"></div>
+          </div>
+        </div>
+
+        <div class="panel hover-lift glowing-border" style="background: rgba(255,255,255,0.9); backdrop-filter: blur(16px); border: 1px solid rgba(59,130,246,0.5); box-shadow: 0 10px 15px -3px rgba(59,130,246,0.1); border-radius: 16px;">
+          <div class="panel-header border-bottom-0 pb-0 pt-3 px-4">
+            <h2 class="panel-title text-primary fw-bold"><i class="bi bi-megaphone-fill me-2"></i> Global Broadcast</h2>
+          </div>
+          <div class="panel-body pt-2 px-4 pb-4">
+            <label class="form-label fw-bold small text-muted">Message Dispatch</label>
+            <textarea id="announcementText" class="form-control form-control-sm mb-4 border-0 shadow-sm rounded-3 py-2" rows="3" placeholder="Enter priority transmission for all personnel..." style="background: var(--bg-subtle);"></textarea>
+            <button class="btn-sys w-100 rounded-pill fw-bold text-white shadow-md animate-gradient hover-lift" style="background: linear-gradient(135deg, var(--primary), #3b82f6, var(--primary)); border: none; padding: 10px;" onclick="sendAnnouncement()">
+              <i class="bi bi-send-fill me-1"></i> Transmit Update
+            </button>
+            <div id="announcementMessage" class="mt-3 small fw-bold text-center"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column gap-4">
+
+        <div class="panel mb-0 shadow-xl border-0 hover-lift" style="background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); border-radius: 16px;">
+          <div class="panel-header border-bottom-0 pb-0 pt-3 px-4 d-flex flex-wrap justify-content-between align-items-center">
+            <h2 class="panel-title text-dark mb-2 mb-md-0"><i class="bi bi-activity text-primary fs-4 me-2"></i> Live Operations Log</h2>
+            <div class="d-flex gap-2 date-export-controls">
+              <input type="date" id="attendanceExportDate" class="form-control form-control-sm border-0 shadow-sm rounded-pill px-3" style="width: 140px; background-color: var(--bg-subtle);">
+              <button class="btn-sys bg-white text-dark shadow-sm rounded-pill fw-bold hover-lift px-3" style="border: 1px solid #e2e8f0;" onclick="exportDailyCSV()"><i class="bi bi-filetype-csv text-muted me-1"></i> CSV</button>
+              <button class="btn-sys bg-white text-dark shadow-sm rounded-pill fw-bold hover-lift px-3" style="border: 1px solid #e2e8f0;" onclick="exportDailyExcel()"><i class="bi bi-file-earmark-excel-fill text-success me-1"></i> XLSX</button>
+            </div>
+          </div>
+          <div class="panel-body pt-3 px-4 pb-4">
+            <div class="glass-table-wrapper p-2">
+              <div class="table-responsive" style="max-height: 350px;">
+                <table class="table-enterprise glass-table mb-0 w-100">
+                  <thead class="sticky-top">
+                    <tr>
+                      <th>User ID</th>
+                      <th>Name</th>
+                      <th>Role</th>
+                      <th>Check-In</th>
+                      <th>Check-Out</th>
+                      <th>Status</th>
+                      <th>Att. % (M)</th>
+                      <th>Overall %</th>
+                    </tr>
+                  </thead>
+                  <tbody id="attendanceTableBody">
+                    <tr>
+                      <td colspan="8" class="text-center text-muted py-4 fw-medium"><i class="bi bi-hourglass-split me-2"></i> Loading operational data...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== EARLY CHECKOUTS & OVERTIME TODAY ===== -->
+        <div class="panel mb-0">
+          <div class="panel-header">
+            <h2 class="panel-title"><i class="bi bi-clock-history text-warning"></i> Early Checkouts & Overtime (Today)
+            </h2>
+          </div>
+          <div class="panel-body p-0">
+            <ul class="nav nav-tabs px-3 pt-3 bg-light border-bottom-0" role="tablist">
+              <li class="nav-item">
+                <button class="nav-link active rounded-top-2 fw-semibold text-dark" data-bs-toggle="tab"
+                  data-bs-target="#tab-early">⚠️ Early Checkouts</button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link rounded-top-2 fw-semibold text-dark" data-bs-toggle="tab"
+                  data-bs-target="#tab-overtime">💪 Overtime</button>
+              </li>
+            </ul>
+            <div class="tab-content border-top" style="max-height: 300px; overflow-y: auto;">
+              <div class="tab-pane fade show active p-0" id="tab-early">
+                <table class="table-enterprise">
+                  <thead class="bg-light sticky-top">
+                    <tr>
+                      <th>User ID</th>
+                      <th>Name</th>
+                      <th>Role</th>
+                      <th>Shift</th>
+                      <th>Shift End</th>
+                      <th>Checkout</th>
+                      <th>Early (min)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="earlyCheckoutsTableBody">
+                    <tr>
+                      <td colspan="7" class="text-center text-muted py-3">Loading...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="tab-pane fade p-0" id="tab-overtime">
+                <table class="table-enterprise">
+                  <thead class="bg-light sticky-top">
+                    <tr>
+                      <th>User ID</th>
+                      <th>Name</th>
+                      <th>Role</th>
+                      <th>Shift</th>
+                      <th>Shift End</th>
+                      <th>Checkout</th>
+                      <th>OT (min)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="overtimeTableBody">
+                    <tr>
+                      <td colspan="7" class="text-center text-muted py-3">Loading...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel mb-0" style="background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6)); border: 1px solid rgba(255,255,255,0.4); box-shadow: var(--shadow-xl);">
+          <div class="panel-header border-bottom-0 pb-0">
+            <h2 class="panel-title text-primary"><i class="bi bi-database-add"></i> System Provisioning</h2>
+          </div>
+          <div class="panel-body bg-transparent">
+            <div class="grid-3-col gap-4">
+
+              <div class="bg-glass p-4 border rounded-4 hover-lift glowing-border" style="background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.4);">
+                <label class="form-label text-primary fw-bold mb-3 d-flex align-items-center"><i class="bi bi-person-badge fs-5 me-2 text-primary"></i> <span style="letter-spacing: 0.5px;">Provision Team Lead</span></label>
+                <div class="input-group input-group-sm mb-3 shadow-sm rounded-2 overflow-hidden">
+                  <span class="input-group-text bg-white border-0 text-primary"><i class="bi bi-person-fill"></i></span>
+                  <input id="tlName" class="form-control form-control-sm border-0 bg-white ps-2 py-2" placeholder="Full Name">
+                </div>
+                <div class="input-group input-group-sm mb-3 shadow-sm rounded-2 overflow-hidden">
+                  <span class="input-group-text bg-white border-0 text-primary"><i class="bi bi-envelope-fill"></i></span>
+                  <input id="tlEmail" class="form-control form-control-sm border-0 bg-white ps-2 py-2" placeholder="Email Address">
+                </div>
+                <div class="input-group input-group-sm mb-4 shadow-sm rounded-2 overflow-hidden">
+                  <span class="input-group-text bg-white border-0 text-primary"><i class="bi bi-key-fill"></i></span>
+                  <input id="tlPassword" class="form-control form-control-sm border-0 bg-white ps-2 py-2" type="password" placeholder="Password">
+                </div>
+                <button class="btn-sys w-100 rounded-pill fw-bold text-white shadow-md animate-gradient" style="background: linear-gradient(135deg, var(--primary), var(--info), var(--primary)); border: none; padding: 12px; letter-spacing: 0.5px; transition: transform 0.2s;" onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform='scale(1)'" onclick="createTeamLead()">Launch Lead Resource</button>
+              </div>
+
+              <div class="bg-glass p-4 border rounded-4 hover-lift glowing-border" style="background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.4);">
+                <label class="form-label text-dark fw-bold mb-3 d-flex align-items-center"><i class="bi bi-person fs-5 me-2 text-dark"></i> <span style="letter-spacing: 0.5px;">Provision Member</span></label>
+                <div class="input-group input-group-sm mb-3 shadow-sm rounded-2 overflow-hidden">
+                  <span class="input-group-text bg-white border-0 text-dark"><i class="bi bi-person"></i></span>
+                  <input id="tmName" class="form-control form-control-sm border-0 bg-white ps-2 py-2" placeholder="Full Name">
+                </div>
+                <div class="input-group input-group-sm mb-3 shadow-sm rounded-2 overflow-hidden">
+                  <span class="input-group-text bg-white border-0 text-dark"><i class="bi bi-envelope"></i></span>
+                  <input id="tmEmail" class="form-control form-control-sm border-0 bg-white ps-2 py-2" placeholder="Email Address">
+                </div>
+                <div class="input-group input-group-sm mb-4 shadow-sm rounded-2 overflow-hidden">
+                  <span class="input-group-text bg-white border-0 text-dark"><i class="bi bi-key"></i></span>
+                  <input id="tmPassword" class="form-control form-control-sm border-0 bg-white ps-2 py-2" type="password" placeholder="Password">
+                </div>
+                <button class="btn-sys w-100 rounded-pill fw-bold bg-white text-dark shadow-md" style="border: 1px solid #e2e8f0; padding: 12px; letter-spacing: 0.5px; transition: all 0.2s;" onmouseover="this.style.background='#f8fafc'; this.style.borderColor='#cbd5e1';" onmouseout="this.style.background='#ffffff'; this.style.borderColor='#e2e8f0';" onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform='scale(1)'" onclick="createTeamMember()">Add Member Resource</button>
+              </div>
+
+              <div class="bg-glass p-4 border rounded-4 hover-lift glowing-border" style="background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.4);">
+                <label class="form-label text-success fw-bold mb-3 d-flex align-items-center"><i class="bi bi-rocket-takeoff-fill fs-5 me-2 text-success"></i> <span style="letter-spacing: 0.5px;">Initialize Context</span></label>
+                <div class="input-group input-group-sm mb-3 shadow-sm rounded-2 overflow-hidden">
+                  <span class="input-group-text bg-white border-0 text-success"><i class="bi bi-box-fill"></i></span>
+                  <input id="projectName" class="form-control form-control-sm border-0 bg-white ps-2 py-2" placeholder="Project Codename">
+                </div>
+                <div class="shadow-sm rounded-2 overflow-hidden mb-3">
+                    <textarea id="projectDesc" class="form-control form-control-sm border-0 bg-white px-3 py-2" rows="2" placeholder="Scope / Objective Details..."></textarea>
+                </div>
+                <div class="input-group input-group-sm mb-4 shadow-sm rounded-2 overflow-hidden">
+                  <span class="input-group-text bg-white border-0 text-success"><i class="bi bi-diagram-3-fill"></i></span>
+                  <select id="teamLeadSelect" class="form-select border-0 bg-white ps-2 py-2 fw-semibold text-muted">
+                    <option value="">Assign Lead...</option>
+                  </select>
+                </div>
+                <button class="btn-sys w-100 rounded-pill fw-bold text-white shadow-md animate-gradient" style="background: linear-gradient(135deg, var(--success), #059669, #10b981); border: none; padding: 12px; letter-spacing: 0.5px; transition: transform 0.2s;" onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform='scale(1)'" onclick="createProject()">Launch Project Sandbox</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="grid-2-col mt-4">
+
+      <div class="panel mb-0" style="background: rgba(255,255,255,0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.5); box-shadow: var(--shadow-lg);">
+        <div class="panel-header border-bottom-0 d-flex flex-wrap justify-content-between align-items-center">
+          <h2 class="panel-title text-info mb-2 mb-md-0"><i class="bi bi-kanban"></i> Project Telemetry</h2>
+          <select id="projectSelect" class="form-select form-select-sm w-auto rounded-pill px-3 shadow-sm border-0 mt-2 mt-md-0" style="background-color: var(--bg-app); font-weight: 500;">
+            <option value="">Select context...</option>
+          </select>
+        </div>
+        <div class="panel-body pt-0">
+          <div class="d-flex justify-content-between mb-1">
+            <span class="form-label">Completion Status</span>
+            <button id="deleteProjectBtn" class="btn btn-sm btn-link text-danger p-0 border-0"
+              onclick="deleteProject()">Drop Project</button>
+          </div>
+          <div class="progress mb-4 rounded-pill shadow-sm" style="height: 12px; background-color: var(--border-color);">
+            <div id="adminProgressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: 0%; font-size: 10px; font-weight: bold;"></div>
+          </div>
+          <div class="row g-4">
+            <div class="col-6 position-relative">
+              <label class="form-label fw-bold text-muted small"><i class="bi bi-people-fill me-1"></i> Assigned Resources</label>
+              <ul id="adminProjectMembers" class="list-group list-group-flush small border-0 bg-transparent gap-2"></ul>
+              <div class="position-absolute border-end h-75 d-none d-md-block" style="top: 15%; right: 0; border-color: rgba(0,0,0,0.05) !important;"></div>
+            </div>
+            <div class="col-6">
+              <label class="form-label fw-bold text-muted small"><i class="bi bi-signpost-split-fill me-1"></i> Roadmap Nodes</label>
+              <ul id="adminRoadmapSteps" class="list-unstyled small d-flex flex-column gap-2"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel mb-0" style="background: linear-gradient(145deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4)); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.6); box-shadow: var(--shadow-md);">
+        <div class="panel-header border-bottom-0">
+          <h2 class="panel-title text-success"><i class="bi bi-journal-check"></i> Submit Protocol (Admin EOD)</h2>
+        </div>
+        <div class="panel-body d-flex flex-column pt-0">
+          <label class="form-label fw-bold text-muted small"><i class="bi bi-terminal-fill me-1"></i> Execution Summary</label>
+          <textarea id="adminWorkDone" class="form-control mb-3 flex-grow-1 border-0 shadow-sm"
+            style="min-height: 100px; font-family: monospace; background-color: var(--bg-subtle);"
+            placeholder="Enter console commands/actions executed today..."></textarea>
+          <button class="btn-sys w-100 rounded-pill fw-bold text-white shadow-sm" style="background: linear-gradient(135deg, var(--success), #059669); border: none; padding: 10px;" onclick="submitAdminDailyReport()">Commit End of Day
+            Report</button>
+          <div id="adminWorkMessage" class="mt-2 text-center small fw-bold"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="panel mt-4 border-0 shadow-xl" style="background: rgba(255,255,255,0.8); backdrop-filter: blur(20px);">
+      <div class="panel-header pb-0 border-bottom-0">
+        <h2 class="panel-title text-primary"><i class="bi bi-hdd-stack-fill"></i> Global System Logs</h2>
+      </div>
+      <div class="panel-body p-0 mt-2">
+
+        <ul class="nav nav-tabs px-4 pt-2 border-bottom-0" id="logTabs" role="tablist" style="gap: 8px;">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active fw-semibold" data-bs-toggle="tab"
+              data-bs-target="#tab-submissions" style="border-radius: 8px 8px 0 0; background-color: var(--bg-subtle); border-bottom: none; color: var(--text-main);">Daily Status Matrix</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link fw-semibold" data-bs-toggle="tab"
+              data-bs-target="#tab-weekly" style="border-radius: 8px 8px 0 0; background-color: transparent; border-bottom: none; color: var(--text-secondary);">Weekly Reports</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link fw-semibold" data-bs-toggle="tab"
+              data-bs-target="#tab-history" style="border-radius: 8px 8px 0 0; background-color: transparent; border-bottom: none; color: var(--text-secondary);">EOD Report Archives</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link fw-semibold" data-bs-toggle="tab"
+              data-bs-target="#tab-leaves" style="border-radius: 8px 8px 0 0; background-color: transparent; border-bottom: none; color: var(--text-secondary);">Leave Exception Registry</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link fw-semibold text-danger" data-bs-toggle="tab"
+              data-bs-target="#tab-missed" style="border-radius: 8px 8px 0 0; background-color: transparent; border-bottom: none;">Missed Checkouts</button>
+          </li>
+        </ul>
+
+        <div class="tab-content border-top bg-white rounded-bottom-4 shadow-sm p-3 glass-table-wrapper" style="max-height: 480px; overflow-y: auto;">
+
+          <div class="tab-pane fade show active p-0" id="tab-submissions">
+            <table class="table-enterprise glass-table mb-0">
+              <thead class="sticky-top">
+                <tr>
+                  <th>User ID</th>
+                  <th>Name</th>
+                  <th>Role</th>
+                  <th>Shift</th>
+                  <th>Attendance</th>
+                  <th>Report Status</th>
+                </tr>
+              </thead>
+              <tbody id="workReportTable"></tbody>
+            </table>
+          </div>
+
+          <!-- ===== WEEKLY REPORTS TAB ===== -->
+          <div class="tab-pane fade p-0" id="tab-weekly">
+            <div class="bg-light p-2 border-bottom d-flex flex-wrap gap-2 align-items-center">
+              <span class="small fw-bold text-muted ms-2">FILTER BY WEEK:</span>
+              <div class="d-flex align-items-center gap-1">
+                <label class="small text-muted mb-0">From (week start)</label>
+                <input type="date" id="weeklyFromDate" class="form-control form-control-sm" style="width:145px;">
+              </div>
+              <div class="d-flex align-items-center gap-1">
+                <label class="small text-muted mb-0">To (week start)</label>
+                <input type="date" id="weeklyToDate" class="form-control form-control-sm" style="width:145px;">
+              </div>
+              <select id="weeklyRoleFilter" class="form-select form-select-sm" style="width:135px;">
+                <option value="">All Roles</option>
+                <option value="TEAM_LEAD">Team Lead</option>
+                <option value="MEMBER">Member</option>
+              </select>
+              <button class="btn-sys btn-sys-default border" onclick="loadWeeklyReports()">
+                <i class="bi bi-search"></i> Search
+              </button>
+              <button class="btn-sys btn-sys-primary" onclick="exportWeeklyExcel()"
+                title="Export all filtered weekly reports to Excel">
+                <i class="bi bi-file-earmark-excel-fill"></i> Export Excel
+              </button>
+              <span id="weeklyReportCount" class="small text-muted ms-auto pe-2"></span>
+            </div>
+            <div class="table-responsive" style="max-height:400px;overflow-y:auto;">
+              <table class="table-enterprise glass-table mb-0">
+                <thead class="sticky-top">
+                  <tr>
+                    <th>Week</th>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th style="width:20%">Work Done</th>
+                    <th style="width:20%">Skills Learned</th>
+                    <th style="width:20%">Project Update</th>
+                    <th>Submitted At</th>
+                  </tr>
+                </thead>
+                <tbody id="weeklyReportsTableBody">
+                  <tr>
+                    <td colspan="7" class="text-center text-muted py-4">Select a date range and click Search, or leave
+                      blank to load all.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- ===== END WEEKLY REPORTS TAB ===== -->
+
+          <div class="tab-pane fade p-0" id="tab-history">
+            <div class="bg-light p-2 border-bottom d-flex gap-2 align-items-center">
+              <span class="small fw-bold text-muted ms-2">FILTER ARCHIVE:</span>
+              <input type="date" id="reportFromDate" class="form-control form-control-sm w-auto">
+              <input type="date" id="reportToDate" class="form-control form-control-sm w-auto">
+              <button class="btn-sys btn-sys-default border" onclick="exportWorkReportsCSV()">CSV</button>
+              <button class="btn-sys btn-sys-default border" onclick="exportWorkReportsExcel()">XLSX</button>
+            </div>
+            <table class="table-enterprise glass-table mb-0">
+              <thead class="sticky-top">
+                <tr>
+                  <th>User</th>
+                  <th>Role</th>
+                  <th style="width: 50%;">Work Done</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="adminWorkReportsTable"></tbody>
+            </table>
+          </div>
+
+          <div class="tab-pane fade p-0" id="tab-leaves">
+            <table class="table-enterprise glass-table mb-0">
+              <thead class="sticky-top">
+                <tr>
+                  <th>User</th>
+                  <th>Role</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Reason</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="leaveRequestsTable"></tbody>
+            </table>
+          </div>
+
+          <div class="tab-pane fade p-0" id="tab-missed">
+            <table class="table-enterprise glass-table mb-0">
+              <thead class="sticky-top">
+                <tr>
+                  <th>User</th>
+                  <th>Role</th>
+                  <th>Date Missed</th>
+                  <th style="width: 30%;">Work Done</th>
+                  <th style="width: 20%;">Reason</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="missedCheckoutsTable">
+                <tr>
+                  <td colspan="6" class="text-center text-muted py-4">Loading missed checkouts...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- Add this modal before the closing </body> tag -->
+    <div class="modal fade" id="rejectLeaveModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Reject Leave Request</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Reason for Rejection</label>
+              <textarea class="form-control" id="rejectionReason" rows="3"
+                placeholder="Please provide a reason..."></textarea>
+            </div>
+            <div id="rejectMessage"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger" id="confirmRejectBtn" onclick="confirmRejectLeave()">Reject
+              Leave</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CHANGE PASSWORD ===== -->
+    <div class="panel mt-4">
+      <div class="panel-header">
+        <h2 class="panel-title"><i class="bi bi-shield-lock text-danger"></i> Change Password</h2>
+      </div>
+      <div class="panel-body" style="max-width:420px;">
+        <div class="mb-3">
+          <label class="form-label">Current Password</label>
+          <input type="password" id="cpCurrent" class="form-control form-control-sm"
+            placeholder="Enter current password">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">New Password</label>
+          <input type="password" id="cpNew" class="form-control form-control-sm" placeholder="Min 6 characters">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Confirm New Password</label>
+          <input type="password" id="cpConfirm" class="form-control form-control-sm"
+            placeholder="Re-enter new password">
+        </div>
+        <button class="btn btn-danger btn-sm px-4" onclick="changePassword()">Update Password</button>
+        <div id="cpMessage" class="mt-3 small fw-bold"></div>
+      </div>
+    </div>
+    <!-- ===== END CHANGE PASSWORD ===== -->
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/ui-dialogs.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+
+</html>

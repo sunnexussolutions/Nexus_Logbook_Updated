@@ -18,14 +18,52 @@ let shiftsCache = [];
 let allEmployees = [];
 let pauseTargetId = null;
 
+function isAuthError(res) {
+  return res.status === 401 || res.status === 403;
+}
+
+let authRedirecting = false;
+
+function redirectToLogin(message) {
+  if (authRedirecting) return;
+  authRedirecting = true;
+  localStorage.removeItem("token");
+  localStorage.removeItem("role");
+  AppDialog.alert({
+    title: "Access Denied",
+    message: message || "Your session is invalid or you do not have admin access."
+  }).finally(() => {
+    window.location.href = "../index.html";
+  });
+}
+
+function escapeHtml(str) {
+  return String(str == null ? "" : str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 
 /* ================= LOAD SHIFTS ================= */
 async function loadShifts() {
-  const res = await fetch(`${API_BASE}/api/admin/shifts`, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
+  try {
+    const res = await fetch(`${API_BASE}/api/admin/shifts`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
 
-  shiftsCache = await res.json();
+    if (isAuthError(res)) {
+      redirectToLogin("You do not have permission to view this page. Please log in as an admin.");
+      return;
+    }
+
+    const data = await res.json();
+    shiftsCache = Array.isArray(data) ? data : [];
+  } catch (err) {
+    console.error("loadShifts error:", err);
+    shiftsCache = [];
+  }
 }
 
 /* ================= LOAD EMPLOYEES ================= */
@@ -35,14 +73,25 @@ async function loadEmployees() {
       headers: { Authorization: `Bearer ${token}` }
     });
 
-    allEmployees = await res.json();
+    if (isAuthError(res)) {
+      redirectToLogin("You do not have permission to view this page. Please log in as an admin.");
+      return;
+    }
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || "Failed to load employees");
+    }
+
+    const data = await res.json();
+    allEmployees = Array.isArray(data) ? data : [];
     filterEmployees();
 
   } catch (err) {
     console.error(err);
     tableBody.innerHTML = `
       <tr>
-        <td colspan="7" class="text-danger text-center">Error loading employees</td>
+        <td colspan="7" class="text-danger text-center">${escapeHtml(err.message)}</td>
       </tr>`;
   }
 }
@@ -53,7 +102,7 @@ function filterEmployees() {
   const roleFilter = document.getElementById("roleFilter")?.value || "";
   const statusFilter = document.getElementById("statusFilter")?.value || "";
 
-  let filtered = allEmployees;
+  let filtered = Array.isArray(allEmployees) ? allEmployees : [];
 
   if (searchText) {
     filtered = filtered.filter(u =>
@@ -80,6 +129,8 @@ function filterEmployees() {
 /* ================= RENDER EMPLOYEES ================= */
 function renderEmployees(users) {
   tableBody.innerHTML = "";
+
+  if (!Array.isArray(users)) users = [];
 
   if (users.length === 0) {
     tableBody.innerHTML = `
