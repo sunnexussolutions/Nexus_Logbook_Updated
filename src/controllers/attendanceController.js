@@ -10,7 +10,7 @@ function getIstNowShifted() { return nowIST(); }
 
 function getYearBounds(year) {
   return {
-    start: `${year}-01-01`,
+    start: `2026-07-10`,
     end: `${year}-12-31`
   };
 }
@@ -934,8 +934,7 @@ exports.applyLeave = async (req, res) => {
     }
 
     const year = new Date(`${from_date}T00:00:00.000Z`).getUTCFullYear();
-    const { end: yearEnd } = getYearBounds(year);
-    const yearStart = '2026-07-17'; // Reset counts from today onwards
+    const { start: yearStart, end: yearEnd } = getYearBounds(year);
     const approvedLeavesResult = await pool.query(
       `SELECT id, user_id, from_date, to_date
        FROM leave_requests
@@ -1022,7 +1021,7 @@ exports.getMyAttendanceHistory = async (req, res) => {
         FROM pause_days pd
       )
       SELECT
-        d.date,
+        TO_CHAR(d.date, 'YYYY-MM-DD') AS date,
         a.check_in,
         a.check_out,
         CASE
@@ -1075,8 +1074,8 @@ exports.getMyLeaveRequests = async (req, res) => {
     const result = await pool.query(
       `SELECT
          id,
-         from_date,
-         to_date,
+         TO_CHAR(from_date, 'YYYY-MM-DD') AS from_date,
+         TO_CHAR(to_date, 'YYYY-MM-DD') AS to_date,
          reason,
          status,
          applied_at
@@ -1099,8 +1098,7 @@ exports.getMyLeaveBalance = async (req, res) => {
     const userId = req.user.id;
     const year = nowIST().getUTCFullYear();
     const QUOTA = 14; // Annual leave quota
-    const { end: yearEnd } = getYearBounds(year);
-    const yearStart = '2026-07-17'; // Reset counts from today onwards
+    const { start: yearStart, end: yearEnd } = getYearBounds(year);
 
     const [approvedResult, pendingResult] = await Promise.all([
       pool.query(
@@ -1241,7 +1239,11 @@ exports.getMyAttendancePercentage = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const { startStr, todayStr } = getMonthPeriodIST();
+    const now = nowIST();
+    const istYear = now.getUTCFullYear();
+    const istMonth = now.getUTCMonth();
+    const startStr = `${istYear}-${String(istMonth + 1).padStart(2, '0')}-10`;
+    const todayStr = now.toISOString().split('T')[0];
 
     const workingDaysResult = await pool.query(
       `SELECT COUNT(*)::int AS working_days
@@ -1290,11 +1292,7 @@ exports.getMyAttendancePercentage = async (req, res) => {
     const leaveDays = leaveSummary.totalDays;
 
     const absentDays = Math.max(0, workingDays - presentDays - leaveDays);
-    let percentage = workingDays === 0
-      ? 100
-      : Math.round((presentDays / workingDays) * 100);
-    
-    percentage = percentage - (leaveDays * 1) - (absentDays * 3);
+    let percentage = 100 - (leaveDays * 1) - (absentDays * 3);
     percentage = Math.max(0, Math.min(percentage, 100));
 
     res.json({
@@ -1318,10 +1316,7 @@ exports.getMyOverallAttendancePercentage = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const userRes = await pool.query('SELECT created_at FROM users WHERE id = $1', [userId]);
-    if (!userRes.rows.length) return res.status(404).json({ message: 'User not found' });
-    const createdDate = new Date(userRes.rows[0].created_at).toISOString().split('T')[0];
-    const startStr = createdDate > '2026-03-02' ? createdDate : '2026-03-02';
+    const startStr = '2026-07-10';
 
     const todayStr = todayIST();
 
@@ -1372,11 +1367,7 @@ exports.getMyOverallAttendancePercentage = async (req, res) => {
     const leaveDays = leaveSummary.totalDays;
 
     const absentDays = Math.max(0, workingDays - presentDays - leaveDays);
-    let percentage = workingDays === 0
-      ? 100
-      : Math.round((presentDays / workingDays) * 100);
-    
-    percentage = percentage - (leaveDays * 1) - (absentDays * 3);
+    let percentage = 100 - (leaveDays * 1) - (absentDays * 3);
     percentage = Math.max(0, Math.min(percentage, 100));
 
     res.json({
