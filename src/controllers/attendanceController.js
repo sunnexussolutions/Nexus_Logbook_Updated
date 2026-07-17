@@ -934,7 +934,8 @@ exports.applyLeave = async (req, res) => {
     }
 
     const year = new Date(`${from_date}T00:00:00.000Z`).getUTCFullYear();
-    const { start: yearStart, end: yearEnd } = getYearBounds(year);
+    const { end: yearEnd } = getYearBounds(year);
+    const yearStart = '2026-07-17'; // Reset counts from today onwards
     const approvedLeavesResult = await pool.query(
       `SELECT id, user_id, from_date, to_date
        FROM leave_requests
@@ -951,7 +952,7 @@ exports.applyLeave = async (req, res) => {
       { rangeStart: yearStart, rangeEnd: yearEnd }
     );
 
-    const quota = 18;
+    const quota = 14;
     const used = approvedLeaveSummary.totalDays;
     const remaining = Math.max(0, quota - used);
     const isExtraLeave = requestedDays > remaining;
@@ -971,14 +972,14 @@ exports.applyLeave = async (req, res) => {
       for (const admin of adminRes.rows) {
         await pool.query(
           `INSERT INTO notifications (user_id, message, is_read, created_at) VALUES ($1, $2, false, NOW())`,
-          [admin.id, `⚠️ ${userName} applied for ${requestedDays} day(s) leave but only has ${remaining} remaining (quota: 18). Please review.`]
+          [admin.id, `⚠️ ${userName} applied for ${requestedDays} day(s) leave but only has ${remaining} remaining (quota: 14). Please review.`]
         );
       }
     }
 
     if (isExtraLeave) {
       res.json({
-        message: `Leave request submitted. ⚠️ You have only ${remaining} leave(s) remaining out of 18. Admin will review your extra leave request.`
+        message: `Leave request submitted. ⚠️ You have only ${remaining} leave(s) remaining out of 14. Admin will review your extra leave request.`
       });
     } else {
       res.json({ message: "Leave request submitted successfully" });
@@ -1097,8 +1098,9 @@ exports.getMyLeaveBalance = async (req, res) => {
   try {
     const userId = req.user.id;
     const year = nowIST().getUTCFullYear();
-    const QUOTA = 18; // Annual leave quota
-    const { start: yearStart, end: yearEnd } = getYearBounds(year);
+    const QUOTA = 14; // Annual leave quota
+    const { end: yearEnd } = getYearBounds(year);
+    const yearStart = '2026-07-17'; // Reset counts from today onwards
 
     const [approvedResult, pendingResult] = await Promise.all([
       pool.query(
@@ -1287,9 +1289,13 @@ exports.getMyAttendancePercentage = async (req, res) => {
     });
     const leaveDays = leaveSummary.totalDays;
 
-    const percentage = workingDays === 0
+    const absentDays = Math.max(0, workingDays - presentDays - leaveDays);
+    let percentage = workingDays === 0
       ? 100
       : Math.round((presentDays / workingDays) * 100);
+    
+    percentage = percentage - (leaveDays * 1) - (absentDays * 3);
+    percentage = Math.max(0, Math.min(percentage, 100));
 
     res.json({
       from: startStr,
@@ -1298,7 +1304,7 @@ exports.getMyAttendancePercentage = async (req, res) => {
       leave_days: leaveDays,
       effective_working_days: workingDays,
       present_days: presentDays,
-      percentage: Math.min(percentage, 100)
+      percentage: percentage
     });
 
   } catch (err) {
@@ -1365,9 +1371,13 @@ exports.getMyOverallAttendancePercentage = async (req, res) => {
     });
     const leaveDays = leaveSummary.totalDays;
 
-    const percentage = workingDays === 0
+    const absentDays = Math.max(0, workingDays - presentDays - leaveDays);
+    let percentage = workingDays === 0
       ? 100
       : Math.round((presentDays / workingDays) * 100);
+    
+    percentage = percentage - (leaveDays * 1) - (absentDays * 3);
+    percentage = Math.max(0, Math.min(percentage, 100));
 
     res.json({
       from: startStr,
@@ -1376,7 +1386,7 @@ exports.getMyOverallAttendancePercentage = async (req, res) => {
       leave_days: leaveDays,
       effective_working_days: workingDays,
       present_days: presentDays,
-      percentage: Math.min(percentage, 100)
+      percentage: percentage
     });
 
   } catch (err) {

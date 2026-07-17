@@ -249,7 +249,7 @@ async function loadMyAttendancePercentage() {
           </div>
         </div>
         <div>
-          <div style="font-weight:700; color:${color}; font-size:0.95rem;">Your Attendance (2nd – Today)</div>
+          <div style="font-weight:700; color:${color}; font-size:0.95rem;">Your Attendance (10th – Today)</div>
           <div style="font-size:0.82rem; color:#64748b;">
             ${data.present_days} present / ${data.effective_working_days} working days
             &nbsp;·&nbsp; ${from} – ${to}
@@ -1395,7 +1395,7 @@ async function loadMyLeaveRequests() {
     }
 
     tbody.innerHTML = data.map(l => {
-      const appliedOn = new Date(l.created_at).toLocaleDateString("en-IN", {
+      const appliedOn = new Date(l.applied_at).toLocaleDateString("en-IN", {
         day: "2-digit", month: "short", year: "numeric", timeZone: "UTC"
       });
       const fromD = new Date(l.from_date).toLocaleDateString("en-IN", {
@@ -1546,7 +1546,7 @@ async function loadMyAttendancePercentage() {
         <div style="background:${bg}; border:2px solid ${color}; border-radius:12px; padding:14px 20px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:8px;">
           <div style="font-size:2.2rem; font-weight:800; color:${color};">${emoji} ${pct}%</div>
           <div>
-            <div style="font-weight:700; color:${color}; font-size:0.95rem;">Monthly Attendance (2nd – Today)</div>
+            <div style="font-weight:700; color:${color}; font-size:0.95rem;">Monthly Attendance (10th – Today)</div>
             <div style="font-size:0.82rem; color:#64748b;">
               ${data.present_days} present / ${data.effective_working_days} working days
               &nbsp;·&nbsp; ${from} – ${to}
@@ -1567,7 +1567,7 @@ async function loadMyAttendancePercentage() {
         <div style="background:${obg}; border:2px solid ${ocolor}; border-radius:12px; padding:14px 20px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
           <div style="font-size:2.2rem; font-weight:800; color:${ocolor};">${oemoji} ${opct}%</div>
           <div>
-            <div style="font-weight:700; color:${ocolor}; font-size:0.95rem;">Overall Attendance (Since Joining)</div>
+            <div style="font-weight:700; color:${ocolor}; font-size:0.95rem;">Overall Attendance (10 Jul – Today)</div>
             <div style="font-size:0.82rem; color:#64748b;">
               ${ov.present_days} present / ${ov.effective_working_days} working days
               &nbsp;·&nbsp; ${ofrom} – ${oto}

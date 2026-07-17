@@ -887,13 +887,28 @@ async function loadShifts() {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${s.name}</td>
-      <td>${s.check_in_time || "-"}</td>
-      <td>${s.last_checkin_time || "-"}</td>
+
+      <!-- Start Time -->
       <td>
-        <span id="endTimeDisplay_${s.id}">${s.check_out_time || "-"}</span>
-        <input type="time" id="endTimeEdit_${s.id}" value="${s.check_out_time || ""}"
-          class="form-control form-control-sm d-none" style="width: 110px; display: inline-block;">
+        <span id="startDisplay_${s.id}">${s.check_in_time || "-"}</span>
+        <input type="time" id="startEdit_${s.id}" value="${s.check_in_time || ""}"
+          class="form-control form-control-sm d-none" style="width: 115px;">
       </td>
+
+      <!-- Cut-off Time -->
+      <td>
+        <span id="cutoffDisplay_${s.id}">${s.last_checkin_time || "-"}</span>
+        <input type="time" id="cutoffEdit_${s.id}" value="${s.last_checkin_time || ""}"
+          class="form-control form-control-sm d-none" style="width: 115px;">
+      </td>
+
+      <!-- End Time -->
+      <td>
+        <span id="endDisplay_${s.id}">${s.check_out_time || "-"}</span>
+        <input type="time" id="endEdit_${s.id}" value="${s.check_out_time || ""}"
+          class="form-control form-control-sm d-none" style="width: 115px;">
+      </td>
+
       <td>
         <div class="d-flex gap-1">
           <button id="editBtn_${s.id}" class="btn btn-sm btn-outline-primary"
@@ -916,19 +931,28 @@ async function loadShifts() {
 }
 
 function toggleEditShift(id) {
-  const display = document.getElementById(`endTimeDisplay_${id}`);
-  const input = document.getElementById(`endTimeEdit_${id}`);
-  const editBtn = document.getElementById(`editBtn_${id}`);
-  const saveBtn = document.getElementById(`saveBtn_${id}`);
-
-  display.classList.toggle("d-none");
-  input.classList.toggle("d-none");
-  editBtn.classList.toggle("d-none");
-  saveBtn.classList.toggle("d-none");
+  // Toggle display spans
+  ["startDisplay", "cutoffDisplay", "endDisplay"].forEach(prefix => {
+    document.getElementById(`${prefix}_${id}`).classList.toggle("d-none");
+  });
+  // Toggle edit inputs
+  ["startEdit", "cutoffEdit", "endEdit"].forEach(prefix => {
+    document.getElementById(`${prefix}_${id}`).classList.toggle("d-none");
+  });
+  // Toggle buttons
+  document.getElementById(`editBtn_${id}`).classList.toggle("d-none");
+  document.getElementById(`saveBtn_${id}`).classList.toggle("d-none");
 }
 
 async function updateShift(id) {
-  const checkOutTime = document.getElementById(`endTimeEdit_${id}`).value;
+  const checkInTime   = document.getElementById(`startEdit_${id}`).value;
+  const lastCheckIn   = document.getElementById(`cutoffEdit_${id}`).value;
+  const checkOutTime  = document.getElementById(`endEdit_${id}`).value;
+
+  if (!checkInTime || !lastCheckIn) {
+    alert("Start Time and Cut-off Time are required.");
+    return;
+  }
 
   const res = await fetch(`${API_BASE}/api/admin/shifts/${id}`, {
     method: "PUT",
@@ -937,7 +961,9 @@ async function updateShift(id) {
       Authorization: `Bearer ${token}`
     },
     body: JSON.stringify({
-      check_out_time: checkOutTime || null
+      check_in_time:    checkInTime  || null,
+      last_checkin_time: lastCheckIn || null,
+      check_out_time:   checkOutTime || null
     })
   });
 
@@ -948,7 +974,7 @@ async function updateShift(id) {
     return;
   }
 
-  showToast("✅ Shift end time updated");
+  showToast("✅ Shift times updated successfully");
   loadShifts();
 }
 

@@ -479,7 +479,8 @@ exports.getAllTeamLeads = async (req, res) => {
 exports.getAllLeaveRequests = async (req, res) => {
   try {
     const year = nowIST().getUTCFullYear();
-    const { start: yearStart, end: yearEnd } = getYearBounds(year);
+    const { end: yearEnd } = getYearBounds(year);
+    const yearStart = '2026-07-17'; // Reset counts from today onwards
     const result = await pool.query(`
       SELECT
         lr.id,
@@ -504,7 +505,7 @@ exports.getAllLeaveRequests = async (req, res) => {
       { rangeStart: yearStart, rangeEnd: yearEnd }
     );
 
-    const leaveQuota = 18;
+    const leaveQuota = 14;
     const payload = result.rows.map(row => {
       const used = approvedLeaveSummary.byUser.get(String(row.user_db_id)) || 0;
       const remaining = Math.max(0, leaveQuota - used);

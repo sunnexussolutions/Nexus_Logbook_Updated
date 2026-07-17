@@ -674,12 +674,20 @@ exports.exportDailyAttendanceExcel = async (req, res) => {
       // Leaves count as absent — not subtracted from denominator
       const wDays = r.period_working_days || 0;
       const pDays = r.period_present || 0;
-      const attPct = wDays === 0 ? 100 : Math.min(Math.round((pDays / wDays) * 100), 100);
+      const lDays = r.period_leave || 0;
+      const aDays = Math.max(0, wDays - pDays - lDays);
+      let attPct = wDays === 0 ? 100 : Math.round((pDays / wDays) * 100);
+      attPct = attPct - (lDays * 1) - (aDays * 3);
+      attPct = Math.max(0, Math.min(attPct, 100));
 
       // Compute overall attendance percentage (since joining)
       const ovWDays = r.overall_working_days || 0;
       const ovPDays = r.overall_present || 0;
-      const ovPct = ovWDays === 0 ? 100 : Math.min(Math.round((ovPDays / ovWDays) * 100), 100);
+      const ovLDays = r.overall_leave || 0;
+      const ovADays = Math.max(0, ovWDays - ovPDays - ovLDays);
+      let ovPct = ovWDays === 0 ? 100 : Math.round((ovPDays / ovWDays) * 100);
+      ovPct = ovPct - (ovLDays * 1) - (ovADays * 3);
+      ovPct = Math.max(0, Math.min(ovPct, 100));
 
       const rowValues = [
         r.name || "",
@@ -1064,7 +1072,7 @@ exports.getTodayAttendanceDashboard = async (req, res) => {
     const nowISTVal = nowIST();
     const istYear = nowISTVal.getUTCFullYear();
     const istMonth = nowISTVal.getUTCMonth();
-    const monthStart2nd = `${istYear}-${String(istMonth + 1).padStart(2, '0')}-02`;
+    const monthStart2nd = `${istYear}-${String(istMonth + 1).padStart(2, '0')}-10`;
     const todayStr = nowISTVal.toISOString().split('T')[0];
 
     const result = await pool.query(`
@@ -1109,7 +1117,7 @@ exports.getTodayAttendanceDashboard = async (req, res) => {
           SELECT COUNT(*)::int
           FROM (
             SELECT d::date AS day
-            FROM generate_series(GREATEST('2026-03-02'::date, u.created_at::date), $2::date, interval '1 day') d
+            FROM generate_series('2026-07-10'::date, $2::date, interval '1 day') d
             WHERE EXTRACT(DOW FROM d::date) <> 0
               AND NOT EXISTS (SELECT 1 FROM holidays h WHERE h.holiday_date = d::date)
               AND NOT EXISTS (SELECT 1 FROM user_pauses up3 WHERE up3.user_id = u.id AND d::date BETWEEN up3.start_date AND up3.end_date)
@@ -1120,11 +1128,31 @@ exports.getTodayAttendanceDashboard = async (req, res) => {
           SELECT COUNT(DISTINCT att3.date)::int
           FROM attendance att3
           WHERE att3.user_id = u.id
-            AND att3.date BETWEEN GREATEST('2026-03-02'::date, u.created_at::date) AND $2::date
+            AND att3.date BETWEEN '2026-07-10'::date AND $2::date
             AND att3.check_in IS NOT NULL
             AND att3.check_out IS NOT NULL
         ) AS overall_present,
-        GREATEST('2026-03-02'::date, u.created_at::date) AS joined_date
+        -- Period leave days
+        (
+          SELECT COUNT(DISTINCT lday)::int
+          FROM (
+            SELECT generate_series(lr2.from_date, lr2.to_date, interval '1 day')::date AS lday
+            FROM leave_requests lr2
+            WHERE lr2.user_id = u.id AND lr2.status = 'APPROVED'
+          ) lrd
+          WHERE lrd.lday BETWEEN $1 AND $2
+        ) AS period_leave,
+        -- Overall leave days
+        (
+          SELECT COUNT(DISTINCT lday)::int
+          FROM (
+            SELECT generate_series(lr3.from_date, lr3.to_date, interval '1 day')::date AS lday
+            FROM leave_requests lr3
+            WHERE lr3.user_id = u.id AND lr3.status = 'APPROVED'
+          ) lrd3
+          WHERE lrd3.lday BETWEEN '2026-07-10'::date AND $2::date
+        ) AS overall_leave,
+        '2026-07-10'::date AS joined_date
       FROM users u
       LEFT JOIN attendance a
         ON a.user_id = u.id
@@ -1154,12 +1182,18 @@ exports.getTodayAttendanceDashboard = async (req, res) => {
       // Monthly % (2nd to today)
       const workDays = r.period_working_days || 0;
       const presentDays = r.period_present || 0;
-      const pct = workDays === 0 ? 100 : Math.min(Math.round((presentDays / workDays) * 100), 100);
+      const lDays = r.period_leave || 0;
+      const aDays = Math.max(0, workDays - presentDays - lDays);
+      let pct = 100 - (lDays * 1) - (aDays * 3);
+      pct = Math.max(0, Math.min(pct, 100));
 
       // Overall % (since joining)
       const ovWDays = r.overall_working_days || 0;
       const ovPDays = r.overall_present || 0;
-      const ovPct = ovWDays === 0 ? 100 : Math.min(Math.round((ovPDays / ovWDays) * 100), 100);
+      const ovLDays = r.overall_leave || 0;
+      const ovADays = Math.max(0, ovWDays - ovPDays - ovLDays);
+      let ovPct = 100 - (ovLDays * 1) - (ovADays * 3);
+      ovPct = Math.max(0, Math.min(ovPct, 100));
 
       return {
         ...r,

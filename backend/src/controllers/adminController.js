@@ -479,7 +479,8 @@ exports.getAllTeamLeads = async (req, res) => {
 exports.getAllLeaveRequests = async (req, res) => {
   try {
     const year = nowIST().getUTCFullYear();
-    const { start: yearStart, end: yearEnd } = getYearBounds(year);
+    const { end: yearEnd } = getYearBounds(year);
+    const yearStart = '2026-07-10'; // Overall attendance starts from 10 July
     const result = await pool.query(`
       SELECT
         lr.id,
@@ -487,8 +488,8 @@ exports.getAllLeaveRequests = async (req, res) => {
         u.user_id,
         u.name,
         u.role,
-        lr.from_date,
-        lr.to_date,
+        TO_CHAR(lr.from_date, 'YYYY-MM-DD') AS from_date,
+        TO_CHAR(lr.to_date, 'YYYY-MM-DD') AS to_date,
         lr.reason,
         lr.status,
         lr.applied_at,
@@ -504,7 +505,7 @@ exports.getAllLeaveRequests = async (req, res) => {
       { rangeStart: yearStart, rangeEnd: yearEnd }
     );
 
-    const leaveQuota = 18;
+    const leaveQuota = 14;
     const payload = result.rows.map(row => {
       const used = approvedLeaveSummary.byUser.get(String(row.user_db_id)) || 0;
       const remaining = Math.max(0, leaveQuota - used);
@@ -571,6 +572,14 @@ exports.reviewLeaveRequest = async (req, res) => {
         const effectiveLeaveDates = await getEffectiveLeaveDates(pool, from_date, to_date);
 
         if (effectiveLeaveDates.length > 0) {
+          // First update any existing rows (e.g. marked ABSENT by cron)
+          await pool.query(`
+            UPDATE attendance 
+            SET status = 'ON_LEAVE'
+            WHERE user_id = $1 AND date = ANY($2::date[])
+          `, [user_id, effectiveLeaveDates]);
+
+          // Then insert missing ones
           await pool.query(`
             INSERT INTO attendance (user_id, date, status)
             SELECT $1, leave_day.day::date, 'ON_LEAVE'

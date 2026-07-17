@@ -1287,7 +1287,7 @@ async function loadMyAttendancePercentage() {
             <div class="small fw-bold mt-1 text-uppercase" style="letter-spacing: 1px; color: ${color}; opacity: 0.8;">Health</div>
           </div>
           <div>
-            <div class="fw-extrabold text-dark mb-1" style="font-size: 1.1rem;">Monthly Cycle (2nd – Today)</div>
+            <div class="fw-extrabold text-dark mb-1" style="font-size: 1.1rem;">Monthly Cycle (10th – Today)</div>
             <div class="d-flex align-items-center gap-3 mt-2">
               <div class="small fw-semibold text-muted bg-white px-3 py-1 rounded-pill shadow-sm"><i class="bi bi-person-check-fill text-success me-1"></i> ${data.present_days} Active</div>
               <div class="small fw-semibold text-muted bg-white px-3 py-1 rounded-pill shadow-sm"><i class="bi bi-calendar-event me-1"></i> ${data.effective_working_days} Required</div>
@@ -1314,7 +1314,7 @@ async function loadMyAttendancePercentage() {
             <div class="small fw-bold mt-1 text-uppercase" style="letter-spacing: 1px; color: ${ocolor}; opacity: 0.8;">Lifetime</div>
           </div>
           <div>
-            <div class="fw-extrabold text-dark mb-1" style="font-size: 1.1rem;">Overall Telemetry (Since Joining)</div>
+            <div class="fw-extrabold text-dark mb-1" style="font-size: 1.1rem;">Overall Telemetry (10 Jul – Today)</div>
             <div class="d-flex align-items-center gap-3 mt-2">
               <div class="small fw-semibold text-muted bg-white px-3 py-1 rounded-pill shadow-sm"><i class="bi bi-person-check-fill text-success me-1"></i> ${ov.present_days} Active</div>
               <div class="small fw-semibold text-muted bg-white px-3 py-1 rounded-pill shadow-sm"><i class="bi bi-calendar-event me-1"></i> ${ov.effective_working_days} Required</div>

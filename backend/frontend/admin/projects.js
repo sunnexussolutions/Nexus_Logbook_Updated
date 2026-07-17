@@ -3,6 +3,21 @@ const API_BASE = ["", "localhost", "127.0.0.1"].includes(window.location.hostnam
   : "https://nexus-logbook-updated.vercel.app";
 const token = localStorage.getItem("token");
 
+let authRedirecting = false;
+
+function redirectToLogin(message) {
+  if (authRedirecting) return;
+  authRedirecting = true;
+  localStorage.removeItem("token");
+  localStorage.removeItem("role");
+  AppDialog.alert({
+    title: "Access Denied",
+    message: message || "Your session is invalid or you do not have admin access."
+  }).finally(() => {
+    window.location.href = "../index.html";
+  });
+}
+
 if (!token) {
   AppDialog.alert({
     title: "Session Expired",
@@ -24,7 +39,18 @@ async function loadProjects() {
       headers: { Authorization: `Bearer ${token}` }
     });
 
-    allProjects = await res.json();
+    if (res.status === 401 || res.status === 403) {
+      redirectToLogin("You do not have permission to view this page. Please log in as an admin.");
+      return;
+    }
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || "Failed to load projects");
+    }
+
+    const data = await res.json();
+    allProjects = Array.isArray(data) ? data : [];
     updateStats();
     renderProjects();
 
@@ -32,18 +58,19 @@ async function loadProjects() {
     console.error("Load projects error:", err);
     table.innerHTML = `
       <tr>
-        <td colspan="7" class="text-danger text-center py-4">Error loading projects</td>
+        <td colspan="7" class="text-danger text-center py-4">${String(err.message || "Error loading projects")}</td>
       </tr>`;
   }
 }
 
 /* ================= UPDATE STAT CARDS ================= */
 function updateStats() {
-  const ongoing = allProjects.filter(p => p.status !== "COMPLETED");
-  const completed = allProjects.filter(p => p.status === "COMPLETED");
-  const totalMembers = allProjects.reduce((sum, p) => sum + (p.member_count || 0), 0);
+  const list = Array.isArray(allProjects) ? allProjects : [];
+  const ongoing = list.filter(p => p.status !== "COMPLETED");
+  const completed = list.filter(p => p.status === "COMPLETED");
+  const totalMembers = list.reduce((sum, p) => sum + (p.member_count || 0), 0);
 
-  document.getElementById("totalProjectsCount").textContent = allProjects.length;
+  document.getElementById("totalProjectsCount").textContent = list.length;
   document.getElementById("ongoingCount").textContent = ongoing.length;
   document.getElementById("completedCount").textContent = completed.length;
   document.getElementById("totalMembersAssigned").textContent = totalMembers;
@@ -64,12 +91,12 @@ function filterProjects(filter) {
 
 /* ================= RENDER PROJECTS TABLE ================= */
 function renderProjects() {
-  let filtered = allProjects;
+  let filtered = Array.isArray(allProjects) ? allProjects : [];
 
   if (currentFilter === "ongoing") {
-    filtered = allProjects.filter(p => p.status !== "COMPLETED");
+    filtered = filtered.filter(p => p.status !== "COMPLETED");
   } else if (currentFilter === "completed") {
-    filtered = allProjects.filter(p => p.status === "COMPLETED");
+    filtered = filtered.filter(p => p.status === "COMPLETED");
   }
 
   table.innerHTML = "";
